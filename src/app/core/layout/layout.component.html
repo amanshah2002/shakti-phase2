@@ -1,0 +1,139 @@
+<ng-container>
+  <mat-toolbar fxLayoutAlign="space-between center" #toolbar *ngIf="isAuth" class="toolBar-1">
+    <img src="../../../assets/images/Screenshot 2021-08-07 at 9.37.49 PM.png" alt="logo of shakti pharma">
+    <span class="poppins">{{date|date: 'fullDate'}}&nbsp;{{date|date: 'shortTime'}}</span>
+    <div fxLayout="row" fxLayoutGap="5px" fxHide.lt-md class="align-center">
+      <mat-icon class="material-icons-outlined toolbar1-icon">person</mat-icon>
+      <span class="poppins">Hi,</span>
+      <p>&nbsp;{{userName | titlecase}}</p>
+      <span class="margin-left-right">|</span>
+      <button class="logout-button" mat-button (click)="onLogout()">Logout</button>
+    </div>
+    <mat-icon *ngIf="!drawer.opened" fxHide.gt-md fxHide.md (click)="drawer.toggle();toggleSidenav()"
+      class="action-icon">menu</mat-icon>
+    <mat-icon *ngIf="drawer.opened" fxHide.gt-md fxHide.md (click)="drawer.toggle();toggleSidenav()"
+      class="action-icon">clear</mat-icon>
+  </mat-toolbar>
+
+  <mat-menu #companyMenu="matMenu" xPosition="before" class="view-company-menu-width">
+    <div fxLayout="column" class="poppins" (click)="onCompanyClick()">
+      <div *ngIf="isAll" fxLayout="row" fxLayoutAlign="space-between" class="content-padding action-icon"
+        routerLinkActive="menu-active" [routerLink]="['manage-company','all']">
+        <a class="menu-label-color">All
+        </a>
+        <mat-icon class="material-icons-outlined menu-label-color">chevron_right</mat-icon>
+      </div>
+      <div *ngIf="isAll || isDomestic" fxLayout="row" fxLayoutAlign="space-between" class="content-padding action-icon"
+        routerLinkActive="menu-active" [routerLink]="['manage-company','domestic']" #domestic="routerLinkActive">
+        <a class="menu-label-color">Domestic
+        </a>
+        <mat-icon class="material-icons-outlined menu-label-color">chevron_right</mat-icon>
+      </div>
+      <div *ngIf="isAll || isInternational" fxLayout="row" fxLayoutAlign="space-between" class="alignment action-icon"
+        routerLinkActive="menu-active" [routerLink]="['manage-company','international']"
+        #international="routerLinkActive">
+        <a class="menu-label-color">International
+        </a>
+        <mat-icon class="material-icons-outlined menu-label-color">chevron_right</mat-icon>
+      </div>
+    </div>
+  </mat-menu>
+
+  <mat-toolbar class="toolBar-2" fxHide.lt-md *ngIf="isAuth" fxLayoutAlign="space-between center">
+      <div [mat-menu-trigger-for]="companyMenu" [class.router-active]="isActive()" class="manage-company-label-width">
+        <mat-icon class="Business-icon action-icon">business</mat-icon>
+        <a class="action-icon poppins text-color">Manage
+          Company</a>
+      </div>
+      <div *ngIf="isAdmin" routerLinkActive="router-active" [routerLink]="['users']">
+        <mat-icon class="Groups-icon action-icon">groups</mat-icon>
+        <a class="action-icon   poppins text-color"> Manage Users</a>
+      </div>
+      <div class=" text-color action-icon" [class.router-active]="isNewCompanyActive()"
+        [mat-menu-trigger-for]="addCompany">
+        <mat-icon class="add-icon">add_box</mat-icon>
+        <a class="action-icon poppins text-color">Add
+          Company</a>
+      </div>
+      <div>
+        <a class="action-icon poppins text-color" (click)="onChangePassword()">Change Password</a>
+      </div>
+  </mat-toolbar>
+
+  <mat-menu #addCompany="matMenu" xPosition="after" class="add-company-menu-width">
+    <div fxLayout="column" class="poppins font-size  padding-add-company">
+      <div *ngIf="isAll || isDomestic" class="border-bottom content-padding action-icon" fxLayout="row"
+        fxLayoutAlign="space-between center">
+        <p class="menu-label-color action-icon font-size-small add-company-items-spacing border-bottom-add-company-item-1"
+          (click)="redirectById('domestic')" [class.add-company-active]="isDomesticActive()">Domestic Company</p>
+        <mat-icon class="material-icons-outlined menu-label-color">chevron_right</mat-icon>
+      </div>
+      <div *ngIf="isAll || isInternational" class="content-padding action-icon" fxLayout="row"
+        fxLayoutAlign="space-between center">
+        <p class="menu-label-color action-icon font-size-small add-company-items-spacing padding-add-company-item2"
+          (click)="redirectById('international')" [class.add-company-active]="isInternationalActive()">International
+          Company
+        </p>
+        <mat-icon class="material-icons-outlined menu-label-color">chevron_right</mat-icon>
+      </div>
+    </div>
+  </mat-menu>
+
+  <mat-drawer #drawer position="end" [fxHide.lt-md]="hideDrawer" fxHide.md fxHide.gt-md>
+    <div fxLayout="column">
+      <mat-accordion>
+        <mat-expansion-panel hideToggle>
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              <a class="menu-item action-icon">Manage Company</a>
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+          <div fxLayout="column">
+            <li class="manage-company-items action-icon" [routerLink]="['manage-company','all']"
+              [routerLinkActive]="'active-sidenav-items'">All</li>
+            <li class="manage-company-items action-icon" [routerLink]="['manage-company','domestic']"
+              routerLinkActive="active-sidenav-items">
+              Domestic</li>
+            <li class="manage-company-items action-icon" [routerLink]="['manage-company','international']"
+              routerLinkActive="active-sidenav-items">International</li>
+          </div>
+        </mat-expansion-panel>
+      </mat-accordion>
+      <mat-accordion>
+        <mat-expansion-panel hideToggle>
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              <a class="menu-item action-icon">Add Company</a>
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+          <div fxLayout="column">
+            <li class="manage-company-items action-icon" (click)="redirectById('domestic')"
+              [class.active-sidenav-items]="isDomesticActive()">Domestic</li>
+            <li class="manage-company-items action-icon" (click)="redirectById('international')"
+              [class.active-sidenav-items]="isInternationalActive()">International</li>
+          </div>
+        </mat-expansion-panel>
+      </mat-accordion>
+      <a class="menu-item action-icon" routerLink="/users" routerLinkActive="active-sidenav-items">Manage Users</a>
+      <a class="menu-item action-icon" (click)="onChangePassword();drawer.opened='false';this.hideDrawer=true">Change Password</a>
+      <a class="menu-item action-icon" (click)="onLogout();drawer.opened='false';this.hideDrawer=true">Logout</a>
+    </div>
+  </mat-drawer>
+
+  <mat-sidenav-container>
+    <mat-sidenav-content class="background-color">
+      <div class="height-container">
+        <ng-content></ng-content>
+      </div>
+      <div fxLayout="row" class="footer footer-container" *ngIf="isAuth">
+        <div fxFlex="100" fxFlex.lt-md="100" fxLayoutAlign="space-between center">
+          <footer>Version 1.0.0</footer>
+          <footer fxLayoutAlign="center center"> &#169; Copyright 2021 Shakti Pharma Pvt Ltd.</footer>
+          <footer>Powered by <a href="http://pixelfuz.com/" target="_blank" class="pixelfuz-logo-padding"><img
+                src="../../../assets/images/pixelfuz_logo.png"></a></footer>
+        </div>
+      </div>
+    </mat-sidenav-content>
+  </mat-sidenav-container>
+</ng-container>
+

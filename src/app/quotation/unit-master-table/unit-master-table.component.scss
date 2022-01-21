@@ -1,0 +1,102 @@
+.main-div {
+  padding: 10px;
+}
+
+.container {
+  padding-bottom: 10px !important;
+  border-bottom: 1px solid black;
+  margin-bottom: 0;
+}
+
+h2 {
+  font-size: 15px;
+  color: #000000;
+  font-weight: 500;
+
+}
+
+.add-unit-btn-container{
+  padding: 0.5rem;
+  margin: 15px 0;
+}
+
+// th.mat-header-cell:first-of-type,
+// td.mat-cell:first-of-type,
+// td.mat-footer-cell:first-of-type {
+//   padding-left: 0px;
+//   border-bottom-left-radius: 10px;
+//   border-top-left-radius: 10px;
+// }
+
+// th.mat-header-cell:last-of-type,
+// td.mat-cell:last-of-type,
+// td.mat-footer-cell:last-of-type {
+//   padding-right: 0px;
+//   border-bottom-right-radius: 10px;
+//   border-top-right-radius: 10px;
+// }
+
+table {
+  width: 100%;
+  // margin: 25px 0;
+  border-radius: 5px;
+  margin-bottom: 25px;
+}
+
+.mat-table {
+  background: transparent;
+  border-radius: 10px;
+}
+
+
+th {
+  text-align: center !important;
+  vertical-align: middle !important;
+  cursor: pointer;
+  border: 1px solid black;
+  // border-radius: 2px;
+  margin: 5px;
+  background-color: #00000005;
+  color: black;
+}
+
+td {
+  text-align: center !important;
+  vertical-align: middle !important;
+  cursor: pointer;
+  border: 1px solid black;
+  // border-radius: 2px;
+}
+
+.mat-column-unitShortName,
+.mat-column-shortName {
+  width: 30%;
+}
+
+.mat-column-status,
+.mat-column-actions {
+  width: 20%;
+}
+
+.add-btn {
+  background-color: var(--btnGreen);
+  font-weight: 5;
+  color: white;
+  font-size: 15px !important;
+  box-shadow: 0px 3px 5px -1px rgb(0 0 0 / 20%), 0px 6px 10px 0px rgb(0 0 0 / 14%),
+          0px 1px 18px 0px rgb(0 0 0 / 12%);
+}
+
+.action-btn-icon {
+  color: white;
+  font-size: 1.2em !important;
+  line-height: 0.7em;
+}
+
+.action-btn-line-height {
+  line-height: 0.8em;
+}
+
+.pagination {
+  padding: 0 25px;
+}

@@ -1,0 +1,60 @@
+<div class="main-div">
+  <div class="container" fxLayout="row" fxLayoutAlign="space-between center">
+    <h2>Terms and Condition Table</h2>
+  </div>
+
+  <section class="add-terms-btn-container" fxLayoutAlign="end">
+    <button mat-button class="add-btn" (click)="onAdd()">
+      <mat-icon class="action-btn-icon material-icons-outlined">post_add</mat-icon>
+      Add T & C
+    </button>
+  </section>
+  <div class="unit-master-table">
+    <table mat-table [dataSource]="termsConditionDetails | paginate: {
+      id: 'pagingID',
+      itemsPerPage: 1,
+      currentPage: p,
+      totalItems: totalLength }" class="mat-elevation-z8">
+
+      <section matColumnDef="srNo" fxLayout="column">
+        <th mat-header-cell *matHeaderCellDef> Sr No. </th>
+        <td mat-cell *matCellDef="let element"matTooltip="{{element.id}}" matTooltipPosition="below"
+        [matTooltipShowDelay]="showDelay.value">
+        {{element.id}} </td>
+      </section>
+
+      <section matColumnDef="title" fxLayout="column">
+        <th mat-header-cell *matHeaderCellDef> Title </th>
+        <td mat-cell *matCellDef="let element" matTooltip="{{element.title}}" matTooltipPosition="below"
+          [matTooltipShowDelay]="showDelay.value">
+          {{element.title}} </td>
+      </section>
+
+      <section matColumnDef="status" fxLayout="column">
+        <th mat-header-cell *matHeaderCellDef> Status </th>
+        <td mat-cell *matCellDef="let element" matTooltip="{{element.status}}" matTooltipPosition="below"
+          [matTooltipShowDelay]="showDelay.value">
+          {{element.status == 'Locked' ? 'Deactive' : 'Active'}} </td>
+      </section>
+
+      <section matColumnDef="actions" fxLayout="column">
+        <th mat-header-cell *matHeaderCellDef> Actions </th>
+        <td mat-cell *matCellDef="let element">
+          <div class="actions" fxLayout="row" fxLayoutAlign="space-around center">
+            <mat-icon (click)="onEditUnit(element.id)" matTooltip="Edit" matTooltipPosition="below">edit</mat-icon>
+            <mat-icon (click)="onDeleteUnit(element.id)" matTooltip="Delete" matTooltipPosition="below">delete</mat-icon>
+          </div>
+        </td>
+      </section>
+
+      <tr mat-header-row *matHeaderRowDef="termsConditionColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: termsConditionColumns;"></tr>
+    </table>
+  </div>
+</div>
+
+<div class="pagination" fxLayout="row" fxLayoutAlign="end none">
+  <pagination-controls id="pagingID" (pageChange)="p = $event" directionLinks="true" autoHide="true" responsive="true"
+    screenReaderPaginationLabel="Pagination" screenReaderPageLabel="page" screenReaderCurrentLabel="You're on page">
+  </pagination-controls>
+</div>

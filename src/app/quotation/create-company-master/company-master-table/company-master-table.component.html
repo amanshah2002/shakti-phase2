@@ -1,0 +1,95 @@
+<div class="main-div">
+
+  <section class="quotation-header-container">
+    <h2>Company</h2>
+  </section>
+  <table mat-table [dataSource]="companyDetails | paginate: {
+    id: 'pagingID',
+    itemsPerPage: 10,
+    currentPage: p,
+    totalItems: totalLength }" class="mat-elevation-z8">
+
+    <section matColumnDef="companyName" fxLayout="column" fxFlex="12">
+      <th mat-header-cell *matHeaderCellDef> Company Name </th>
+      <td mat-cell *matCellDef="let element"> {{element.company_name}} </td>
+    </section>
+
+    <section matColumnDef="city" fxLayout="column">
+      <th mat-header-cell *matHeaderCellDef> City </th>
+      <td mat-cell *matCellDef="let element" matTooltip="{{element.address[0].city}}" matTooltipPosition="below" [matTooltipShowDelay]="showDelay.value">
+        {{element.address[0].city}} </td>
+    </section>
+
+    <section matColumnDef="state" fxLayout="column">
+      <th mat-header-cell *matHeaderCellDef> State </th>
+      <td mat-cell *matCellDef="let element" matTooltip="{{element.address[0].state.name}}" matTooltipPosition="below" [matTooltipShowDelay]="showDelay.value">
+        {{element.address[0].state.name}} </td>
+    </section>
+
+    <section matColumnDef="country" fxLayout="column">
+      <th mat-header-cell *matHeaderCellDef> Country </th>
+      <td mat-cell *matCellDef="let element" matTooltip="{{element.address[0].country.name}}" matTooltipPosition="below" [matTooltipShowDelay]="showDelay.value">
+        {{element.address[0].country.name}} </td>
+    </section>
+
+    <section matColumnDef="remarks" fxLayout="column">
+      <th mat-header-cell *matHeaderCellDef> Remarks </th>
+      <td mat-cell *matCellDef="let element" matTooltip="{{element.remarks}}" matTooltipPosition="below" [matTooltipShowDelay]="showDelay.value">
+        {{element.remarks}} </td>
+    </section>
+
+    <section matColumnDef="actions" fxLayout="column" fxFlex="9">
+      <th mat-header-cell *matHeaderCellDef> Actions </th>
+      <td mat-cell *matCellDef="let element">
+        <div class="actions" fxLayout="row" fxLayoutAlign="space-around center">
+          <mat-icon (click)="onEditItem(element.id)" matTooltip="Edit" matTooltipPosition="below">edit</mat-icon>
+          <mat-icon (click)="onDeleteItem(element.id)" matTooltip="Delete" matTooltipPosition="below">delete</mat-icon>
+          <!-- <mat-icon (click)="onInfo(element.id)" matTooltip="Info" matTooltipPosition="below">remove_red_eye</mat-icon> -->
+        </div>
+      </td>
+    </section>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>
+
+  <div class="pagination" fxLayout="row" fxLayoutAlign="end none">
+    <pagination-controls id="pagingID" (pageChange)="p = $event" directionLinks="true" autoHide="true" responsive="true"
+      screenReaderPaginationLabel="Pagination" screenReaderPageLabel="page" screenReaderCurrentLabel="You're on page">
+    </pagination-controls>
+  </div>
+
+
+
+
+  <!-- <div class="info-table">
+    <table mat-table [dataSource]="companyDetails" class="mat-elevation-z8">
+
+      <section matColumnDef="personName" fxLayout="column">
+        <th mat-header-cell *matHeaderCellDef> Person Name </th>
+        <td mat-cell *matCellDef="let element"> {{element.company_name}} </td>
+      </section>
+
+      <section matColumnDef="contactNumber" fxLayout="column">
+        <th mat-header-cell *matHeaderCellDef> Contact Number </th>
+        <td mat-cell *matCellDef="let element" matTooltip="{{element.address.city}}" matTooltipPosition="below" [matTooltipShowDelay]="showDelay.value">
+          {{element.address.city}} </td>
+      </section>
+
+      <section matColumnDef="designation" fxLayout="column">
+        <th mat-header-cell *matHeaderCellDef> Designation </th>
+        <td mat-cell *matCellDef="let element" matTooltip="{{element.state}}" matTooltipPosition="below" [matTooltipShowDelay]="showDelay.value">
+          {{element.state}} </td>
+      </section>
+
+      <section matColumnDef="email" fxLayout="column">
+        <th mat-header-cell *matHeaderCellDef> Email </th>
+        <td mat-cell *matCellDef="let element" matTooltip="{{element.phone.contact_email}}" matTooltipPosition="below" [matTooltipShowDelay]="showDelay.value">
+          {{element.phone.contact_email}} </td>
+      </section>
+
+      <tr mat-header-row *matHeaderRowDef="infoColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: infoColumns;"></tr>
+    </table>
+  </div> -->
+</div>

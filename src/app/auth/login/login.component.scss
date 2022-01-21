@@ -1,0 +1,39 @@
+:host {
+  display: flex;
+  height: 100vh;
+}
+
+
+.login-page {
+  height: 100vh;
+  width: 100vw;
+  position: fixed;
+  background-color: #f3f6f9;
+}
+
+mat-card {
+  align-items: center;
+  border-radius: 15px;
+  margin: auto;
+  padding: 50px 80px;
+  width: 100%;
+}
+
+mat-form-field {
+  width: 100%;
+}
+
+.Login-Button {
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.Margin-RememberMe {
+  margin-bottom: 20px;
+  margin-top: 20px;
+}
+
+img {
+  margin-bottom: 40px;
+  width: 80%;
+}

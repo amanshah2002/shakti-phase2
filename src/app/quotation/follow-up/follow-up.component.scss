@@ -1,0 +1,145 @@
+.main-container {
+  padding: 10px;
+
+  h2 {
+    font-size: 15px;
+    color: #00000075;
+    font-weight: 500;
+    padding-bottom: 5px;
+    border-bottom: 2px solid darkgray;
+    margin-bottom: 0;
+  }
+
+  .party-details {
+    padding: 0 15px;
+    margin: 25px 0;
+  }
+
+  .create-follow-up {
+    background: #00000010;
+    border-radius: 2px;
+    border: solid 1px #00000025;
+    padding: 25px;
+
+    .follow-up-details {
+      margin-top: 15px;
+    }
+  }
+}
+
+.button-container {
+  width: 100%;
+  border-top: 2px dotted grey;
+  padding-top: 30px;
+  margin-left: 5%;
+  margin-top: 25px;
+  width: 90%;
+}
+
+.add-btn {
+  background-color: var(--btnGreen);
+  font-weight: 5;
+  color: white;
+  font-size: 15px !important;
+}
+
+.list-btn {
+  background-color: #f0ad4e;
+  font-weight: 5;
+  color: white;
+}
+
+.add-button-main {
+  margin-top: 10px;
+}
+
+.clear-btn {
+  background-color: var(--btnRed);
+  font-weight: 5;
+  color: white;
+}
+
+.action-btn-icon {
+  color: white;
+  font-size: 1.2em !important;
+  line-height: 0.7em;
+}
+
+.action-btn-line-height {
+  line-height: 0.8em;
+}
+
+.contact-details-table, .quotation-details-table, .follow-up-details-table {
+  margin-bottom: 25px;
+}
+
+table {
+  width: 100%;
+  margin: 25px 0;
+  border-radius: 5px;
+  margin-bottom: 25px;
+}
+
+.mat-table {
+  background: #00000001;
+  border-radius: 10px;
+}
+
+td, th {
+  text-align: center !important;
+  vertical-align: middle !important;
+  cursor: pointer;
+  border: 1px solid #ffffff;
+  border-radius: 2px;
+  margin: 5px;
+  background-color: #00000090;
+  color: white;
+}
+
+.mat-column-srNo {
+  width: 8%;
+}
+
+.mat-column-contactPerson {
+  width: 25%;
+}
+
+.mat-column-contactNumber {
+  width: 22%;
+}
+
+.mat-column-e-mail {
+  width: 25%;
+}
+
+.mat-column-designation {
+  width: 20%;
+}
+
+.mat-column-basicAmt, .mat-column-discountAmt, .mat-column-packingCharge, .mat-column-taxAmt, .mat-column-totalAmt,  .mat-column-quotationDate  {
+  width: 10%;
+}
+
+.mat-column-quotationNo {
+  width: 8%;
+}
+
+.mat-column-companyName {
+  width: 25%;
+}
+
+.mat-column-actions {
+  width: 7%;
+}
+
+th.mat-header-cell:first-of-type, td.mat-cell:first-of-type, td.mat-footer-cell:first-of-type {
+ padding-left: 0px;
+ border-bottom-left-radius: 10px;
+ border-top-left-radius: 10px;
+}
+
+th.mat-header-cell:last-of-type, td.mat-cell:last-of-type, td.mat-footer-cell:last-of-type {
+  padding-right: 0px;
+  border-bottom-right-radius: 10px;
+  border-top-right-radius: 10px;
+}

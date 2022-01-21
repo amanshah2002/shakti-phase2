@@ -1,0 +1,58 @@
+form{
+  width: 500px !important;
+  max-height: 600px !important;
+}
+
+.add-new-gst-icon{
+  color: blue;
+}
+
+mat-error{
+  font-size: 15px !important;
+}
+
+.add-gst-text{
+  margin-top: 6px;
+
+}
+
+.addGst-button-container{
+  margin-top: 20px;
+}
+
+.remove-gst-detail{
+  color: #ef4444;
+}
+
+.details-container{
+  margin: auto;
+}
+
+.gst-header{
+  margin-top: 80px;
+}
+
+h2{
+  margin: 0 !important;
+}
+
+.subtext-container{
+  margin-top: 20px;
+}
+
+.gst-subtext{
+  font-size: 11px !important;
+}
+
+.save-cancel-button-container{
+  margin-top: 20px;
+}
+
+.clear-btn{
+  background-color: var(--btnRed) !important;
+  color: white !important;
+}
+.save-btn{
+  background-color: var(--btnGreen) !important;
+  color: white !important;
+}

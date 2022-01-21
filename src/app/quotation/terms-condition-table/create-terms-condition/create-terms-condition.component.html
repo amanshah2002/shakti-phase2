@@ -1,0 +1,81 @@
+<div class="main-container">
+  <h2>
+    Create Terms And Conditions
+  </h2>
+
+  <form [formGroup]="termsConditionForm" fxLayout="row" fxLayoutAlign="space-between center">
+    <mat-form-field fxFlex="50">
+      <mat-label>
+        Title
+      </mat-label>
+      <input matInput formControlName="title">
+    </mat-form-field>
+
+
+    <mat-form-field fxFlex="35">
+      <mat-label>Status</mat-label>
+      <mat-select formControlName="status">
+        <mat-option *ngFor="let option of statusType" [value]="option.value">{{option.name}}</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </form>
+
+
+  <mat-card fxLayout="column">
+    <h2>
+      Parameter Details
+    </h2>
+
+    <form [formGroup]="termsParameterForm">
+      <div fxLayout="row" fxLayoutAlign="space-between center">
+        <mat-form-field fxFlex="15">
+          <mat-label>
+            Sr No.
+          </mat-label>
+          <input matInput formControlName="term_id">
+        </mat-form-field>
+
+        <mat-form-field fxFlex="15">
+          <mat-label>
+            Group No
+          </mat-label>
+          <input matInput formControlName="groupNo">
+        </mat-form-field>
+
+        <mat-form-field fxFlex="60">
+          <mat-label>
+            Parameter Name
+          </mat-label>
+          <input matInput formControlName="parameterName">
+        </mat-form-field>
+      </div>
+
+      <div fxLayoutAlign="space-between center">
+        <mat-form-field fxFlex="85">
+          <mat-label>
+            Parameter Value
+          </mat-label>
+          <input matInput formControlName="parameterValue">
+        </mat-form-field>
+
+        <mat-icon fxFlex="10" class="delete-btn material-icons-outlined action-icon">add_box
+        </mat-icon>
+      </div>
+    </form>
+
+    <div class="button-container" fxLayoutAlign="center center" fxLayout="row" fxLayoutGap="1em">
+      <button mat-button class="add-btn" (click)="onAdd()">
+        <mat-icon class="action-btn-icon material-icons-outlined">post_add</mat-icon>
+        Add
+      </button>
+      <button mat-button class="list-btn" (click)="onUpdateForm()">
+        <mat-icon class="action-btn-icon material-icons-outlined action-btn-line-height">update</mat-icon>
+        Update
+      </button>
+      <button mat-button class="clear-btn" (click)="onClearForm()">
+        <mat-icon class="action-btn-icon material-icons-outlined action-btn-line-height">clear</mat-icon>
+        Clear
+      </button>
+    </div>
+  </mat-card>
+</div>

@@ -1,0 +1,80 @@
+.item-master-form-container{
+  padding: 1rem;
+
+  .line-before {
+    padding-left: 15px;
+    border-left: 5px solid #0c2559;
+    margin: 1.5rem 0;
+    height: 60px;
+    color: #0c2559;
+
+    .header-margin-bottom {
+      margin-bottom: 5px !important;
+    }
+  }
+
+
+  .background-color{
+    box-shadow: 0px 3px 5px -1px rgb(0 0 0 / 20%), 0px 6px 10px 0px rgb(0 0 0 / 14%), 0px 1px 18px 0px rgb(0 0 0 / 12%);
+    padding: 1rem;
+    background-color: #fff;
+
+
+    .item-form{
+      box-shadow: 0px 3px 5px -1px rgb(0 0 0 / 20%), 0px 6px 10px 0px rgb(0 0 0 / 14%), 0px 1px 18px 0px rgb(0 0 0 / 12%);
+      margin-top: 10px;
+      padding: 1rem;
+      margin-bottom: 10px;
+
+      .create-item-header{
+        text-align: center;
+        font-weight: 170;
+        border-bottom: 3px solid grey;
+        padding-bottom: 5px;
+      }
+    }
+
+    .item-details-form{
+      margin-top: 10px;
+      padding: 1rem;
+      box-shadow: 0px 3px 5px -1px rgb(0 0 0 / 20%), 0px 6px 10px 0px rgb(0 0 0 / 14%), 0px 1px 18px 0px rgb(0 0 0 / 12%);
+
+      .item-details-header{
+        text-align: center;
+        font-weight: 170;
+        border-bottom: 3px solid grey;
+        padding-bottom: 5px;
+      }
+
+      .add-item-details-btn{
+        background-color: var(--btnGreen);
+        color: white;
+        box-shadow: 0px 3px 5px -1px rgb(0 0 0 / 20%), 0px 6px 10px 0px rgb(0 0 0 / 14%), 0px 1px 18px 0px rgb(0 0 0 / 12%);
+        border-radius: 0;
+        margin-top: 5px;
+      }
+    }
+
+    .add-clear-btn-container{
+      margin-top: 20px;
+      .add-item-btn{
+        box-shadow: 0px 3px 5px -1px rgb(0 0 0 / 20%), 0px 6px 10px 0px rgb(0 0 0 / 14%), 0px 1px 18px 0px rgb(0 0 0 / 12%);
+        background-color: var(--btnGreen);
+        color: white;
+      }
+
+      .clear-btn{
+        box-shadow: 0px 3px 5px -1px rgb(0 0 0 / 20%), 0px 6px 10px 0px rgb(0 0 0 / 14%), 0px 1px 18px 0px rgb(0 0 0 / 12%);
+        background-color: var(--btnRed);
+        color: white;
+      }
+    }
+
+  }
+}
+
+@media (max-width:960px){
+  mat-form-field,mat-slide-toggle{
+    width: 100%;
+  }
+}

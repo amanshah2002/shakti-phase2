@@ -1,0 +1,55 @@
+.main-container {
+  padding: 25px;
+
+  h2 {
+    border-bottom: 1px dotted black;
+    padding-bottom: 5px;
+  }
+}
+
+mat-card {
+  box-shadow:  2px 2px 3px #ccc;
+  border-radius: 5px;
+}
+
+.button-container {
+  width: 100%;
+  margin-top: 50px;
+  padding: 1em 0;
+  border-bottom: 1px solid grey;
+  border-top: 1px solid #ccc;
+}
+
+.add-btn {
+  background-color: var(--btnGreen);
+  font-weight: 5;
+  color: white;
+  font-size: 15px !important;
+}
+
+.list-btn {
+  background-color: #f0ad4e;
+  font-weight: 5;
+  color: white;
+}
+
+.add-button-main {
+  margin-top: 10px;
+}
+
+.clear-btn {
+  background-color: var(--btnRed);
+  font-weight: 5;
+  color: white;
+}
+
+.action-btn-icon {
+  color: white;
+  font-size: 1.2em !important;
+  line-height: 0.7em;
+}
+
+.action-btn-line-height {
+  line-height: 0.8em;
+}
+

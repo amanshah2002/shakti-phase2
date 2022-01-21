@@ -1,0 +1,1024 @@
+<div class="quotation-container">
+  <mat-card>
+    <h2 class="content-header">Create Quotation</h2>
+
+    <div class="button-container" fxLayoutAlign="center center" fxLayout="row" fxLayoutGap="1em">
+      <button mat-button class="add-btn" (click)="onAdd()">
+        <mat-icon class="action-btn-icon material-icons-outlined">post_add</mat-icon>
+        {{this.editMode ? 'Update' : 'Add'}}
+      </button>
+      <!-- <button mat-button class="list-btn" (click)="onUpdateForm()">
+        <mat-icon class="action-btn-icon material-icons-outlined action-btn-line-height">update</mat-icon>
+        Update
+      </button> -->
+      <button mat-button class="clear-btn" (click)="onClearForm()">
+        <mat-icon class="action-btn-icon material-icons-outlined action-btn-line-height">clear</mat-icon>
+        Clear
+      </button>
+    </div>
+
+    <form [formGroup]="quotationForm" class="quotation-form" fxLayout="column" fxLayout.lt-md="column">
+      <!-- <div *ngFor="let control of jsonFrom?.controls;let i = index" fxFlex="45">
+        <mat-form-field *ngIf="control.type == 'input'">
+          <mat-label>{{control.label}}</mat-label>
+          <input matInput [formControlName]="control.name">
+          <mat-error class="error-msg" *ngIf="quotationForm.get(control.name).hasError('required')">{{control.label}} is
+            required</mat-error>
+        </mat-form-field>
+
+        <mat-form-field *ngIf="control.type == 'dropdown' && control.name != 'state'">
+          <mat-label>{{control.label}}</mat-label>
+          <mat-select [formControlName]="control.name">
+            <mat-option *ngFor="let option of control.valueArray" [value]="option.value">{{option.label}}</mat-option>
+          </mat-select>
+          <mat-error class="error-msg" *ngIf="quotationForm.get(control.name).hasError('required')">{{control.label}} is
+            required</mat-error>
+        </mat-form-field>
+
+        <mat-form-field *ngIf="control.name == 'state'">
+          <mat-label>{{control.label}}</mat-label>
+          <mat-select [formControlName]="control.name">
+            <mat-option *ngFor="let state of stateObject[quotationForm.get('country')?.value]?.states"
+              [value]="state.id">{{state.name}}</mat-option>
+          </mat-select>
+          <mat-error class="error-msg" *ngIf="quotationForm.get(control.name).hasError('required')">{{control.label}} is
+            required</mat-error>
+        </mat-form-field>
+
+        <mat-form-field *ngIf="control.type == 'textarea'">
+          <mat-label>{{control.label}}</mat-label>
+          <textarea matInput [formControlName]="control.name"></textarea>
+          <mat-error class="error-msg" *ngIf="quotationForm.get(control.name).hasError('required')">{{control.label}} is
+            required</mat-error>
+        </mat-form-field>
+
+        <mat-form-field *ngIf="control.type == 'date'">
+          <mat-label>Quotation Date</mat-label>
+          <input formControlName="quotationDate" matInput [matDatepicker]="picker" disabled>
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker #picker disabled="false"></mat-datepicker>
+          <mat-error class="error-msg" *ngIf="quotationForm.get(control.name).hasError('required')">{{control.label}} is
+            required</mat-error>
+        </mat-form-field>
+      </div> -->
+      <div fxLayout="column">
+        <div fxLAyout="row" fxFlex=100 fxLayoutAlign="space-between center">
+          <!-- <mat-form-field fxFlex="45">
+            <mat-label>ID</mat-label>
+            <input matInput formControlName="id">
+          </mat-form-field> -->
+
+          <mat-form-field fxFlex="45">
+            <mat-label>Quotation Type</mat-label>
+            <mat-select formControlName="type" [disabled]="id == 'domestic'">
+              <mat-option *ngFor="let type of filteredQuotationType" [value]="type.value">{{type.name}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <section fxFlex=45>
+            <mat-checkbox formControlName="reQuotation" (change)="onRequotation($event.checked)">Re-Quotation
+            </mat-checkbox>
+          </section>
+        </div>
+
+        <div fxLAyout="row" fxFlex=100 fxLayoutAlign="space-between">
+          <mat-form-field fxFlex="45">
+            <mat-label>Mode of Inquiry</mat-label>
+            <input matInput formControlName="mode_of_inquiry">
+          </mat-form-field>
+
+          <mat-form-field fxFlex="45">
+            <mat-label>Company Name</mat-label>
+            <!-- <input matInput formControlName="company_name"> -->
+            <mat-select formControlName="company_name" (selectionChange)="this.setContactNumber($event);this.setContactPerson($event)">
+              <mat-option *ngFor="let company of this.companyList" [value]="company?.company_name">
+                {{company?.company_name}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+
+        <div fxLAyout="row" fxFlex=100 fxLayoutAlign="space-between">
+          <mat-form-field fxFlex="45">
+            <mat-label>Contact Person</mat-label>
+            <!-- <input matInput formControlName="contact_person"> -->
+            <mat-select formControlName="contact_person">
+              <mat-option *ngFor="let contact of this.contactPersonObject[this.quotationForm?.value?.company_name]?.contactPerson"
+              [value]="contact?.id">
+              {{contact?.contact_name}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <mat-form-field fxFlex="45">
+            <mat-label>Designation</mat-label>
+            <input matInput formControlName="designation">
+          </mat-form-field>
+        </div>
+
+        <div fxLAyout="row" fxFlex=100 fxLayoutAlign="space-between">
+
+
+          <mat-form-field fxFlex="45">
+            <mat-label>Country</mat-label>
+            <mat-select formControlName="country">
+              <mat-option *ngFor="let option of countryList" [value]="option.id">{{option.name}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <mat-form-field fxFlex="45">
+            <mat-label>State</mat-label>
+            <mat-select formControlName="state">
+              <mat-option *ngFor="let state of stateObject[quotationForm.get('country')?.value]?.states"
+                [value]="state?.id">{{state?.name}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+
+        <div fxLAyout="row" fxFlex="100" fxLayoutAlign="space-between">
+          <mat-form-field fxFlex="45">
+            <mat-label>GST Number</mat-label>
+            <input matInput formControlName="gst_number">
+          </mat-form-field>
+
+          <mat-form-field fxFlex="45">
+            <mat-label>Billing Address</mat-label>
+            <input matInput formControlName="billing_address">
+          </mat-form-field>
+        </div>
+
+        <div fxLAyout="row" fxFlex="100" fxLayoutAlign="space-between">
+          <mat-form-field fxFlex="45">
+            <mat-label>Website</mat-label>
+            <input matInput formControlName="website">
+          </mat-form-field>
+
+          <mat-form-field fxFlex="45">
+            <mat-label>Quotation Date</mat-label>
+            <input formControlName="quotation_date" matInput [matDatepicker]="picker" disabled>
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker disabled="false"></mat-datepicker>
+          </mat-form-field>
+        </div>
+
+        <div fxLAyout="row" fxFlex=100 fxLayoutAlign="space-between">
+          <mat-form-field fxFlex="45">
+            <mat-label>Inquiry Type</mat-label>
+            <mat-select formControlName="inquiry_type" disabled>
+              <mat-option *ngFor="let inqType of tempInqType" [value]="inqType.value">{{inqType.name}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <mat-form-field fxFlex="45">
+            <mat-label>Subject</mat-label>
+            <input matInput formControlName="subject">
+          </mat-form-field>
+        </div>
+
+        <div fxLAyout="row" fxFlex=100 fxLayoutAlign="space-between">
+          <mat-form-field fxFlex="45">
+            <mat-label>Contact Number</mat-label>
+            <input matInput formControlName="contact_number">
+          </mat-form-field>
+
+          <mat-form-field fxFlex="45">
+            <mat-label>E-mail</mat-label>
+            <input matInput formControlName="email">
+          </mat-form-field>
+        </div>
+
+        <div fxLAyout="row" fxFlex=100 fxLayoutAlign="space-between">
+          <mat-form-field fxFlex="45">
+            <mat-label>Plant Address</mat-label>
+            <input matInput formControlName="plant_address">
+          </mat-form-field>
+
+          <mat-form-field fxFlex="45">
+            <mat-label>City</mat-label>
+            <input matInput formControlName="city">
+          </mat-form-field>
+        </div>
+      </div>
+
+    </form>
+
+    <div fxLayout="column">
+      <mat-accordion>
+        <mat-expansion-panel [hideToggle]>
+          <mat-expansion-panel-header class="expansion-panel-header">
+            <mat-panel-title>Item Details</mat-panel-title>
+          </mat-expansion-panel-header>
+          <form [formGroup]="itemForm">
+            <div formArrayName="items" fxLayout="column" fxLayoutGap="3rem">
+              <div class="item-array-box" *ngFor="let item of itemForm.get('items')['controls']; let i = index"
+                [formGroupName]="i" fxLayout="column">
+                <div fxLayout="row" fxLayoutAlign="space-between">
+                  <h1>Number {{i + 1}}</h1>
+                  <button mat-mini-fab class="remove-item-btn" *ngIf="this.itemForm.controls.items.length > 1"
+                    matTooltip="Remove item">
+                    <mat-icon class="remove-item-btn" (click)="onRemoveItem(i)">remove</mat-icon>
+                  </button>
+                </div>
+
+                <div fxFlex="100" fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="8px">
+                  <mat-form-field fxFlex="40" class="sr-no-container">
+                    <mat-label>Item</mat-label>
+                    <input matInput formControlName="item_id">
+                  </mat-form-field>
+
+                  <mat-form-field fxFlex="22" class="sr-no-container">
+                    <mat-label>Brand Name</mat-label>
+                    <mat-select formControlName="brand_id">
+                      <mat-option>none</mat-option>
+                    </mat-select>
+                  </mat-form-field>
+
+                  <mat-form-field fxFlex="11" class="sr-no-container">
+                    <mat-label>Quantity</mat-label>
+                    <input matInput formControlName="quantity">
+                  </mat-form-field>
+
+                  <mat-form-field fxFlex="13" class="sr-no-container">
+                    <mat-label>Rate</mat-label>
+                    <input matInput formControlName="rate">
+                  </mat-form-field>
+
+                  <mat-form-field fxFlex="14" class="sr-no-container">
+                    <mat-label>Amount</mat-label>
+                    <input matInput formControlName="amount">
+                  </mat-form-field>
+                </div>
+
+                <div class="specification-table">
+                  <div fxLayout="row" class="specification-background-container">
+                    <mat-form-field fxFlex="100" class="specification-table-input-container">
+                      <mat-label>Specification</mat-label>
+                      <textarea matInput fxFlex="100" formControlName="specification"></textarea>
+                    </mat-form-field>
+                  </div>
+                </div>
+
+                <div formArrayName="child" class="child-container">
+                  <section *ngFor="let baby of item.get('child')['controls'];let c = index" [formGroupName]="c">
+                    <div class="child-container-box" fxLayout="column">
+                      <section fxLayoutAlign="space-between center">
+                        <h1 class="child-index">Child {{c + 1}}</h1>
+                        <button mat-mini-fab class="add-item-btn-container" (click)="onRemoveChild(i,c)"
+                          matTooltip="Remove Child">
+                          <mat-icon class="remove-item-btn">remove</mat-icon>
+                        </button>
+                      </section>
+                      <div fxFlex="100" fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="8px">
+                        <mat-form-field fxFlex="40" class="sr-no-container">
+                          <mat-label>Item</mat-label>
+                          <input matInput formControlName="item_id">
+                        </mat-form-field>
+
+                        <mat-form-field fxFlex="22" class="sr-no-container">
+                          <mat-label>Brand Name</mat-label>
+                          <mat-select formControlName="brand_id">
+                            <mat-option>none</mat-option>
+                          </mat-select>
+                        </mat-form-field>
+
+                        <mat-form-field fxFlex="11" class="sr-no-container">
+                          <mat-label>Quantity</mat-label>
+                          <input matInput formControlName="quantity">
+                        </mat-form-field>
+
+                        <mat-form-field fxFlex="13" class="sr-no-container">
+                          <mat-label>Rate</mat-label>
+                          <input matInput formControlName="rate">
+                        </mat-form-field>
+
+                        <mat-form-field fxFlex="14" class="sr-no-container">
+                          <mat-label>Amount</mat-label>
+                          <input matInput formControlName="amount">
+                        </mat-form-field>
+                      </div>
+
+                      <div class="specification-table">
+                        <div fxLayout="row" class="specification-background-container">
+                          <mat-form-field fxFlex="100" class="specification-table-input-container">
+                            <mat-label>Specification</mat-label>
+                            <textarea matInput fxFlex="100" formControlName="specification"></textarea>
+                          </mat-form-field>
+                        </div>
+                      </div>
+
+                      <!-- <div formArrayName="childToChild" class="super-child-container">
+                    <section *ngFor="let optionBabyChild of baby.get('childToChild')['controls'];let e = index"
+                      [formGroupName]="e" fxLayout="column">
+                      <div fxFlex="100" fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="8px">
+                        <mat-form-field fxFlex="40" class="sr-no-container">
+                          <mat-label>Item</mat-label>
+                          <input matInput formControlName="item_id">
+                        </mat-form-field>
+
+                        <mat-form-field fxFlex="22" class="sr-no-container">
+                          <mat-label>Brand Name</mat-label>
+                          <mat-select formControlName="brand_id">
+                            <mat-option>none</mat-option>
+                          </mat-select>
+                        </mat-form-field>
+
+                        <mat-form-field fxFlex="11" class="sr-no-container">
+                          <mat-label>Quantity</mat-label>
+                          <input matInput formControlName="quantity">
+                        </mat-form-field>
+
+                        <mat-form-field fxFlex="13" class="sr-no-container">
+                          <mat-label>Rate</mat-label>
+                          <input matInput formControlName="rate">
+                        </mat-form-field>
+
+                        <mat-form-field fxFlex="14" class="sr-no-container">
+                          <mat-label>Amount</mat-label>
+                          <input matInput formControlName="amount">
+                        </mat-form-field>
+                      </div>
+
+                      <div class="specification-table">
+                        <div fxLayout="row" class="specification-background-container">
+                          <mat-form-field fxFlex="100" class="specification-table-input-container">
+                            <mat-label>Specification</mat-label>
+                            <textarea matInput fxFlex="100" formControlName="specification"></textarea>
+                          </mat-form-field>
+                        </div>
+                      </div>
+                    </section>
+                  </div> -->
+
+                      <section fxLayout="row" class="add-option-child-btn-container" fxLayoutGap="1rem">
+                        <button mat-button class="add-child-btn" (click)="onAddOptionToChild(i,c)">Add Option</button>
+                        <!-- <button class="add-child-btn" mat-button (click)="onAddChildToChild(i,c)">Add Another Child</button> -->
+                      </section>
+                      <div formArrayName="option_child_array">
+                        <section *ngFor="let optionBaby of baby.get('option_child_array')['controls'];let oC = index"
+                          [formGroupName]="oC" fxLayout="column">
+                          <h1 class="divider-or">OR</h1>
+                          <div fxFlex="100" fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="8px">
+                            <mat-form-field fxFlex="40" class="sr-no-container">
+                              <mat-label>Item</mat-label>
+                              <input matInput formControlName="item_id">
+                            </mat-form-field>
+
+                            <mat-form-field fxFlex="22" class="sr-no-container">
+                              <mat-label>Brand Name</mat-label>
+                              <mat-select formControlName="brand_id">
+                                <mat-option>none</mat-option>
+                              </mat-select>
+                            </mat-form-field>
+
+                            <mat-form-field fxFlex="11" class="sr-no-container">
+                              <mat-label>Quantity</mat-label>
+                              <input matInput formControlName="quantity">
+                            </mat-form-field>
+
+                            <mat-form-field fxFlex="13" class="sr-no-container">
+                              <mat-label>Rate</mat-label>
+                              <input matInput formControlName="rate">
+                            </mat-form-field>
+
+                            <mat-form-field fxFlex="14" class="sr-no-container">
+                              <mat-label>Amount</mat-label>
+                              <input matInput formControlName="amount">
+                            </mat-form-field>
+                          </div>
+
+                          <div class="specification-table">
+                            <div fxLayout="row" class="specification-background-container">
+                              <mat-form-field fxFlex="100" class="specification-table-input-container">
+                                <mat-label>Specification</mat-label>
+                                <textarea matInput fxFlex="100" formControlName="specification"></textarea>
+                              </mat-form-field>
+                            </div>
+                          </div>
+
+                          <!-- <div formArrayName="childToOption" class="super-child-container">
+                        <section
+                          *ngFor="let childToOption of optionBaby.get('childToOption')['controls'];let cTO = index"
+                          [formGroupName]="cTO" fxLayout="column">
+                          <div fxFlex="100" fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="8px">
+                            <mat-form-field fxFlex="40" class="sr-no-container">
+                              <mat-label>Item</mat-label>
+                              <input matInput formControlName="item_id">
+                            </mat-form-field>
+
+                            <mat-form-field fxFlex="22" class="sr-no-container">
+                              <mat-label>Brand Name</mat-label>
+                              <mat-select formControlName="brand_id">
+                                <mat-option>none</mat-option>
+                              </mat-select>
+                            </mat-form-field>
+
+                            <mat-form-field fxFlex="11" class="sr-no-container">
+                              <mat-label>Quantity</mat-label>
+                              <input matInput formControlName="quantity">
+                            </mat-form-field>
+
+                            <mat-form-field fxFlex="13" class="sr-no-container">
+                              <mat-label>Rate</mat-label>
+                              <input matInput formControlName="rate">
+                            </mat-form-field>
+
+                            <mat-form-field fxFlex="14" class="sr-no-container">
+                              <mat-label>Amount</mat-label>
+                              <input matInput formControlName="amount">
+                            </mat-form-field>
+                          </div>
+
+                          <div class="specification-table">
+                            <div fxLayout="row" class="specification-background-container">
+                              <mat-form-field fxFlex="100" class="specification-table-input-container">
+                                <mat-label>Specification</mat-label>
+                                <textarea matInput fxFlex="100" formControlName="specification"></textarea>
+                              </mat-form-field>
+                            </div>
+                          </div>
+                        </section>
+
+                        <section class="add-option-child-btn-container">
+                          <button class="add-child-btn" mat-button (click)="onAddOptionToAnotherChild(i,c,oC)">Add
+                            Another Child</button>
+                        </section>
+                      </div> -->
+                        </section>
+                      </div>
+                    </div>
+                  </section>
+                </div>
+
+                <section fxLayout="row" class="add-option-child-btn-container" fxLayoutGap="1rem">
+                  <button class="add-option-btn" mat-button (click)="onAddOption(i)">Add Option</button>
+                  <button class="add-child-btn" mat-button (click)="onAddChild(i)">Add Child</button>
+                </section>
+
+                <div formArrayName="option_item_array" fxLayout="column" fxLayoutGap="1rem">
+                  <div class="option-array-container"
+                    *ngFor="let optionItem of item.get('option_item_array')['controls']; let o = index"
+                    [formGroupName]="o" fxLayout="column">
+                    <h1 *ngIf="item.get('option_item_array')?.length" class="divider-or">OR</h1>
+                    <section fxLayoutAlign="space-between center">
+                      <h1>Option {{o + 1}}</h1>
+                      <button mat-mini-fab class="add-item-btn-container" (click)="onRemoveOption(i,o)"
+                        matTooltip="Remove Option">
+                        <mat-icon class="remove-item-btn">remove</mat-icon>
+                      </button>
+                    </section>
+                    <div fxFlex="100" fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="10px">
+                      <mat-form-field fxFlex="40" class="sr-no-container">
+                        <mat-label>Item</mat-label>
+                        <input matInput formControlName="item_id">
+                      </mat-form-field>
+
+                      <mat-form-field fxFlex="22" class="sr-no-container">
+                        <mat-label>Brand Name</mat-label>
+                        <mat-select formControlName="brand_id">
+                          <mat-option>none</mat-option>
+                        </mat-select>
+                      </mat-form-field>
+
+                      <mat-form-field fxFlex="11" class="sr-no-container">
+                        <mat-label>Quantity</mat-label>
+                        <input matInput formControlName="quantity">
+                      </mat-form-field>
+
+                      <mat-form-field fxFlex="13" class="sr-no-container">
+                        <mat-label>Rate</mat-label>
+                        <input matInput formControlName="rate">
+                      </mat-form-field>
+
+                      <mat-form-field fxFlex="14" class="sr-no-container">
+                        <mat-label>Amount</mat-label>
+                        <input matInput formControlName="amount">
+                      </mat-form-field>
+                    </div>
+
+                    <div class="specification-table">
+                      <div fxLayout="row" class="specification-background-container">
+                        <mat-form-field fxFlex="100" class="specification-table-input-container">
+                          <mat-label>Specification</mat-label>
+                          <textarea matInput fxFlex="100" formControlName="specification"></textarea>
+                        </mat-form-field>
+                      </div>
+                    </div>
+
+                    <div formArrayName="child" class="child-container">
+                      <section *ngFor="let optionBaby of optionItem.get('child')['controls'];let d = index"
+                        [formGroupName]="d">
+
+                        <div class="child-container-box" fxLayout="column">
+                          <section fxLayoutAlign="space-between center">
+                            <h1>Child {{d + 1}}</h1>
+                            <button mat-mini-fab class="add-item-btn-container" (click)="onRemoveOptionChild(i,o,d)"
+                              matTooltip="Remove Child">
+                              <mat-icon class="remove-item-btn">remove</mat-icon>
+                            </button>
+                          </section>
+                          <div fxFlex="100" fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="8px">
+                            <mat-form-field fxFlex="40" class="sr-no-container">
+                              <mat-label>Item</mat-label>
+                              <input matInput formControlName="item_id">
+                            </mat-form-field>
+
+                            <mat-form-field fxFlex="22" class="sr-no-container">
+                              <mat-label>Brand Name</mat-label>
+                              <mat-select formControlName="brand_id">
+                                <mat-option>none</mat-option>
+                              </mat-select>
+                            </mat-form-field>
+
+                            <mat-form-field fxFlex="11" class="sr-no-container">
+                              <mat-label>Quantity</mat-label>
+                              <input matInput formControlName="quantity">
+                            </mat-form-field>
+
+                            <mat-form-field fxFlex="13" class="sr-no-container">
+                              <mat-label>Rate</mat-label>
+                              <input matInput formControlName="rate">
+                            </mat-form-field>
+
+                            <mat-form-field fxFlex="14" class="sr-no-container">
+                              <mat-label>Amount</mat-label>
+                              <input matInput formControlName="amount">
+                            </mat-form-field>
+                          </div>
+
+                          <div class="specification-table">
+                            <div fxLayout="row" class="specification-background-container">
+                              <mat-form-field fxFlex="100" class="specification-table-input-container">
+                                <mat-label>Specification</mat-label>
+                                <textarea matInput fxFlex="100" formControlName="specification"></textarea>
+                              </mat-form-field>
+                            </div>
+                          </div>
+
+                          <!-- <div formArrayName="childToChild" class="super-child-container">
+                        <section
+                          *ngFor="let optionBabyChild of optionBaby.get('childToChild')['controls'];let oE = index"
+                          [formGroupName]="oE" fxLayout="column">
+                          <div fxFlex="100" fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="8px">
+                            <mat-form-field fxFlex="40" class="sr-no-container">
+                              <mat-label>Item</mat-label>
+                              <input matInput formControlName="item_id">
+                            </mat-form-field>
+
+                            <mat-form-field fxFlex="22" class="sr-no-container">
+                              <mat-label>Brand Name</mat-label>
+                              <mat-select formControlName="brand_id">
+                                <mat-option>none</mat-option>
+                              </mat-select>
+                            </mat-form-field>
+
+                            <mat-form-field fxFlex="11" class="sr-no-container">
+                              <mat-label>Quantity</mat-label>
+                              <input matInput formControlName="quantity">
+                            </mat-form-field>
+
+                            <mat-form-field fxFlex="13" class="sr-no-container">
+                              <mat-label>Rate</mat-label>
+                              <input matInput formControlName="rate">
+                            </mat-form-field>
+
+                            <mat-form-field fxFlex="14" class="sr-no-container">
+                              <mat-label>Amount</mat-label>
+                              <input matInput formControlName="amount">
+                            </mat-form-field>
+                          </div>
+
+                          <div class="specification-table">
+                            <div fxLayout="row" class="specification-background-container">
+                              <mat-form-field fxFlex="100" class="specification-table-input-container">
+                                <mat-label>Specification</mat-label>
+                                <textarea matInput fxFlex="100" formControlName="specification"></textarea>
+                              </mat-form-field>
+                            </div>
+                          </div>
+                        </section>
+                      </div> -->
+
+                          <section fxLayout="row" class="add-option-child-btn-container" fxLayoutGap="1rem">
+                            <button mat-button class="add-child-btn" (click)="onAddOptionToChildOption(i,o,d)">Add
+                              Option</button>
+                            <!-- <button class="add-child-btn" mat-button (click)="onAddChildToChildOption(i,o,d)">Add Another -->
+                            <!-- Child</button> -->
+                          </section>
+
+                          <div formArrayName="option_child_array">
+                            <section
+                              *ngFor="let optionChildOption of optionBaby.get('option_child_array')['controls'];let oCO = index"
+                              [formGroupName]="oCO" fxLayout="column">
+                              <div fxFlex="100" fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="8px">
+                                <mat-form-field fxFlex="40" class="sr-no-container">
+                                  <mat-label>Item</mat-label>
+                                  <input matInput formControlName="item_id">
+                                </mat-form-field>
+
+                                <mat-form-field fxFlex="22" class="sr-no-container">
+                                  <mat-label>Brand Name</mat-label>
+                                  <mat-select formControlName="brand_id">
+                                    <mat-option>none</mat-option>
+                                  </mat-select>
+                                </mat-form-field>
+
+                                <mat-form-field fxFlex="11" class="sr-no-container">
+                                  <mat-label>Quantity</mat-label>
+                                  <input matInput formControlName="quantity">
+                                </mat-form-field>
+
+                                <mat-form-field fxFlex="13" class="sr-no-container">
+                                  <mat-label>Rate</mat-label>
+                                  <input matInput formControlName="rate">
+                                </mat-form-field>
+
+                                <mat-form-field fxFlex="14" class="sr-no-container">
+                                  <mat-label>Amount</mat-label>
+                                  <input matInput formControlName="amount">
+                                </mat-form-field>
+                              </div>
+
+                              <div class="specification-table">
+                                <div fxLayout="row" class="specification-background-container">
+                                  <mat-form-field fxFlex="100" class="specification-table-input-container">
+                                    <mat-label>Specification</mat-label>
+                                    <textarea matInput fxFlex="100" formControlName="specification"></textarea>
+                                  </mat-form-field>
+                                </div>
+                              </div>
+
+                              <!-- <div formArrayName="optionToChildOption" class="super-child-container">
+                            <section
+                              *ngFor="let anotherChildOption of optionChildOption.get('optionToChildOption')['controls'];let aCO = index"
+                              [formGroupName]="aCO" fxLayout="column">
+                              <div fxFlex="100" fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="8px">
+                                <mat-form-field fxFlex="40" class="sr-no-container">
+                                  <mat-label>Item</mat-label>
+                                  <input matInput formControlName="item_id">
+                                </mat-form-field>
+
+                                <mat-form-field fxFlex="22" class="sr-no-container">
+                                  <mat-label>Brand Name</mat-label>
+                                  <mat-select formControlName="brand_id">
+                                    <mat-option>none</mat-option>
+                                  </mat-select>
+                                </mat-form-field>
+
+                                <mat-form-field fxFlex="11" class="sr-no-container">
+                                  <mat-label>Quantity</mat-label>
+                                  <input matInput formControlName="quantity">
+                                </mat-form-field>
+
+                                <mat-form-field fxFlex="13" class="sr-no-container">
+                                  <mat-label>Rate</mat-label>
+                                  <input matInput formControlName="rate">
+                                </mat-form-field>
+
+                                <mat-form-field fxFlex="14" class="sr-no-container">
+                                  <mat-label>Amount</mat-label>
+                                  <input matInput formControlName="amount">
+                                </mat-form-field>
+                              </div>
+
+                              <div class="specification-table">
+                                <div fxLayout="row" class="specification-background-container">
+                                  <mat-form-field fxFlex="100" class="specification-table-input-container">
+                                    <mat-label>Specification</mat-label>
+                                    <textarea matInput fxFlex="100" formControlName="specification"></textarea>
+                                  </mat-form-field>
+                                </div>
+                              </div>
+                            </section>
+                          </div> -->
+                              <!-- <section fxLayout="row" class="add-option-child-btn-container" fxLayoutGap="1rem">
+                            <button class="add-child-btn" mat-button (click)="onAddChildToOptionChild(i,o,d,oCO)">Add
+                              Another Child</button>
+                          </section> -->
+                            </section>
+                          </div>
+                        </div>
+                      </section>
+                    </div>
+
+                    <section fxLayout="row" class="add-option-child-btn-container" fxLayoutGap="1rem">
+                      <button class="add-child-btn" mat-button (click)="onAddOptionChild(i,o)">Add Child</button>
+                    </section>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div fxLayout="row">
+              <button mat-mini-fab color="primary" class="add-item-btn-container  add-button-main"
+                (click)="onAddItem()">
+                <mat-icon class="add-item-btn">add</mat-icon>
+              </button>
+            </div>
+          </form>
+
+        </mat-expansion-panel>
+      </mat-accordion>
+
+      <div fxLayout="column">
+        <!-- <button class="preview-items" color="primary" (click)="onPreviewTable()">
+          Preview Items
+        </button> -->
+
+        <table mat-table [dataSource]="itemForm.get('items').value" id="preview-table"
+          *ngIf="itemForm.get('items').value.length > 1" class="mat-elevation-z8">
+
+          <!--- Note that these columns can be defined in any order.
+                The actual rendered columns are set as a property on the row definition" -->
+
+          <!-- Position Column -->
+          <section matColumnDef="itemName" fxLayout="column">
+            <th mat-header-cell *matHeaderCellDef> Item Name </th>
+            <td mat-cell *matCellDef="let element"> {{element.item_id}} </td>
+          </section>
+
+          <!-- Name Column -->
+          <section matColumnDef="brandName" fxLayout="column">
+            <th mat-header-cell *matHeaderCellDef> Brand Name </th>
+            <td mat-cell *matCellDef="let element"> {{element.brand_id}} </td>
+          </section>
+
+          <section matColumnDef="quantity" fxLayout="column">
+            <th mat-header-cell *matHeaderCellDef> Quantity </th>
+            <td mat-cell *matCellDef="let element"> {{element.quantity}} </td>
+          </section>
+
+          <section matColumnDef="rate" fxLayout="column">
+            <th mat-header-cell *matHeaderCellDef> Rate </th>
+            <td mat-cell *matCellDef="let element"> {{element.rate}} </td>
+          </section>
+
+          <!-- Weight Column -->
+          <section matColumnDef="specification">
+            <th mat-header-cell *matHeaderCellDef> Specification </th>
+            <td mat-cell *matCellDef="let element"> {{element.specification}} </td>
+          </section>
+
+          <!-- Symbol Column -->
+          <section matColumnDef="amount" fxLayout="column">
+            <th mat-header-cell *matHeaderCellDef> Amount </th>
+            <td mat-cell *matCellDef="let element"> {{element.amount}} </td>
+          </section>
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+      </div>
+
+      <form [formGroup]="chargesForm" class="checkout-form" fxLayout="row" fxLayout.lt-md="column"
+        fxLayoutAlign="space-between">
+        <section fxFlex="45">
+          <mat-form-field>
+            <mat-label>
+              Delivery
+            </mat-label>
+            <input matInput formControlName="delivery">
+          </mat-form-field>
+
+          <mat-form-field>
+            <mat-label>
+              Remarks
+            </mat-label>
+            <textarea matInput formControlName="remarks"></textarea>
+          </mat-form-field>
+        </section>
+
+        <section fxFlex="45">
+          <mat-form-field>
+            <mat-label>
+              Total Amount
+            </mat-label>
+            <input matInput formControlName="total_amount">
+          </mat-form-field>
+
+          <section fxLayout="row" fxLayoutAlign="space-between">
+            <mat-form-field fxFlex="40">
+              <mat-label>
+                Discount
+              </mat-label>
+              <mat-icon matSuffix class="percent-icon">percent</mat-icon>
+              <input type="number" matInput formControlName="discount">
+            </mat-form-field>
+
+            <mat-form-field fxFlex="50">
+              <mat-label>
+                Discount Amount
+              </mat-label>
+              <input matInput formControlName="discount_amount">
+            </mat-form-field>
+          </section>
+
+          <mat-form-field>
+            <mat-label>
+              After Discount
+            </mat-label>
+            <input type="number" matInput formControlName="after_discount_amount">
+            <!-- {{this.chargesForm.get('total_amount').value - this.chargesForm.get('discount_amount').value}} -->
+          </mat-form-field>
+
+          <section fxLayout="row" fxLayoutAlign="space-between">
+            <mat-form-field fxFlex="40">
+              <mat-label>
+                Other Charges
+              </mat-label>
+              <mat-icon matSuffix class="percent-icon">percent</mat-icon>
+              <input matInput formControlName="other_charge">
+            </mat-form-field>
+
+            <mat-form-field fxFlex="50">
+              <input matInput formControlName="other_charge_amount">
+            </mat-form-field>
+          </section>
+
+          <section fxLayout="row" fxLayoutAlign="space-between">
+            <mat-form-field fxFlex="40">
+              <mat-label>
+                Packing Label
+              </mat-label>
+              <!-- TODO: Confirm & implement Dropdown -->
+              <input matInput formControlName="packing_label">
+            </mat-form-field>
+
+            <mat-form-field fxFlex="50">
+              <mat-label>
+                Packing Notes
+              </mat-label>
+              <input matInput formControlName="packing_notes">
+            </mat-form-field>
+          </section>
+
+          <section fxLayout="row" fxLayoutAlign="space-between">
+            <mat-form-field fxFlex="40">
+              <mat-label>
+                Packing Charges
+              </mat-label>
+              <mat-icon matSuffix class="percent-icon">percent</mat-icon>
+              <input matInput formControlName="packing_charge">
+            </mat-form-field>
+
+            <mat-form-field fxFlex="50">
+              <input matInput formControlName="packing_charge_amount">
+            </mat-form-field>
+          </section>
+
+          <section fxLayout="row" fxLayoutAlign="space-between"
+            *ngIf="this.quotationForm.controls['country']?.value === 101 && this.quotationForm.controls['state']?.value === 12">
+            <mat-form-field fxFlex="40">
+              <mat-label>
+                CGST
+              </mat-label>
+              <mat-icon matSuffix class="percent-icon">percent</mat-icon>
+              <input matInput formControlName="cgst">
+            </mat-form-field>
+
+            <mat-form-field fxFlex="50">
+              <input matInput formControlName="cgst_amount">
+            </mat-form-field>
+          </section>
+
+          <section fxLayout="row" fxLayoutAlign="space-between"
+            *ngIf="this.quotationForm.controls['country']?.value === 101 && this.quotationForm.controls['state']?.value === 12">
+            <mat-form-field fxFlex="40">
+              <mat-label>
+                SGST
+              </mat-label>
+              <mat-icon matSuffix class="percent-icon">percent</mat-icon>
+              <input matInput formControlName="sgst">
+            </mat-form-field>
+
+            <mat-form-field fxFlex="50">
+              <input matInput formControlName="sgst_amount">
+            </mat-form-field>
+          </section>
+
+          <section *ngIf="this.quotationForm.controls['state']?.value != 12" fxLayout="row"
+            fxLayoutAlign="space-between">
+            <mat-form-field fxFlex="40">
+              <mat-label>
+                IGST
+              </mat-label>
+              <mat-icon matSuffix class="percent-icon">percent</mat-icon>
+              <input matInput formControlName="igst">
+            </mat-form-field>
+
+            <mat-form-field fxFlex="50">
+              <input matInput formControlName="igst_amount">
+            </mat-form-field>
+          </section>
+
+          <section fxLayout="row" fxLayoutAlign="space-between">
+            <mat-form-field fxFlex="40">
+              <mat-label>
+                Forwarding
+              </mat-label>
+              <mat-icon matSuffix class="percent-icon">percent</mat-icon>
+              <input matInput formControlName="forwarding">
+            </mat-form-field>
+
+            <mat-form-field fxFlex="50">
+              <input matInput formControlName="forwarding_amount">
+            </mat-form-field>
+          </section>
+
+          <mat-form-field>
+            <mat-label>
+              Forwarding Notes
+            </mat-label>
+            <input type="number" matInput formControlName="forwarding_notes">
+          </mat-form-field>
+
+
+          <section fxLayout="row" fxLayoutAlign="space-between">
+            <mat-form-field fxFlex="40">
+              <mat-label>
+                Documentation
+              </mat-label>
+              <input matInput formControlName="document">
+            </mat-form-field>
+
+            <mat-form-field fxFlex="50">
+              <input matInput formControlName="document_amount">
+            </mat-form-field>
+          </section>
+
+
+          <section fxLayout="row" fxLayoutAlign="space-between">
+            <mat-form-field fxFlex="40">
+              <mat-label>
+                Extra Charge
+              </mat-label>
+              <mat-icon matSuffix class="percent-icon">percent</mat-icon>
+              <input matInput formControlName="extra_charge">
+            </mat-form-field>
+
+            <mat-form-field fxFlex="50">
+              <input matInput formControlName="extra_charge_amount">
+            </mat-form-field>
+          </section>
+
+          <section fxLayout="row" fxLayoutAlign="space-between">
+            <mat-form-field fxFlex="40">
+              <mat-label>
+                Label
+              </mat-label>
+              <input matInput formControlName="label_name">
+            </mat-form-field>
+
+            <mat-form-field fxFlex="50">
+              <input matInput formControlName="extra_label_name">
+            </mat-form-field>
+          </section>
+
+          <section fxLayout="row" fxLayoutAlign="space-between" class="is-forwarding">
+            <mat-checkbox formControlName="is_forwarding_extra" (change)="onForwarding($event.checked)">Forwarding Extra
+            </mat-checkbox>
+          </section>
+
+          <mat-form-field>
+            <mat-label>
+              Gross Amount
+            </mat-label>
+            <input type="number" matInput formControlName="gross_amount">
+          </mat-form-field>
+        </section>
+      </form>
+
+      <div class="terms-conditions">
+        <div class="heading-tc" fxLayout="row" fxLayoutAlign="space-between center">
+          <span>Terms and Condition Details...</span>
+          <button mat-flat-button class="add">Add</button>
+        </div>
+
+        <div class="tc-details" fxLayout="row">
+          <h4>Terms & Conditions</h4>
+          <input class="input-help" type="text">
+          <button mat-flat-button class="help">Help</button>
+        </div>
+      </div>
+
+      <div class="button-main-container">
+        <div class="button-container" fxLayoutAlign="center center" fxLayout="row" fxLayoutGap="1em">
+          <button mat-button class="add-btn" (click)="onAdd()">
+            <mat-icon class="action-btn-icon material-icons-outlined">post_add</mat-icon>
+            {{this.editMode ? 'Update' : 'Add'}}
+          </button>
+          <!-- <button mat-button class="list-btn" (click)="onUpdateForm()">
+            <mat-icon class="action-btn-icon material-icons-outlined action-btn-line-height">update</mat-icon>
+            Update
+          </button> -->
+          <button mat-button class="clear-btn" (click)="onClearForm()">
+            <mat-icon class="action-btn-icon material-icons-outlined action-btn-line-height">clear</mat-icon>
+            Clear
+          </button>
+        </div>
+      </div>
+    </div>
+    <div></div>
+  </mat-card>
+</div>
+
+<!-- TODO: give feature to remove child of child, child of child option etc... -->

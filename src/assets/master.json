@@ -1,0 +1,37 @@
+{
+  "brandMaster": [
+    {
+      "brandName": 0,
+      "status": "string"
+    }
+  ],
+  "companyMaster": [
+    {
+      "companyName": "string",
+      "city": "string",
+      "state": "state list",
+      "country": "country list",
+      "remarks": "string"
+    }
+  ],
+  "itemMaster": [
+    {
+      "itemCode": "string",
+      "itemName": "string",
+      "unit": 0,
+      "status": "string"
+    }
+  ],
+  "termsAndConditionMaster": [
+    {
+      "title": "string",
+      "status": "string"
+    }
+  ],
+  "unitMaster": [
+    {
+      "unitShortName": "string",
+      "unitName": 0
+    }
+  ]
+}

@@ -1,0 +1,49 @@
+<div fxLayoutAlign="center center" class="login-page">
+  <form [formGroup]="loginForm" fxLayout="column" fxFlex="45" fxFlex.lt-md="70" fxFlex.gt-lg="20">
+    <mat-card fxLayout="column" fxLayoutAlign="center center">
+      <img src="../../../assets/images/Screenshot 2021-08-07 at 9.37.49 PM.png" alt="logo of shakti pharma" height="90px" />
+      <mat-form-field appearance="fill">
+        <mat-label>Email Address</mat-label>
+        <input matInput formControlName="Email" autocomplete="off"/>
+        <mat-icon class="material-icons-outlined" matSuffix>email</mat-icon>
+        <mat-error *ngIf="
+            loginForm.controls.Email.hasError('required') &&
+            loginForm.controls.Email.touched
+          ">Email is required!
+        </mat-error>
+        <mat-error *ngIf="
+            loginForm.controls.Email.hasError('pattern') &&
+            loginForm.controls.Email.touched
+          ">Please enter a valid email!</mat-error>
+      </mat-form-field>
+      <mat-form-field appearance="fill">
+        <mat-label>Password</mat-label>
+        <input type="password" [type]="type" matInput formControlName="password" size="50px"
+          (copy)="$event.preventDefault()" (paste)="$event.preventDefault()" autocomplete="off" />
+        <div matSuffix (click)="onPasswordToggle()" class="action-icon" *ngIf="visible">
+          <mat-icon class="material-icons-outlined">visibility</mat-icon>
+        </div>
+        <div matSuffix (click)="onPasswordToggle()" class="action-icon" *ngIf="!visible">
+          <mat-icon class="material-icons-outlined">visibility_off</mat-icon>
+        </div>
+        <mat-error *ngIf="
+            loginForm.controls.password.hasError('required') &&
+            loginForm.controls.password.touched
+          ">
+          Password is required!
+        </mat-error>
+        <!-- <mat-error *ngIf="loginForm.controls.password.hasError('pattern') && loginForm.controls.password.touched">
+            Password should
+            contain atleast 8 characters | a upper case letter | a special character | a number! </mat-error> -->
+      </mat-form-field>
+      <mat-checkbox color="primary" (change)="onRemember($event.checked)" class="Margin-RememberMe">Remember Me
+      </mat-checkbox>
+      <button mat-raised-button color="primary" class="Login-Button" (click)="onLogin()">
+        Login
+      </button>
+      <button mat-button color="accent" (click)="onForgotPassword()">
+        Forgot password?
+      </button>
+    </mat-card>
+  </form>
+</div>

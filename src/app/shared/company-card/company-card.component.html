@@ -1,0 +1,233 @@
+<div class="container poppins" id='cardTop'>
+  <mat-icon class="materials-icons-outlined action-icon input-menu-icon" (click)="inputSidenav.open()">search
+  </mat-icon>
+  <div fxLayout.lt-sm="column" class="poppins">
+    <div class="line-before">
+      <h2 class="header-margin-bottom">Manage Company</h2>
+      <p>View and manage all your companies from here</p>
+    </div>
+  </div>
+  <div class="company-list-height">
+    <div *ngFor="let company of filterArray; let i = index" class="border-padding">
+      <mat-accordion *ngIf="showCompanies">
+        <mat-expansion-panel hideToggle expanded=true>
+          <mat-expansion-panel-header class="mat-expansion" [collapsedHeight]="'100px'" [expandedHeight]="'100px'">
+            <mat-panel-title fxLayout="column">
+              <div fxLayout="row" class="margin-top" fxLayoutAlign="space-between">
+                <section fxLayout="row">
+                  <h4 class="company-label-text">
+                    {{ company.company_name | titlecase }}.
+                  </h4>
+                  <!-- <p class="line-height">
+                    &nbsp;{{company.company_type == '6'?'(Domestic)' : '(International)'}}
+                  </p> -->
+                </section>
+                <section fxLayoutGap="20px" class="poppins">
+                  <mat-icon class="edit-btn material-icons-outlined action-icon"
+                    (click)="redirectByCompanyType(company.id)" matTooltip="Edit">edit</mat-icon>
+                  <mat-icon class="delete-btn material-icons-outlined action-icon" (click)="onRemoveCompany(company.id)"
+                    matTooltip="Delete">
+                    delete</mat-icon>
+                </section>
+              </div>
+              <div fxLayout="row" class="poppins">
+                <h4 class="bold-text">Reference:</h4>
+                <p class="line-height">
+                  &nbsp;{{ company.reference ? (company?.reference | titlecase) : '  -  '  }}
+                </p>
+              </div>
+              <div fxLayout="row" class="popppins">
+                <h4 class="bold-text h4-margin">Remarks:</h4>
+                <p class="line-height poppins">&nbsp;{{ company.remarks ? company?.remarks : '  -' }}</p>
+              </div>
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+
+          <div fxLayout="column" fxFlex="100" [ngClass]="{ 'background-white': !viewAddress[i] && !viewContact }">
+            <div fxLayout="row" fxLayoutGap="30px" class="view-hide"
+              [ngClass]="{'address-toggle-padding':viewContact[i] || viewAddress[i]}">
+              <a class="action-icon" (click)="onToggleAddress(i)">{{ viewAddress[i] ? 'Hide' : 'View' }} Addressbook</a>
+              <a class="action-icon" (click)="onToggleContact(i)">{{viewContact[i]?'Hide' : 'View'}} Contact
+                Details</a>
+            </div>
+            <div *ngIf="viewAddress[i]">
+              <div class="card-details" fxLayout="row">
+                <div class="card-container" *ngFor="let companyAddress of company?.address; let i = index">
+                  <h3 class="bold-text margin-address">Address {{ i + 1 }}</h3>
+                  <div class="flex">
+                    <div class="parameters-address field-label"> Address: </div>
+                    <div class="field-value"> {{companyAddress?.address}} </div>
+                  </div>
+                  <div class="flex">
+                    <div class="parameters-address field-label"> Country: </div>
+                    <div class="field-value"> {{companyAddress?.country?.name}} </div>
+                  </div>
+                  <div class="flex">
+                    <div class="parameters-address field-label"> State: </div>
+                    <div class="field-value"> {{companyAddress?.state?.name}} </div>
+                  </div>
+                  <div class="flex">
+                    <div class="parameters-address field-label"> City: </div>
+                    <div class="field-value"> {{companyAddress?.city}} </div>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+            <div *ngIf="viewContact[i]" [ngClass]="{'top-border': viewAddress[i] && this.viewContact[i]}">
+
+              <div class="card-details" fxLayout="row">
+                <div class="card-container" *ngFor="let companyContact of company?.phone; let i = index">
+                  <h3 class="bold-text margin-address">Contact details {{ i + 1 }}</h3>
+
+                  <div class="flex">
+                    <div class="parameters-address field-label">Name: </div>
+                    <div class="field-value"> {{ companyContact?.contact_name }} </div>
+                  </div>
+                  <div class="flex">
+                    <div class="parameters-address field-label">Phone: </div>
+                    <div class="field-value">
+                      <section *ngFor="let number of companyContact?.contact_number">
+                        {{number?.contact_no }}
+                      </section>
+                    </div>
+                  </div>
+                  <div fxLayout="row" class="parameters-address-type">
+                    <div class="field-label">
+                      Type:
+                    </div>
+                    <div *ngIf="+companyContact?.phonetype?.id == 1" class="field-value">Landline</div>
+                    <div *ngIf="+companyContact?.phonetype?.id == 2" class="field-value">Personal</div>
+                    <div *ngIf="+companyContact?.phonetype?.id == 3" class="field-value">Office</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+
+        </mat-expansion-panel>
+      </mat-accordion>
+    </div>
+    <h1 *ngIf="companyTypeFilterList.length && !filterArray.length" class="loading-center-text">Sorry, we couldn't find
+      any results</h1>
+    <h1 *ngIf="showCompanies && !companyTypeFilterList.length && companyType == '6'" class="loading-center-text">Sorry,
+      We
+      couldn't find any companies,
+      try<a routerLink="/company-visit-details/domestic"> adding a company</a></h1>
+    <h1 *ngIf="showCompanies && !companyTypeFilterList.length && companyType == '7'" class="loading-center-text">Sorry
+      ,We
+      couldn't find any companies,
+      try<a routerLink="/company-visit-details/international"> adding a company</a></h1>
+    <h1 *ngIf="showCompanies && !companyTypeFilterList.length && companyType == '5'" class="loading-center-text">Sorry,
+      We
+      couldn't find any companies</h1>
+  </div>
+
+  <div *ngIf="showCompanies && filterArray.length">
+    <mat-paginator [pageSizeOptions]="pageSizeOptions" [length]="companyTypeFilterList?.length"
+      (page)="onPageChange($event)" [pageSize]="pageSize" #paginatorBottom></mat-paginator>
+
+  </div>
+
+  <mat-drawer #inputSidenav class="input-sidenav">
+    <mat-icon class="close-input-sidenav action-icon" (click)="inputSidenav.close()">close</mat-icon>
+    <form class="search-form" fxLayout="column" fxLayoutAlign="space-between" [formGroup]="searchForm" (ngSubmit)="onSearch()">
+      <div fxLayout="column" fxLayoutGap="20px">
+        <mat-form-field appearance="fill">
+          <mat-icon matPrefix class="search-icon">search</mat-icon>
+          <mat-label> company name</mat-label>
+          <mat-icon matSuffix *ngIf="searchForm.get('filterName').value" class="action-icon"
+            (click)="onClearField('filterName')">clear</mat-icon>
+          <input matInput formControlName="filterName">
+        </mat-form-field>
+
+        <mat-form-field appearance="fill">
+          <mat-icon matPrefix class="search-icon">search</mat-icon>
+          <mat-label> contact person</mat-label>
+          <mat-icon matSuffix *ngIf="searchForm.get('filterContactPerson').value" class="action-icon"
+            (click)="onClearField('filterContactPerson')">clear</mat-icon>
+          <input matInput formControlName="filterContactPerson">
+        </mat-form-field>
+
+        <mat-form-field appearance="fill" *ngIf="companyType == '6'">
+          <mat-icon matPrefix class="search-icon">search</mat-icon>
+          <!-- <mat-label>Search country</mat-label>
+          <mat-icon matSuffix *ngIf="searchForm.get('filterCountry').value" class="action-icon" (click)="onClearField('filterCountry')">clear</mat-icon>
+          <input matInput  formControlName="filterCountry"> -->
+          <mat-label> State</mat-label>
+          <mat-select formControlName="filterState">
+            <mat-option *ngFor="let state of statesObject[+user.user_country]?.state" [value]="state.id">{{state.name}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field appearance="fill" *ngIf="companyType == '7' || companyType == '5'">
+          <mat-icon matPrefix class="search-icon">search</mat-icon>
+          <!-- <mat-label>Search country</mat-label>
+          <mat-icon matSuffix *ngIf="searchForm.get('filterCountry').value" class="action-icon" (click)="onClearField('filterCountry')">clear</mat-icon>
+          <input matInput  formControlName="filterCountry"> -->
+          <mat-label> country</mat-label>
+          <mat-select multiple formControlName="filterCountry" (selectionChange)="onIsStateDisable()">
+            <mat-option *ngFor="let country of countryList" [value]="country.id">{{country.name}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field appearance="fill">
+          <mat-icon matPrefix class="search-icon">search</mat-icon>
+          <mat-label> address</mat-label>
+          <mat-icon matSuffix *ngIf="searchForm.get('filterAddress').value" class="action-icon"
+            (click)="onClearField('filterAddress')">clear</mat-icon>
+          <input matInput formControlName="filterAddress">
+        </mat-form-field>
+
+        <mat-form-field appearance="fill">
+          <mat-icon matPrefix class="search-icon">search</mat-icon>
+          <mat-label> remarks</mat-label>
+          <mat-icon matSuffix *ngIf="searchForm.get('filterRemark').value" class="action-icon"
+            (click)="onClearField('filterRemark')">clear</mat-icon>
+          <input matInput formControlName="filterRemark">
+        </mat-form-field>
+
+        <mat-form-field appearance="fill">
+          <mat-icon matPrefix class="search-icon">search</mat-icon>
+          <mat-label> phone number</mat-label>
+          <mat-icon matSuffix *ngIf="searchForm.get('filterPhone').value" class="action-icon"
+            (click)="onClearField('filterPhone')">clear</mat-icon>
+          <input matInput formControlName="filterPhone">
+        </mat-form-field>
+
+        <mat-form-field appearance="fill" *ngIf="companyType == '7' || companyType == '5'">
+          <mat-icon matPrefix class="search-icon">search</mat-icon>
+          <mat-label> State</mat-label>
+          <mat-select formControlName="filterState" [disabled]="onIsStateDisable()">
+            <mat-option *ngFor="let state of statesObject[searchForm.get('filterCountry').value]?.state"
+              [value]="state.id">{{state.name}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field appearance="fill" *ngIf="companyType == '6'">
+          <mat-icon matPrefix class="search-icon">search</mat-icon>
+          <mat-label> city</mat-label>
+          <mat-icon matSuffix *ngIf="searchForm.get('filterCity').value" class="action-icon"
+            (click)="onClearField('filterCity')">clear</mat-icon>
+          <input matInput formControlName="filterCity">
+        </mat-form-field>
+
+        <mat-form-field appearance="fill">
+          <mat-icon matPrefix class="search-icon">search</mat-icon>
+          <mat-label> Reference</mat-label>
+          <mat-icon matSuffix *ngIf="searchForm.get('filterReference').value" class="action-icon"
+            (click)="onClearField('filterReference')">clear</mat-icon>
+          <input matInput formControlName="filterReference">
+        </mat-form-field>
+      </div>
+
+      <div class="save-clear" fxLayout="column" fxLayoutGap="20px">
+        <button mat-flat-button class="search-btn" type="submit">Search</button>
+        <button mat-flat-button class="clear-btn" type="button" (click)="onSearchClear()">Clear</button>
+        <button mat-button class="action-icon download-btn" (click)="onExport()">Export excel</button>
+      </div>
+    </form>
+  </mat-drawer>
+</div>

@@ -1,0 +1,55 @@
+.main-container {
+  padding: 10px;
+}
+
+.button-container {
+  width: 100%;
+  padding-bottom: 0.5em;
+  border-bottom: 1px solid grey;
+}
+
+.add-btn {
+  background-color: var(--btnGreen);
+  font-weight: 5;
+  color: white;
+  font-size: 15px !important;
+}
+
+.list-btn {
+  background-color: #f0ad4e;
+  font-weight: 5;
+  color: white;
+}
+
+.add-button-main {
+  margin-top: 10px;
+}
+
+.clear-btn {
+  background-color: var(--btnRed);
+  font-weight: 5;
+  color: white;
+}
+
+.action-btn-icon {
+  color: white;
+  font-size: 1.2em !important;
+  line-height: 0.7em;
+}
+
+.action-btn-line-height {
+  line-height: 0.8em;
+}
+
+
+::ng-deep .mat-slide-toggle.mat-checked:not(.mat-disabled) .mat-slide-toggle-bar {
+  background-color: #00000050 !important;
+}
+
+::ng-deep .mat-slide-toggle.mat-checked:not(.mat-disabled) .mat-slide-toggle-thumb {
+  background-color: #000000 !important;
+}
+
+::ng-deep .mat-slide-toggle.mat-checked .mat-slide-toggle-ripple .mat-ripple-element {
+  background-color: #00000050 !important;
+}

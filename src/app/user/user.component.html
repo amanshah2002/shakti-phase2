@@ -1,0 +1,94 @@
+<div class="container-user">
+  <div fxLayoutAlign="start" fxLayout="column" fxLayoutGap.lt-sm="20px">
+    <div class="before-line poppins">
+      <h2 class="header-margin-bottom">Company Users</h2>
+      <p class="subheader-margin">View and manage all your company users from here</p>
+    </div>
+    <div fxLayoutAlign="space-between center">
+      <mat-form-field appearance="fill" class="width">
+        <mat-label class="poppins">Search by name</mat-label>
+        <mat-icon matSuffix class="search-icon">search</mat-icon>
+        <input matInput #search (keyup)="onSearch(search.value)">
+      </mat-form-field>
+      <button mat-button class="New-User-btn poppins" [routerLink]="['user-detail','new']">
+        + Add User
+      </button>
+    </div>
+
+  </div>
+
+  <div *ngIf="userDataReceived && filterArray.length" class="height-user-card">
+    <ng-container>
+      <mat-card fxLayoutAlign="space-between center" fxLayout="row" class="User-header" *ngIf="!search.value">
+        <span fxFlex="9" id="name" (click)="onSortHeader('name')" class="action-icon display-flex"
+          matTooltip="Sort by Name">Name <mat-icon *ngIf="!nameSort" matPrefix class="height">keyboard_arrow_down
+          </mat-icon>
+          <mat-icon *ngIf="nameSort" matPrefix class="height">keyboard_arrow_up</mat-icon>
+        </span>
+        <span fxFlex="7" (click)="onSortHeader('role')" class="action-icon display-flex" matTooltip="Sort by Role">Role
+          <mat-icon *ngIf="!roleSort" matPrefix class="height">keyboard_arrow_down</mat-icon>
+          <mat-icon *ngIf="roleSort" matPrefix class="height">keyboard_arrow_up</mat-icon>
+        </span>
+        <span fxFlex="11" (click)="onSortHeader('user-type')" class="action-icon display-flex"
+          matTooltip="Sort by User type">User
+          type<mat-icon *ngIf="!userTypeSort" matPrefix class="height">keyboard_arrow_down</mat-icon>
+          <mat-icon *ngIf="userTypeSort" matPrefix class="height">keyboard_arrow_up</mat-icon>
+        </span>
+        <span fxFlex="19" id="email" (click)="onSortHeader('email')" class="action-icon display-flex"
+          matTooltip="Sort by Email">Email<mat-icon *ngIf="!emailSort" matPrefix class="height">keyboard_arrow_down
+          </mat-icon>
+          <mat-icon *ngIf="emailSort" matPrefix class="height">keyboard_arrow_up</mat-icon>
+        </span>
+        <span fxFlex="10" (click)="onSortHeader('country')" class="action-icon display-flex"
+          matTooltip="Sort by Country">Country
+          <mat-icon *ngIf="!countrySort" matPrefix class="height">keyboard_arrow_down</mat-icon>
+          <mat-icon *ngIf="countrySort" matPrefix class="height">keyboard_arrow_up</mat-icon>
+        </span>
+        <span fxFlex="15" (click)="onSortHeader('phone')" class="action-icon display-flex" matTooltip="Sort by Phone">
+          Phone<mat-icon *ngIf="!phoneSort" matPrefix class="height">keyboard_arrow_down</mat-icon>
+          <mat-icon *ngIf="phoneSort" matPrefix class="height">keyboard_arrow_up</mat-icon>
+        </span>
+        <span fxFlex="15" class="actions">Actions</span>
+      </mat-card>
+      <mat-card fxLayout="row" fxLayout.lt-sm="column" fxLayoutAlign="space-between center"
+        fxLayoutAlign.lt-md="space-between start" *ngFor="let userdata of filterArray;let i=index" class="poppins">
+        <span fxFlex="9" id="name" matTooltip="{{userdata.name}}">{{userdata.name}}</span>
+        <span fxFlex="7">{{userdata.role.role_id==1?'Admin':'User'}}</span>
+        <span fxFlex="11">{{userdata.user_type.label}}</span>
+        <span fxFlex="19" id="email" matTooltip="{{userdata.email}}">{{userdata.email}}</span>
+        <span fxFlex="10" [matTooltip]="userdata.user_country.name">{{userdata.user_country.name}}</span>
+        <span fxFlex="15" *ngIf="userdata.phone" [matTooltip]="userdata.phone">
+          +{{phoneCode[userdata.user_country.id-1]?.phonecode}}&nbsp;{{userdata.phone}}</span>
+        <span fxFlex="15" *ngIf="!userdata.phone">-</span>
+        <div id="icons" fxFlex="15" fxLayoutAlign="center center" fxLayoutGap="15px">
+          <a (click)="onEdit(userdata.id)" matTooltip="Edit user" fxFlex="20">
+            <mat-icon class="material-icons-outlined action-icon edit-icon-color user-icons" id="E">edit</mat-icon>
+          </a>
+          <a matTooltip="Delete user" fxFlex="20">
+            <mat-icon class="material-icons-outlined action-icon delete-icon-color user-icons" id="PR"
+              (click)="onRemovePerson(userdata.id)" fxFlex="20">
+              delete
+            </mat-icon>
+          </a>
+          <a fxFlex="20">
+            <mat-slide-toggle [checked]="+userdata.status == 1 ? true : false"
+              matTooltip="{{mapUser[userdata.id].status == 1 ? 'Active' : 'Inactive'}}"
+              (click)="onToggleUser(userdata.id)"></mat-slide-toggle>
+          </a>
+        </div>
+      </mat-card>
+    </ng-container>
+  </div>
+
+  <mat-paginator *ngIf="userDataReceived" [length]="userData.length" [pageSizeOptions]="pageSizeOptions"
+    (page)="onPageChange($event)" [pageSize]="pageSize" #paginator></mat-paginator>
+
+  <h1 *ngIf="!filterArray.length && search.value" fxLayoutAlign="center" class="Not-Found">
+    Sorry, we couldn't find any results for "{{search.value}}"
+  </h1>
+  <h1 *ngIf="userDataReceived && !userData.length" fxLayoutAlign="center" class="Not-Found">
+    We couldn't find any users , try&nbsp;<a [routerLink]="['user-detail','new']">adding a user</a>
+  </h1>
+  <router-outlet></router-outlet>
+
+</div>

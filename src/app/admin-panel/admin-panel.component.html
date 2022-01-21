@@ -1,0 +1,71 @@
+<mat-sidenav-container class="example-container">
+  <mat-drawer mode="side" opened>
+    <div class="item-details" fxLayout="column" >
+      <div class="profile" fxLayout="row">
+        <img src="../../assets/images/shakti_logo.png" class="image">
+        <div class="welcome" fxLayout="column" fxLayoutAlign="center start">
+          <p>Welcome,</p>
+          <h2>SHAKTI</h2>
+          <!-- TODO: Use interpolation -->
+        </div>
+      </div>
+
+      <div class="master" fxLayout="row">
+        <mat-icon>launch</mat-icon>
+        <mat-accordion>
+          <mat-expansion-panel>
+            <mat-expansion-panel-header>
+
+              <mat-panel-title>
+               Master
+              </mat-panel-title>
+
+            </mat-expansion-panel-header>
+            <p (click)="onBrandMaster()">Brand Master</p>
+            <p (click)="onCompanyMaster()">Company Master</p>
+            <p (click)="onItemMaster()">Item Master</p>
+            <p (click)="onTandCMaster()">T & C Master</p>
+            <p (click)="onUnitMaster()">Unit Master</p>
+          </mat-expansion-panel>
+        </mat-accordion>
+      </div>
+
+
+      <div class="master" fxLayout="row">
+        <mat-icon>tv</mat-icon>
+        <!-- <mat-accordion> -->
+          <mat-expansion-panel>
+            <mat-expansion-panel-header>
+
+              <mat-panel-title>
+               Marketing
+              </mat-panel-title>
+
+            </mat-expansion-panel-header>
+            <p (click)="onDomesticQuotation()">Domestic Quotation</p>
+            <p (click)="onInternationalQuotation()">International Quotation</p>
+          </mat-expansion-panel>
+        <!-- </mat-accordion> -->
+      </div>
+
+      <div class="master" fxLayout="row">
+        <mat-icon>tv</mat-icon>
+        <!-- <mat-accordion> -->
+          <mat-expansion-panel>
+            <mat-expansion-panel-header>
+
+              <mat-panel-title>
+               Reports
+              </mat-panel-title>
+
+            </mat-expansion-panel-header>
+            <p>Company Detail Report</p>
+          </mat-expansion-panel>
+        <!-- </mat-accordion> -->
+      </div>
+
+
+    </div>
+  </mat-drawer>
+  <!-- <mat-sidenav-content>Main content</mat-sidenav-content> -->
+</mat-sidenav-container>

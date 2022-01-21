@@ -1,0 +1,10 @@
+<div class="content-container">
+    <mat-icon class="material-icons-outlined">error_outline</mat-icon>
+    <h1 mat-dialog-title>{{data.header}}</h1>
+      <mat-dialog-content *ngIf="data.content != 'Are you sure you want to logout?'" class="content">{{data.content}}</mat-dialog-content>
+      <mat-dialog-content *ngIf="data.content == 'Are you sure you want to logout?'" class="logout-content">{{data.content}}</mat-dialog-content>
+      <mat-dialog-actions  fxLayoutAlign="space-around center">
+        <button mat-flat-button mat-dialog-close class="button-red">{{data.noBtn}}</button>
+        <button mat-flat-button [mat-dialog-close]="true" class="button-green">{{data.yesBtn}}</button>
+      </mat-dialog-actions>
+</div>

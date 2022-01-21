@@ -1,0 +1,72 @@
+<div class="main-div">
+  <h2>Company Detail report</h2>
+
+  <div class="follow-up-details-table">
+    <table mat-table [dataSource]="companyDetails" class="mat-elevation-z8">
+
+      <section matColumnDef="partyName" fxLayout="column">
+        <th mat-header-cell *matHeaderCellDef> Party Name </th>
+        <td mat-cell *matCellDef="let element"> {{element.id}} </td>
+      </section>
+
+      <section matColumnDef="address" fxLayout="column">
+        <th mat-header-cell *matHeaderCellDef> Address </th>
+        <td mat-cell *matCellDef="let element" matTooltip="{{element.label}}" matTooltipPosition="below"
+          [matTooltipShowDelay]="showDelay.value">
+          {{element.label}} </td>
+      </section>
+
+      <section matColumnDef="area" fxLayout="column">
+        <th mat-header-cell *matHeaderCellDef> Area </th>
+        <td mat-cell *matCellDef="let element" matTooltip="{{element.statusLabel}}" matTooltipPosition="below"
+          [matTooltipShowDelay]="showDelay.value">
+          {{element.statusLabel}} </td>
+      </section>
+
+      <section matColumnDef="city" fxLayout="column">
+        <th mat-header-cell *matHeaderCellDef> City </th>
+        <td mat-cell *matCellDef="let element" matTooltip="{{element.statusLabel}}" matTooltipPosition="below"
+          [matTooltipShowDelay]="showDelay.value">
+          {{element.statusLabel}} </td>
+      </section>
+
+      <section matColumnDef="state" fxLayout="column">
+        <th mat-header-cell *matHeaderCellDef> State </th>
+        <td mat-cell *matCellDef="let element" matTooltip="{{element.statusLabel}}" matTooltipPosition="below"
+          [matTooltipShowDelay]="showDelay.value">
+          {{element.statusLabel}} </td>
+      </section>
+
+      <section matColumnDef="country" fxLayout="column">
+        <th mat-header-cell *matHeaderCellDef> Country </th>
+        <td mat-cell *matCellDef="let element" matTooltip="{{element.statusLabel}}" matTooltipPosition="below"
+          [matTooltipShowDelay]="showDelay.value">
+          {{element.statusLabel}} </td>
+      </section>
+
+      <section matColumnDef="contactPerson" fxLayout="column">
+        <th mat-header-cell *matHeaderCellDef> Contact Person </th>
+        <td mat-cell *matCellDef="let element" matTooltip="{{element.statusLabel}}" matTooltipPosition="below"
+          [matTooltipShowDelay]="showDelay.value">
+          {{element.statusLabel}} </td>
+      </section>
+
+      <section matColumnDef="contactNumber" fxLayout="column">
+        <th mat-header-cell *matHeaderCellDef> Contact Number </th>
+        <td mat-cell *matCellDef="let element" matTooltip="{{element.statusLabel}}" matTooltipPosition="below"
+          [matTooltipShowDelay]="showDelay.value">
+          {{element.statusLabel}} </td>
+      </section>
+
+      <section matColumnDef="email" fxLayout="column">
+        <th mat-header-cell *matHeaderCellDef> email </th>
+        <td mat-cell *matCellDef="let element" matTooltip="{{element.statusLabel}}" matTooltipPosition="below"
+          [matTooltipShowDelay]="showDelay.value">
+          {{element.statusLabel}} </td>
+      </section>
+
+      <tr mat-header-row *matHeaderRowDef="companyDetailsColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: companyDetailsColumns;"></tr>
+    </table>
+  </div>
+</div>

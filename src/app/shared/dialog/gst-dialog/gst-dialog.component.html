@@ -1,0 +1,60 @@
+<form [formGroup]="gstForm">
+  <div formArrayName="gstDetails">
+    <div *ngFor="let gstDetail of gstForm.get('gstDetails')['controls'];let i=index" [formGroupName]="i">
+      <div fxLayout="column" fxFlex="100" fxLayoutAlign="space-between">
+        <div fxLayout="row" fxLayoutAlign="space-between center" [class.gst-header]="i>0">
+            <h2>Gst Detail {{i+1}}</h2>
+          <mat-icon *ngIf="this.gstForm.controls.gstDetails.length>1"
+            class="action-icon material-icons-outlined remove-gst-detail" (click)="removeGstDetail(i)">
+            remove_circle_outline</mat-icon>
+        </div>
+
+        <div fxLayout="column" fxFlex="40">
+          <mat-form-field>
+            <mat-label>Gst number</mat-label>
+            <input matInput formControlName="gst_number">
+            <mat-error *ngIf="gstDetail.get('gst_number').errors?.required">Gst number is required</mat-error>
+            <mat-error
+              *ngIf="gstDetail.get('gst_number').errors?.minlength || gstDetail.get('gst_number').errors?.maxlength">Gst
+              number should be exact 15 characters.</mat-error>
+            <mat-error
+              *ngIf="gstDetail.get('gst_number').errors?.pattern">Only alphabets and numbers are allowed.</mat-error>
+            <mat-error
+              *ngIf="gstDetail.get('gst_number').hasError('checkSum')">Wrong gst number.</mat-error>
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label>Name</mat-label>
+            <input matInput formControlName="gst_name">
+            <mat-error *ngIf="gstDetail.get('gst_name').errors?.required">Full name is required.</mat-error>
+            <mat-error *ngIf="gstDetail.get('gst_name').errors?.pattern">Only alphabets are allowed.</mat-error>
+          </mat-form-field>
+        </div>
+
+        <div fxLayout="column" fxFlex="40">
+          <mat-form-field>
+            <mat-label>Address</mat-label>
+            <textarea matInput formControlName="gst_address"></textarea>
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label>Pin code</mat-label>
+            <input matInput formControlName="gst_pin">
+          </mat-form-field>
+        </div>
+      </div>
+    </div>
+    <div class="subtext-container">
+      <span class="gst-subtext">*Note : GST details will be saved after tapping the Save button on the parent screen</span>
+    </div>
+
+    <div fxLayout="row" fxLayoutGap="10px" (click)="onAddGstForm(null)" class="addGst-button-container action-icon">
+      <mat-icon class="material-icons-outlined add-new-gst-icon">add_circle_outline</mat-icon>
+      <span class="add-gst-text"> Add new GST number</span>
+    </div>
+
+    <div fxLayoutAlign="space-between center" class="save-cancel-button-container">
+      <button mat-button class="clear-btn" (click)="onCancel()">Cancel</button>
+      <button mat-button class="save-btn" (click)="onAddGstDetails()"
+        [disabled]="gstForm.invalid">Next</button>
+    </div>
+  </div>
+</form>

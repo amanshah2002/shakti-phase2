@@ -1,0 +1,39 @@
+<div class="main-container">
+
+  <mat-card fxLayout="column">
+    <form [formGroup]="unitMasterForm" fxFlex="40" fxLayout="column">
+      <mat-form-field fxFlex="40">
+        <mat-label>
+          Unit Short Name
+        </mat-label>
+        <input matInput formControlName="short_label">
+      </mat-form-field>
+
+      <mat-form-field fxFlex="40">
+        <mat-label>
+          Unit Name
+        </mat-label>
+        <input matInput formControlName="label">
+      </mat-form-field>
+
+      <mat-slide-toggle formControlName="status">{{this.unitMasterForm.value.status == 0 ? 'InActive' : 'Active'}} Status</mat-slide-toggle>
+
+    </form>
+
+    <div class="button-container" fxLayoutAlign="center center" fxLayout="row" fxLayoutGap="1em">
+      <button mat-button class="add-btn" (click)="onAdd()">
+        <mat-icon class="action-btn-icon material-icons-outlined">post_add</mat-icon>
+        Add
+      </button>
+      <button mat-button class="list-btn" (click)="onUpdateForm()">
+        <mat-icon class="action-btn-icon material-icons-outlined action-btn-line-height">update</mat-icon>
+        Update
+      </button>
+      <button mat-button class="clear-btn" (click)="onClearForm()">
+        <mat-icon class="action-btn-icon material-icons-outlined action-btn-line-height">clear</mat-icon>
+        Clear
+      </button>
+    </div>
+
+  </mat-card>
+</div>

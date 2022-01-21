@@ -1,0 +1,199 @@
+{
+  "controls": [
+    {
+      "name": "quotationType",
+      "label": "Quotation Type",
+      "value": "",
+      "type": "dropdown",
+      "valueArray": [
+        {
+          "label": "Local",
+          "value": 1
+        }
+      ],
+      "validators": {
+        "required": true
+      }
+    },
+
+    {
+      "name": "quotationNumber",
+      "label": "Quotation Number",
+      "value": "",
+      "type": "input",
+      "validators": {
+        "required": true
+      }
+    },
+
+    {
+      "name": "modeOfInquiry",
+      "label": "Mode Of Inquiry",
+      "value": "",
+      "type": "input",
+      "validators": {
+        "required": true
+      }
+    },
+
+    {
+      "name": "companyName",
+      "label": "Company Name",
+      "value": "",
+      "type": "input",
+      "validators": {
+        "required": true
+      }
+    },
+
+    {
+      "name": "contactPerson",
+      "label": "Contact Person",
+      "value": "",
+      "type": "dropdown",
+      "valueArray":[
+        {"label":"none","value":1}
+      ],
+      "validators": {
+        "required": true
+      }
+    },
+
+    {
+      "name": "designation",
+      "label": "Designation",
+      "value": "",
+      "type": "input",
+      "validators": {
+        "required": true
+      }
+    },
+
+    {
+      "name": "billingAddress",
+      "label": "Billing Address",
+      "value": "",
+      "type": "textarea",
+      "validators": {
+        "required": true
+      }
+    },
+
+    {
+      "name": "gstNumber",
+      "label": "Gst Number",
+      "value": "",
+      "type": "input",
+      "validators": {
+        "required": true
+      }
+    },
+
+    {
+      "name": "country",
+      "label": "Country",
+      "value": "",
+      "type": "dropdown",
+      "valueArray":[],
+      "validators": {
+        "required": true
+      }
+    },
+
+    {
+      "name": "website",
+      "label": "Website",
+      "value": "",
+      "type": "input",
+      "validators": {
+        "required": true
+      }
+    },
+
+    {
+      "name": "quotationDate",
+      "label": "Quotation Date",
+      "value": "",
+      "type": "date",
+      "validators": {
+        "required": true
+      }
+    },
+
+    {
+      "name": "inquiryType",
+      "label": "Inquiry Type",
+      "value": "",
+      "type": "dropdown",
+      "valueArray":[
+        {"label":"Domestic","value":1},
+        {"label":"International","value":2}
+      ],
+      "validators": {
+        "required": true
+      }
+    },
+
+    {
+      "name": "subject",
+      "label": "Subject",
+      "value": "",
+      "type": "input",
+      "validators": {
+        "required": true
+      }
+    },
+
+    {
+      "name": "contactNumber",
+      "label": "Contact Number",
+      "value": "",
+      "type": "input",
+      "validators": {
+        "required": true
+      }
+    },
+
+    {
+      "name": "email",
+      "label": "Email",
+      "value": "",
+      "type": "input",
+      "validators": {
+        "required": true
+      }
+    },
+
+    {
+      "name": "plantAddress",
+      "label": "Plant Address",
+      "value": "",
+      "type": "textarea",
+      "validators": {
+        "required": true
+      }
+    },
+
+    {
+      "name": "state",
+      "label": "State",
+      "value": "",
+      "type": "dropdown",
+      "valueArray":[],
+      "validators": {
+        "required": true
+      }
+    },
+
+    {
+      "name": "city",
+      "label": "City",
+      "value": "",
+      "type": "input",
+      "validators": {
+        "required": true
+      }
+    }
+
+  ]
+}

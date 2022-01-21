@@ -1,0 +1,129 @@
+<div class="quotation-container">
+  <mat-card>
+    <h2 class="content-header">Create Company</h2>
+
+    <form [formGroup]="masterCompanyForm" class="quotation-form" fxLayout="column" fxLayout.lt-md="column">
+
+      <div fxLayout="column">
+        <div fxLAyout="row" fxFlex=100 fxLayoutAlign="space-between center">
+
+          <mat-form-field fxFlex="45">
+            <mat-label>Company Name</mat-label>
+            <input matInput formControlName="company_name">
+          </mat-form-field>
+
+          <mat-form-field fxFlex="45">
+            <mat-label>Company Type</mat-label>
+            <input matInput formControlName="company_type">
+          </mat-form-field>
+        </div>
+
+        <div fxLAyout="row" fxFlex=100 fxLayoutAlign="space-between">
+          <mat-form-field fxFlex="45">
+            <mat-label>Area</mat-label>
+            <input matInput formControlName="area">
+          </mat-form-field>
+
+          <mat-form-field fxFlex="45">
+            <mat-label>City</mat-label>
+            <input matInput formControlName="city">
+          </mat-form-field>
+        </div>
+
+        <div fxLAyout="row" fxFlex=100 fxLayoutAlign="space-between">
+          <mat-form-field fxFlex="45">
+            <mat-label>Country</mat-label>
+            <mat-select formControlName="country">
+              <mat-option *ngFor="let option of countryList" [value]="option.id">{{option.name}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <mat-form-field fxFlex="45">
+            <mat-label>State</mat-label>
+            <mat-select formControlName="state">
+              <mat-option *ngFor="let state of stateObject[masterCompanyForm.get('country')?.value]?.states"
+                [value]="state?.id">{{state?.name}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+
+        <div fxLAyout="row" fxFlex=100 fxLayoutAlign="space-between">
+
+          <mat-form-field fxFlex="45">
+            <mat-label>Billing Address</mat-label>
+            <input matInput formControlName="billing_address">
+          </mat-form-field>
+
+          <mat-form-field fxFlex="45">
+            <mat-label>Plant Address</mat-label>
+            <input matInput formControlName="plant_address">
+          </mat-form-field>
+        </div>
+
+        <div fxLAyout="row" fxFlex=100 fxLayoutAlign="space-between">
+          <mat-form-field fxFlex="45">
+            <mat-label>GST Number</mat-label>
+            <input matInput formControlName="gst_number">
+          </mat-form-field>
+
+          <mat-form-field fxFlex="45">
+            <mat-label>Remarks</mat-label>
+            <input matInput formControlName="remarks">
+          </mat-form-field>
+        </div>
+      </div>
+
+    </form>
+
+    <div class="person-details">
+
+      <h2>Person Details</h2>
+
+      <form [formGroup]="personDetailsForm" class="form">
+        <div fxFlex="100" fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="8px">
+          <!-- <mat-form-field fxFlex="40" class="sr-no-container">
+          <mat-label>Sr No</mat-label>
+          <input matInput formControlName="item_id">
+        </mat-form-field> -->
+
+          <mat-form-field fxFlex="25" class="sr-no-container">
+            <mat-label>Person Name</mat-label>
+            <input matInput formControlName="person_name">
+          </mat-form-field>
+
+          <mat-form-field fxFlex="25" class="sr-no-container">
+            <mat-label>Contact Number</mat-label>
+            <input matInput formControlName="person_contact_number">
+          </mat-form-field>
+
+          <mat-form-field fxFlex="20" class="sr-no-container">
+            <mat-label>Designation</mat-label>
+            <input matInput formControlName="designation">
+          </mat-form-field>
+
+          <mat-form-field fxFlex="25" class="sr-no-container">
+            <mat-label>E-mail</mat-label>
+            <input matInput formControlName="email">
+          </mat-form-field>
+
+          <mat-icon class="action-button action-icon" fxFlex="5">add_box</mat-icon>
+        </div>
+      </form>
+
+      <div class="button-container" fxLayoutAlign="center center" fxLayout="row" fxLayoutGap="1em">
+        <button mat-button class="add-btn" (click)="onAdd()">
+          <mat-icon class="action-btn-icon material-icons-outlined">post_add</mat-icon>
+          Add
+        </button>
+        <button mat-button class="list-btn" (click)="onUpdateForm()">
+          <mat-icon class="action-btn-icon material-icons-outlined action-btn-line-height">update</mat-icon>
+          Update
+        </button>
+        <button mat-button class="clear-btn" (click)="onClearForm()">
+          <mat-icon class="action-btn-icon material-icons-outlined action-btn-line-height">clear</mat-icon>
+          Clear
+        </button>
+      </div>
+    </div>
+  </mat-card>
+</div>

@@ -1,0 +1,147 @@
+<!-- <div class="container" fxLayoutAlign="space-between" fxLayout.lt-sm="column">
+  <div class="line-before">
+    <h2>Manage Company</h2>
+    <p>View and Manage all Your Companies From Here</p>
+  </div>
+  <button
+    mat-button
+    class="add-company-button"
+    routerLink="/company-visit-details/new"
+  >
+    + Add Company
+  </button>
+</div> -->
+
+<!-- <div class="container">
+  <div *ngFor="let list of companyList ;let i=index">
+    <mat-card fxLayoutAlign.gt-md="space-between center" fxLayout.lt-md="column"
+      fxLayoutAlign.lt-md="space-between start" fxLayoutAlign="space-between center">
+      <span *ngFor="let add of companyList[i].address;let a=index" fxFlex.gt-md="5" fxFlex.lt-md="15" fxFlex="4">
+        {{add.address}}
+      </span>
+      <span fxFlex.gt-md="8" fxFlex.lt-md="15" fxFlex="6">{{list.company_name}}</span>
+      <span fxFlex.gt-md="8" fxFlex.lt-md="15" fxFlex="6">{{list.company_type}}</span>
+      <span fxFlex.gt-md="8" fxFlex.lt-md="15" fxFlex="6">{{list.remarks}}</span>
+      <span fxFlex.gt-md="6" fxFlex.lt-md="15" fxFlex="4">{{list.reference}}</span>
+      <div id="icons">
+        <a>
+          <mat-icon class="material-icons-outlined action-icon" id="PR" (click)="onRemoveCompany(i)">person_remove
+          </mat-icon>
+        </a>
+        <a routerLink="/company-visit-details/{{list.id}}">
+          <mat-icon class="material-icons-outlined action-icon" id="E">edit</mat-icon>
+        </a>
+        <a>
+          <mat-slide-toggle [checked]="isChecked"></mat-slide-toggle>
+        </a>
+      </div>
+    </mat-card>
+  </div>
+</div> -->
+<!-- <div class="container">
+  <div
+    *ngFor="let company of companyList; let i = index"
+    class="border-padding full-height"
+  >
+    <mat-accordion class="full-height">
+      <mat-expansion-panel hideToggle disabled #expand = "matExpansionPanel">
+        <mat-expansion-panel-header
+          [collapsedHeight]="'100px'"
+          [expandedHeight]="'100px'"
+        >
+          <mat-panel-title fxLayout="column">
+            <div
+              fxLayout="row"
+              class="margin-top"
+              fxLayoutAlign="space-between"
+            >
+              <section fxLayout="row">
+                <h4 class="bold-text">
+                  {{ company.company_name | titlecase }}.
+                </h4>
+                <p *ngIf="company.company_type == '6'" class="line-height">&nbsp;(Domestic Lead)</p>
+                <p *ngIf="company.company_type == '7'" class="line-height">&nbsp;(International Lead)</p>
+              </section>
+              <section fxLayoutGap="20px">
+                <mat-icon
+                  class="edit-btn material-icons-outlined action-icon"
+                  routerLink="/company-visit-details/{{ company.id }}"
+                  >edit</mat-icon
+                >
+                <mat-icon
+                  class="delete-btn material-icons-outlined action-icon"
+                  (click)="onRemoveCompany(company.id)"
+                  >delete</mat-icon
+                >
+                <button mat-button *ngIf="!expand.expanded" (click)="expand.expanded = true">Open</button>
+                <button mat-button *ngIf="expand.expanded" (click)="expand.expanded = false">Close</button>
+              </section>
+            </div>
+            <div fxLayout="row">
+              <h4 class="bold-text">Reference :</h4>
+              <p class="line-height">
+                &nbsp;{{ company.reference | titlecase }}
+              </p>
+            </div>
+            <div fxLayout="row">
+              <h4 class="bold-text h4-margin">Remarks :</h4>
+              <p class="line-height">&nbsp;{{ company.remarks }}</p>
+            </div>
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+        <div fxLayout="column" fxFlex="100">
+          <div
+            fxLayout="row"
+            fxFlex="100"
+            class="view-address-background"
+            fxLayoutGap="30px"
+          >
+            <a class="action-icon">View Addressbook</a>
+            <a class="action-icon">View Contact Person Details</a>
+          </div>
+          <div class="overflow">
+            <div
+              *ngFor="let companyAddress of company.address; let i = index"
+              fxFlex="100"
+              class="margin-left"
+            >
+              <div
+                fxLayout="column"
+                [ngClass]="{ 'border-left': i != 0 }"
+                fxFlex="100"
+              >
+                <div fxLayoutAlign="space-between">
+                  <h3 class="bold-text margin-address">Address {{ i + 1 }}</h3>
+                  <section
+                    fxLayoutGap="20px"
+                    class="section-margin-right margin-address"
+                  >
+                    <mat-icon
+                      class="action-icon edit-btn material-icons-outlined"
+                      >edit</mat-icon
+                    >
+                    <mat-icon
+                      class="action-icon delete-btn material-icons-outlined"
+                      >delete</mat-icon
+                    >
+                  </section>
+                </div>
+                <span> Address : {{ companyAddress.address }}</span>
+                <span>Country : {{ companyAddress.country.name }}</span>
+                <span>State : {{ companyAddress.state.name }}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </mat-expansion-panel>
+    </mat-accordion>
+  </div>
+</div>
+
+<div class="container">
+  <router-outlet></router-outlet>
+</div> -->
+
+<shakti-company-card [companyType]="5"></shakti-company-card>
+
+  <router-outlet></router-outlet>

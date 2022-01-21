@@ -1,0 +1,243 @@
+<div class="container" fxLayout="column">
+  <div class="line-before poppins">
+    <h2 class="header-margin-bottom" *ngIf="!editMode">Add New Company</h2>
+    <p *ngIf="!editMode">Fill out all mandatory fields to add a new company on the system.</p>
+    <h2 class="header-margin-bottom" *ngIf="editMode">Update Company Details</h2>
+    <p *ngIf="editMode">Edit all or selected field of this company</p>
+  </div>
+  <div fxLayoutAlign="space-between center" fxLayout.lt-sm="column">
+    <img src="../../../assets/images/Add files-pana (2).svg" alt="" height="100%" fxFlex="30">
+    <form [formGroup]="companyForm" fxFlex="70" fxLayoutAlign="space-between center">
+      <mat-horizontal-stepper (selectionChange)="onSelectionChange(stepper)" #stepper>
+        <div>
+          <mat-step [stepControl]="companyForm">
+            <ng-template matStepLabel>
+              <span matTooltip="Company Details">Company Details</span>
+            </ng-template>
+            <div>
+              <mat-card fxLayout="column" class="margin">
+                <div fxLayoutAlign="space-between" fxLayoutAlign.lt-md="start" fxLayout.lt-md="column">
+                  <mat-form-field>
+                    <mat-label>Company Type</mat-label>
+                    <mat-select formControlName="company_type" required [disabled]="isCompanyTypeDisabled"
+                      #companyTypeValue>
+                      <mat-option *ngFor="let company_type of companyTypeDropDown" [value]="company_type.value">
+                        {{company_type.label}}</mat-option>
+                    </mat-select>
+                    <mat-error *ngIf="this.companyForm.controls.company_type.hasError('required')">Company type is
+                      required
+                    </mat-error>
+                  </mat-form-field>
+                  <mat-form-field class="adjust-line">
+                    <mat-label>Company Name</mat-label>
+                    <input matInput formControlName="company_name" required>
+                    <mat-error *ngIf="this.companyForm.controls.company_name.hasError('required')">Company name is
+                      required
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+
+                <div fxLayoutAlign="space-between" fxLayoutAlign.lt-md="start" fxLayout.lt-md="column"
+                  fxFlex.lt-md="100">
+                  <mat-form-field>
+                    <mat-label>Remarks</mat-label>
+                    <textarea matInput formControlName="remarks" rows="4"></textarea>
+                  </mat-form-field>
+
+                  <mat-form-field class="adjust-line">
+                    <mat-label>Reference</mat-label>
+                    <textarea matInput formControlName="reference" rows="4"></textarea>
+                  </mat-form-field>
+                </div>
+
+                <mat-form-field class="adjust-line">
+                  <mat-label>Website</mat-label>
+                  <input matInput formControlName="company_website">
+                </mat-form-field>
+
+              </mat-card>
+              <div fxLayoutAlign="space-between center">
+                <a class="action-icon add-gst-detail" (click)="onAddGstDetails()">{{editMode? 'Edit' : 'Add'}} GST
+                  details</a>
+                <button mat-flat-button matStepperNext type="button" class="next-btn">Next</button>
+              </div>
+            </div>
+          </mat-step>
+          <mat-step [stepControl]="companyForm">
+            <ng-template matStepLabel>
+              <span matTooltip="Address & Details">Address Details</span>
+            </ng-template>
+            <div formArrayName="address" fxLayout="column">
+              <div *ngFor="let addressFormGroup of companyForm.get('address')['controls'];let i=index"
+                [formGroupName]="i">
+                <div fxLayoutAlign="space-between">
+                  <h3>Address {{i+1}}</h3>
+                  <a class="action-icon material-icons-outlined red-clr"
+                    *ngIf="i>0" (click)="onDeleteAddress(i)">
+                    <mat-icon>remove_circle_outline</mat-icon>
+                  </a>
+                </div>
+
+                <mat-card class="margin">
+                  <div fxLayoutAlign="space-between" fxLayoutAlign.lt-md="start" fxLayout.lt-md="column">
+                    <mat-form-field>
+                      <mat-label>Address</mat-label>
+                      <input matInput formControlName="address">
+                    </mat-form-field>
+                    <mat-form-field>
+                      <mat-label>Country</mat-label>
+                      <mat-select formControlName="country" [disabled]="isCountryDisabled">
+                        <mat-select-filter [array]="countryDropDown" [displayMember]="'name'"
+                          (filteredReturn)="countryFilterDropDown[i] = $event"></mat-select-filter>
+                        <mat-option *ngFor="let countryFilter of countryFilterDropDown[i]" [value]="countryFilter.id">
+                          {{countryFilter.name}}</mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                  </div>
+                  <div fxLayoutAlign="space-between" fxLayoutAlign.lt-md="start" fxLayout.lt-md="column">
+                    <mat-form-field>
+                      <mat-label>State</mat-label>
+                      <mat-select formControlName="state">
+                        <mat-option
+                          *ngFor="let state of statesObject[addressFormGroup.get('country').value]?.states;let i=index"
+                          [value]="state.id">
+                          {{state.name}}</mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                    <div fxLayoutAlign="space-between" fxLayoutAlign.lt-md="start" fxLayout.lt-md="column"
+                      class="width">
+                      <mat-form-field class="adjust-line" fxFlex="30" fxFlex.lt-md="100">
+                        <mat-label>Zip</mat-label>
+                        <input matInput formControlName="zip" type="text">
+                      </mat-form-field>
+                      <mat-form-field class="adjust-line" fxFlex="65">
+                        <mat-label>City</mat-label>
+                        <input matInput formControlName="city">
+                      </mat-form-field>
+                    </div>
+                  </div>
+                </mat-card>
+              </div>
+              <div fxLayoutAlign="space-between center">
+                <div class="add-new-address" (click)="onNewAddress();onSelectionChange(stepper)" fxLayoutGap='10px'>
+                  <a class="action-icon blue-clr material-icons-outlined">
+                    <mat-icon>add_circle_outline</mat-icon>
+                  </a>
+                  <span>&nbsp;Add a new address</span>
+                </div>
+                <button mat-flat-button matStepperNext type="button" class="next-btn">Next</button>
+              </div>
+            </div>
+          </mat-step>
+          <mat-step [stepControl]="companyForm.get('phone')">
+            <ng-template matStepLabel>
+              <span matTooltip="Contact Details">Contact Details</span>
+            </ng-template>
+            <div formArrayName="phone" fxLayout="column">
+              <div *ngFor="let contactFormGroup of companyForm.get('phone')['controls'];let i= index"
+                [formGroupName]="i">
+                <div fxLayoutAlign="space-between">
+                  <h3 class="margin-top">Contact {{i+1}}</h3>
+                  <a class="action-icon material-icons-outlined red-clr"
+                    *ngIf="this.companyForm.controls.phone.length>1" (click)="onDeleteContact(i)">
+                    <mat-icon>remove_circle_outline</mat-icon>
+                  </a>
+                </div>
+
+                <mat-card class="margin" fxLayout="column">
+
+                  <div fxLayoutAlign="space-between" fxLayoutAlign.lt-md="start" fxLayout.lt-md="column">
+                    <mat-form-field>
+                      <mat-label>Contact Name</mat-label>
+                      <input matInput formControlName="contact_name">
+                    </mat-form-field>
+                    <mat-form-field>
+                      <mat-label>Country</mat-label>
+                      <mat-select formControlName="country" [disabled]="isCountryDisabled">
+                        <mat-select-filter [array]="countryDropDown" [displayMember]="'name'"
+                          (filteredReturn)="contactCountryFilterList[i]=$event"></mat-select-filter>
+                        <mat-option *ngFor="let countryFilter of contactCountryFilterList[i]"
+                          [value]="countryFilter.id">
+                          {{countryFilter.name}}</mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                  </div>
+
+                  <div fxLayoutAlign="space-between" fxLayoutAlign.lt-md="start" fxLayout.lt-md="column">
+                    <mat-form-field>
+                      <mat-label>Contact Type</mat-label>
+                      <mat-select formControlName="contact_type">
+                        <mat-option *ngFor="let contactType of contactTypeList" [value]="contactType.value">
+                          {{contactType.label}}</mat-option>
+                      </mat-select>
+                    </mat-form-field>
+
+                    <mat-form-field>
+                      <mat-label>Designation</mat-label>
+                      <input matInput formControlName="contact_designation">
+                    </mat-form-field>
+                  </div>
+
+                  <div fxLayoutAlign="space-between" fxLayoutAlign.lt-md="start" fxLayout.lt-md="column">
+                    <section formArrayName="contact_email" fxLayout="column" fxFlex="40">
+                      <section class="contact-array-input"
+                        *ngFor="let emailFormGroup of getEmail(contactFormGroup);let a = index" [formGroupName]="a"
+                        fxFlex="100">
+                        <mat-form-field fxFlex="100">
+                          <mat-label>Email {{a+1}}</mat-label>
+                          <mat-icon *ngIf="contactFormGroup.controls.contact_email.length > 1"
+                            (click)="onRemoveContactEmail(i,a)" class="remove-field-btn action-icon">
+                            remove_circle_outline</mat-icon>
+                          <mat-icon *ngIf=" a == contactFormGroup.controls.contact_email.length - 1"
+                            class="material-icons-outlined add-email-btn action-icon" (click)="onNewEmail(i)">
+                            add_circle_outline
+                          </mat-icon>
+                          <input matInput formControlName="contact_email" />
+                          <mat-error>Please enter valid email address.</mat-error>
+                        </mat-form-field>
+                      </section>
+                    </section>
+
+                    <section  formArrayName="contact_number" fxLayout="column" fxFlex="40">
+                      <section class="contact-array-input"
+                        *ngFor="let contactNoFormGroup of getContactNo(contactFormGroup);let c = index"
+                        [formGroupName]="c" fxFlex="100">
+                        <mat-form-field fxFlex="100">
+                          <mat-label>
+                            Contact Number {{c+1}}
+                          </mat-label>
+                          <mat-icon *ngIf="contactFormGroup.controls.contact_number.length != 1"
+                            (click)="onRemoveContactNumber(i,c)" class="remove-field-btn action-icon">
+                            remove_circle_outline</mat-icon>
+                          <mat-icon *ngIf=" c == contactFormGroup.controls.contact_number.length - 1"
+                            class="material-icons-outlined add-email-btn action-icon" (click)="onNewContactNo(i)">
+                            add_circle_outline
+                          </mat-icon>
+                          <input matInput formControlName="contact_no" />
+                        </mat-form-field>
+                      </section>
+                    </section>
+                  </div>
+                </mat-card>
+              </div>
+              <div fxLayoutAlign="space-between center">
+                <div fxLayoutGap="10px">
+                  <a (click)="onNewPhoneDetails();onSelectionChange(stepper)"
+                    class="action-icon blue-clr material-icons-outlined">
+                    <mat-icon>add_circle_outline</mat-icon>
+                  </a>
+                  <span>&nbsp;Add a new contact info</span>
+                </div>
+              </div>
+              <div fxLayoutAlign="space-between center">
+                <button mat-flat-button class="clear-btn action-icon"
+                  (click)="redirectByCompanyType(this.companyTypeData)">Cancel</button>
+                <button mat-flat-button class="save-btn" (click)="onSave()">Save</button>
+              </div>
+            </div>
+          </mat-step>
+        </div>
+      </mat-horizontal-stepper>
+    </form>
+  </div>
+</div>

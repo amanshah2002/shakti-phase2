@@ -1,0 +1,58 @@
+{
+  "itemName": null,
+  "brandName": null,
+  "quantity": null,
+  "rate": null,
+  "amount": null,
+  "specification": null,
+  "child": [
+    {
+      "itemName": null,
+      "brandName": null,
+      "quantity": null,
+      "rate": null,
+      "amount": null,
+      "specification": null,
+      "option": [
+        {
+          "itemName": null,
+          "brandName": null,
+          "quantity": null,
+          "rate": null,
+          "amount": null,
+          "specification": null
+        }
+      ]
+    }
+  ],
+  "optionItemArray": [
+    {
+      "itemName": null,
+      "brandName": null,
+      "quantity": null,
+      "rate": null,
+      "amount": null,
+      "specification": null,
+      "child": [
+        {
+          "itemName": null,
+          "brandName": null,
+          "quantity": null,
+          "rate": null,
+          "amount": null,
+          "specification": null,
+          "childOption": [
+            {
+              "itemName": null,
+              "brandName": null,
+              "quantity": null,
+              "rate": null,
+              "amount": null,
+              "specification": null
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

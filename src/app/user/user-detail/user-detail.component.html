@@ -1,0 +1,142 @@
+<div class="container">
+  <div fxLayout="column" fxLayoutAlign="start">
+    <div *ngIf="!editMode" class="line-before poppins">
+      <h2> Add New User</h2>
+    </div>
+    <div *ngIf="editMode" class="line-before poppins">
+      <h2>Update User Details</h2>
+    </div>
+  </div>
+  <div>
+    <div class="Min-Width" fxLayoutAlign="space-between center" fxLayout.lt-sm="column">
+      <img src="../../../assets/images/Add User-rafiki (2).svg" width="40%" alt="image user form">
+      <form [formGroup]="userForm" fxFlex="50">
+        <p class="poppins" *ngIf="!editMode">Fill out all mandatory details in the form below to add a new user in the
+          system</p>
+        <p class="poppins" *ngIf="editMode">Edit all or selected details of a user</p>
+        <div class="divPos" fxLayout="row" fxLayoutAlign="{{editMode?'space-around' : 'space-around center'}}">
+          <div fxFlex="40">
+            <mat-form-field>
+              <mat-label>Full Name</mat-label>
+              <input type="text" matInput formControlName="Name" required>
+              <mat-error *ngIf="userForm.controls.Name.hasError('required') ">Full name is required
+              </mat-error>
+              <mat-error *ngIf="userForm.controls.Name.hasError('maxlength') ">Name should be below 70 characters
+              </mat-error>
+              <mat-error *ngIf="userForm.controls.Name.hasError('pattern') ">Name should only include alphabets
+              </mat-error>
+            </mat-form-field>
+            <div>
+              <mat-form-field>
+                <mat-label>Email Address</mat-label>
+                <input matInput formControlName="email" required>
+                <mat-error *ngIf="userForm.controls.email.hasError('required') ">Email address is required
+                </mat-error>
+                <mat-error *ngIf="userForm.controls.email.hasError('pattern') ">Please enter a valid email
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <div *ngIf="!editMode">
+              <mat-form-field>
+                <mat-label>Password</mat-label>
+                <mat-icon matSuffix *ngIf="passwordType=='text'" class="material-icons-outlined action-icon"
+                  (click)="onPasswordVisiblityToggle()">visibility</mat-icon>
+                <mat-icon matSuffix *ngIf="passwordType=='password'" class="material-icons-outlined action-icon"
+                  (click)="onPasswordVisiblityToggle()">visibility_off</mat-icon>
+                <input type="password" matInput [type]="passwordType" formControlName="password"
+                  (copy)="$event.preventDefault()" (paste)="$event.preventDefault()" required>
+                <mat-error *ngIf="userForm.controls.password.hasError('required')">Password is required
+                </mat-error>
+                <mat-error *ngIf="userForm.controls.password.hasError('pattern')">Password Should
+                  Contain at least 8 characters | an Upper case letter | a special character | a number
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <div *ngIf="!editMode">
+              <mat-form-field>
+                <mat-label>Confirm Password</mat-label>
+                <mat-icon matSuffix *ngIf="ConfirmPasswordType=='text'" class="material-icons-outlined action-icon"
+                  (click)="onConfirmPasswordVisiblityToggle()">visibility</mat-icon>
+                <mat-icon matSuffix *ngIf="ConfirmPasswordType=='password'" class="material-icons-outlined action-icon"
+                  (click)="onConfirmPasswordVisiblityToggle()">visibility_off</mat-icon>
+                <input type="password" matInput [type]="ConfirmPasswordType" formControlName="confirmPassword"
+                  (copy)="$event.preventDefault()" (paste)="$event.preventDefault()" required>
+                <mat-error *ngIf="userForm.controls.confirmPassword.hasError('required')">Password is required
+                </mat-error>
+                <mat-error *ngIf="userForm.controls.confirmPassword.hasError('passCheck')">Passwords do not match
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <div *ngIf="editMode">
+              <mat-form-field>
+                <mat-label>User Type</mat-label>
+                <mat-select formControlName="userType" required>
+                  <mat-option *ngFor="let usertype of userTypeDropDown" [value]="usertype.value" #option>
+                    {{usertype.label}}</mat-option>
+                </mat-select>
+                <mat-error *ngIf="userForm.controls.userType.hasError('required')">User type is required
+                </mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+          <div fxFlex="40" id="second-column">
+            <div>
+              <div *ngIf="!editMode">
+                <mat-form-field>
+                  <mat-label>User Type</mat-label>
+                  <mat-select formControlName="userType" required>
+                    <mat-option *ngFor="let usertype of userTypeDropDown" [value]="usertype.value" #option>
+                      {{usertype.label}}</mat-option>
+                  </mat-select>
+                  <mat-error *ngIf="userForm.controls.userType.hasError('required')">User type is required
+                  </mat-error>
+                </mat-form-field>
+              </div>
+              <mat-form-field *ngIf="!editMode">
+                <mat-label>User Role</mat-label>
+                <mat-select formControlName="Role" required>
+                  <mat-option *ngFor="let userRole of userRoleDropDown" [value]="userRole.value">
+                    {{userRole.label}}</mat-option>
+                </mat-select>
+                <mat-error *ngIf="userForm.controls.Role.hasError('required') ">User role is required
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <div>
+              <mat-form-field class="input-width">
+                <mat-label>Country</mat-label>
+                <mat-select formControlName="Country" required>
+                  <mat-select-filter [array]="userCountryDropDown" [displayMember]="'name'"
+                    (filteredReturn)="countryName=$event"></mat-select-filter>
+                  <mat-option *ngFor="let userCountry of countryName" [value]="userCountry.id" #country>
+                    {{userCountry.name}}</mat-option>
+                </mat-select>
+                <mat-error *ngIf="userForm.controls.Country.hasError('required') ">Country is required
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <div>
+              <mat-form-field>
+                <mat-label>Phone Number</mat-label>
+                <span
+                  *ngIf="!hidePhonePrefix || userForm.controls['Phone_Number'].value">{{phonecode[userForm.get('Country').value]?.phoneCode}}&nbsp;</span>
+                <input type="text" matInput formControlName="Phone_Number" #phone (focus)="onFocus()"
+                  (focusout)="onFocusOut()">
+                <mat-error
+                  *ngIf="userForm.controls.Phone_Number.hasError('minlength') || userForm.controls.Phone_Number.hasError('maxlength')">
+                  Please enter a number with length 10
+                </mat-error>
+                <mat-error *ngIf="userForm.controls.Phone_Number.hasError('pattern')">Please enter numeric value
+                </mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+        </div>
+        <div fxLayoutAlign="end" fxLayoutGap="20px" fxLayout="row">
+          <a class="clearbtn" fxLayoutAlign="center center" routerLink="/users">Cancel</a>
+          <button mat-flat-button class="savebtn" (click)="onSave()"
+            [disabled]="this.userForm.get('Phone_Number').value != '' && this.userForm.get('Phone_Number').invalid">Save</button>
+        </div>
+      </form>
+    </div>
+  </div>

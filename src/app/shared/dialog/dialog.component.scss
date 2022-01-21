@@ -1,0 +1,92 @@
+.button-green {
+  border-radius: 50px;
+  background-color: #10B981;
+  color: #fff;
+  margin-top: 15px;
+  height: 40px;
+  margin-right: 24px;
+  width:160px;
+}
+
+.content-container{
+  padding-right: 0 !important;
+  padding-left: 0 !important;
+  display: block !important;
+  border-radius: 0px !important;
+  height: 373px !important;
+  width: 470px !important;
+  box-sizing: border-box !important;
+  overflow: auto !important;
+  outline: 0 !important;
+  min-height: inherit !important;
+}
+
+
+.button-red {
+  border-radius: 50px;
+  background-color: #ef4444;
+  color: #fff;
+  margin-top: 15px;
+  height: 40px;
+  margin-left: 24px;
+  width:160px;
+}
+
+
+
+.mat-icon{
+  width: 100%;
+  text-align: center;
+  margin-bottom: 140px;
+  font-size: 150px !important;
+  color:#FFC107;
+}
+
+h1 {
+  width: 100%;
+  text-align: center;
+  font-size: x-large;
+  margin-bottom: 23px;
+
+}
+
+.mat-dialog-actions {
+  padding: 8px 0;
+  display: flex;
+  flex-wrap: wrap;
+  min-height: 52px;
+  align-items: center;
+  box-sizing: content-box;
+  margin-bottom: -18px;
+  margin-top: -13px;
+}
+
+.content {
+  display: block;
+  padding: 0px 10px;
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
+  margin: auto auto 23px auto;
+  text-align: center;
+  color: grey;
+  height: 66px;
+  max-width: 80%;
+}
+
+.logout-content{
+  display: block;
+  padding: 0px 10px;
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
+  margin: auto auto 23px auto;
+  text-align: center;
+  color: grey;
+  height: 42px !important;
+}
+
+@media (max-width:352){
+  .button-green{
+    margin-left: 24px;
+    margin-right: 0;
+  }
+}

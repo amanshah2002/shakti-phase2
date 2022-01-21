@@ -1,0 +1,19 @@
+<div class="brand-form-container" fxLayout="column">
+  <div class="line-before">
+    <h2 class="header-margin-bottom">{{isEdit? 'Edit' : 'Create'}} Brand</h2>
+    <p> Manage brands from here.</p>
+  </div>
+  <form fxLayout="column" fxLayoutGap="1.5rem" fxFlex="100" class="brand-form" [formGroup]="this.brandForm">
+    <h2 class="create-brand-header">{{isEdit? 'Edit' : 'Create'}} Brand</h2>
+    <mat-form-field fxFlex="45">
+      <mat-label>Brand Name</mat-label>
+      <input matInput formControlName="label">
+    </mat-form-field>
+
+    <mat-slide-toggle formControlName="status">{{this.brandForm.value.status == 1 ? 'Active' : 'Inactive'}} Status</mat-slide-toggle>
+
+    <section fxLayoutAlign="end">
+      <button mat-button class="add-brand-btn" (click)="onAdd()">{{isEdit? 'Update' : 'Create'}} Brand</button>
+    </section>
+  </form>
+</div>
