@@ -9,6 +9,7 @@ import { AuthService } from '../../services/auth.service';
 import { ForgotPasswordDialogComponent } from '../forgot-password/forgot-password-dialog.component';
 import { error } from 'protractor';
 import { ChangePasswordDialogComponent } from 'src/app/shared/dialog/change-password/change-password-dialog.component';
+import { DialogComponent } from 'src/app/shared/dialog/dialog.component';
 @Component({
   selector: 'shakti-login',
   templateUrl: './login.component.html',
@@ -43,19 +44,44 @@ export class LoginComponent implements OnInit {
     this.snackbar.dismiss();
   }
 
+  quotationPermission:boolean = false
+  marketingPermission:boolean = false
+
+  showPermissionDialog = () => {
+    console.log("hello");
+    this.authService.quotationPermission.subscribe(permission => {
+      this.quotationPermission = permission
+    });
+    this.authService.marketingPermission.subscribe(permission => {
+      this.marketingPermission = permission
+    });
+    if(this.quotationPermission && this.marketingPermission){
+      const dialogref = this.resetpassDialog.open(DialogComponent, {
+        data: { header: 'Where do you want to go?', content: 'Do you want to stay on marketing or do to quotations?', yesBtn: 'Stay in marketing', noBtn: 'Go to quotations' },
+        autoFocus: false,
+      });
+      dialogref.afterClosed().subscribe(data => {
+        if(data){
+          return
+        }
+        this.router.navigate(['quotation-table/domestic']);
+      })
+    }
+  }
+
   onLogin() {
     const email = this.loginForm.value.Email;
     const password = this.loginForm.value.password;
     this.authService.signIn(email, password).subscribe(
       (data) => {
-        console.log(data);
+        this.showPermissionDialog();
         this.authService.storeUserData(data, this.rememberMe);
         this.snackbar.dismiss();
         if( data.data.role.role_id=UserRoles.Admin){
           this.router.navigate(['/users'])
           return
         }
-        this.navigateByUsertype(data.data.user_type)
+        this.navigateByUsertype(data.data.user_type);
       },
       (errorMsg) => {
         this.snackbar.open(errorMsg, 'dismiss', {

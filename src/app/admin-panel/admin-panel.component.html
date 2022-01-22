@@ -1,71 +1,40 @@
-<mat-sidenav-container class="example-container">
-  <mat-drawer mode="side" opened>
-    <div class="item-details" fxLayout="column" >
-      <div class="profile" fxLayout="row">
-        <img src="../../assets/images/shakti_logo.png" class="image">
-        <div class="welcome" fxLayout="column" fxLayoutAlign="center start">
-          <p>Welcome,</p>
-          <h2>SHAKTI</h2>
-          <!-- TODO: Use interpolation -->
-        </div>
-      </div>
+<mat-drawer #adminPanel mode="push" opened class="example-container poppins" fxLayout="column">
+  <section fxLayoutAlign="end" class="close-icon-container">
+    <mat-icon (click)="adminPanel.opened='false'" class="material-icons-outlined action-icon">close</mat-icon>
+  </section>
+  <div class="image-welcome-container" fxLayout="row" fxLayoutGap="0.3rem">
+    <img src="../../assets/images/Add User-rafiki (2).svg" alt="shakti pharma logo">
+    <p>Welcome, {{username}}</p>
+  </div>
 
-      <div class="master" fxLayout="row">
-        <mat-icon>launch</mat-icon>
-        <mat-accordion>
-          <mat-expansion-panel>
-            <mat-expansion-panel-header>
+  <mat-accordion fxLayout="column" fxLayoutGap="1rem">
+    <mat-expansion-panel>
+      <mat-expansion-panel-header class="expansion-panel poppins">
+        <mat-panel-title>
+          <mat-icon>launch</mat-icon>
+          <p>Master</p>
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+      <ul fxLayout="column" fxLayoutGap="0.4rem">
+        <li class="action-icon poppins" (click)="onBrandMaster()">Brand master</li>
+        <li class="action-icon poppins" (click)="onCompanyMaster()"> Company master</li>
+        <li class="action-icon poppins" (click)="onItemMaster()"> Item master</li>
+        <li class="action-icon poppins" (click)="onTandCMaster()"> Terms and Condition master</li>
+        <li class="action-icon poppins" (click)="onUnitMaster()"> Unit master</li>
+      </ul>
+    </mat-expansion-panel>
 
-              <mat-panel-title>
-               Master
-              </mat-panel-title>
-
-            </mat-expansion-panel-header>
-            <p (click)="onBrandMaster()">Brand Master</p>
-            <p (click)="onCompanyMaster()">Company Master</p>
-            <p (click)="onItemMaster()">Item Master</p>
-            <p (click)="onTandCMaster()">T & C Master</p>
-            <p (click)="onUnitMaster()">Unit Master</p>
-          </mat-expansion-panel>
-        </mat-accordion>
-      </div>
-
-
-      <div class="master" fxLayout="row">
-        <mat-icon>tv</mat-icon>
-        <!-- <mat-accordion> -->
-          <mat-expansion-panel>
-            <mat-expansion-panel-header>
-
-              <mat-panel-title>
-               Marketing
-              </mat-panel-title>
-
-            </mat-expansion-panel-header>
-            <p (click)="onDomesticQuotation()">Domestic Quotation</p>
-            <p (click)="onInternationalQuotation()">International Quotation</p>
-          </mat-expansion-panel>
-        <!-- </mat-accordion> -->
-      </div>
-
-      <div class="master" fxLayout="row">
-        <mat-icon>tv</mat-icon>
-        <!-- <mat-accordion> -->
-          <mat-expansion-panel>
-            <mat-expansion-panel-header>
-
-              <mat-panel-title>
-               Reports
-              </mat-panel-title>
-
-            </mat-expansion-panel-header>
-            <p>Company Detail Report</p>
-          </mat-expansion-panel>
-        <!-- </mat-accordion> -->
-      </div>
-
-
-    </div>
-  </mat-drawer>
-  <!-- <mat-sidenav-content>Main content</mat-sidenav-content> -->
-</mat-sidenav-container>
+    <mat-expansion-panel>
+      <mat-expansion-panel-header class="expansion-panel poppins">
+        <mat-panel-title>
+          <mat-icon>desktop_windows</mat-icon>
+          <p>Marketing</p>
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+      <ul fxLayout="column" fxLayoutGap="0.4rem">
+        <li (click)="onDomesticQuotation()" class="action-icon poppins">Domestic Quotation</li>
+        <li (click)="onInternationalQuotation()" class="action-icon poppins">International Quotation</li>
+      </ul>
+    </mat-expansion-panel>
+  </mat-accordion>
+</mat-drawer>

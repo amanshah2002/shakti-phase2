@@ -31,6 +31,11 @@ export class AuthService {
   admin: boolean;
   UserType = UserType;
 
+  emitQuotationPermission = new BehaviorSubject<boolean>(false)
+  quotationPermission = this.emitQuotationPermission.asObservable();
+  emitMarketingPermission = new BehaviorSubject<boolean>(false)
+  marketingPermission = this.emitMarketingPermission.asObservable();
+
   signIn(email: string, password: string) {
     return this.callApiService.callPostAPI('login',
       {
@@ -38,7 +43,7 @@ export class AuthService {
         password
       }
     ).pipe(tap(data => {
-      let user = new UserModel(data.data.name,data.data.email, data.data.token, data.data.role.role_id,data.data.user_type,data.data.user_country);
+      let user = new UserModel(data.data.name,data.data.email, data.data.token, data.data.role.role_id,data.data.user_type,data.data.user_country,data.data.roles);
       this.user.next(user);
     }),
       catchError(error => {
@@ -82,7 +87,7 @@ export class AuthService {
   autoLogin = () => {
     const user = JSON.parse(localStorage.getItem('user')) || JSON.parse(sessionStorage.getItem('user'));
     if (user) {
-      let User = new UserModel(user.data.name,user.data.email, user.data.token, user.data.role.role_id,user.data.user_type,user.data.user_country);
+      let User = new UserModel(user.data.name,user.data.email, user.data.token, user.data.role.role_id,user.data.user_type,user.data.user_country,user.data.roles);
       this.user.next(User);
       this.navigateByUserType();
     } else {
@@ -111,5 +116,10 @@ export class AuthService {
       throw(error);
     })
     );
+  }
+
+  permissionCheck = (quotationPermission,marketingPermission) => {
+    this.emitMarketingPermission.next(marketingPermission);
+    this.emitQuotationPermission.next(quotationPermission);
   }
 }

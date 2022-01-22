@@ -1,5 +1,7 @@
+import { AuthService } from './../services/auth.service';
 import { Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
+import { permission } from '../interfaces/interfaces.component';
 
 @Component({
   selector: 'shakti-admin-panel',
@@ -8,9 +10,21 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AdminPanelComponent implements OnInit {
 
-  constructor(private router: Router) { }
+  constructor(
+    private router: Router,
+    private authService: AuthService) { }
+    username:string;
 
   ngOnInit(): void {
+    this.onGetCurrentUser();
+  }
+
+  onGetCurrentUser = () => {
+    this.authService.currentUser.subscribe(user => {
+      console.log(user.roles[0].permissions);
+      this.username = user.name;
+      const permissions = user.roles[0].permissions;
+    })
   }
 
   onBrandMaster = () => {

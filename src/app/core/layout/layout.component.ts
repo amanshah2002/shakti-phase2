@@ -12,7 +12,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
 import { DialogComponent } from 'src/app/shared/dialog/dialog.component';
-import { changePass } from 'src/app/interfaces/interfaces.component';
+import { changePass, permission } from 'src/app/interfaces/interfaces.component';
 
 
 
@@ -28,6 +28,8 @@ export class LayoutComponent implements OnInit {
     private snackbar: MatSnackBar,
     private locationService: LocationService) { }
   UerType = UserType;
+  quotationPermission: boolean = false;
+  marketingPermission: boolean = false;
   isAuth: boolean;
   isDomestic: boolean = false;
   isInternational: boolean = false;
@@ -55,12 +57,28 @@ export class LayoutComponent implements OnInit {
         this.userType == UserType.Domestic ? this.isDomestic = true : this.isDomestic = false;
         this.userType == UserType.International ? this.isInternational = true : this.isInternational = false;
         user.role == UserRoles.Admin ? this.isAdmin = true : this.isAdmin = false;
+        const permissions = user.roles[0].permissions;
+        this.checkPermissions(permissions)
       }
     });
     setInterval(() => {
       this.date = new Date();
     }, 1000);
 
+  }
+
+  checkPermissions = (permissions) => {
+    permissions.map((permission:permission) => {
+      if(permission.name == 'quotation'){
+        this.quotationPermission = true
+      }
+      else if(permission.name == 'marketing'){
+        this.marketingPermission = true;
+      }
+    });
+    console.log('marketing',this.marketingPermission);
+    console.log('quotation',this.quotationPermission);
+    this.authService.permissionCheck(this.quotationPermission,this.marketingPermission);
   }
   onLogout = () => {
     const dialogRef = this.dialog.open(DialogComponent, { data: { header: 'Logout', content: 'Are you sure you want to logout?', yesBtn: 'Yes', noBtn: 'No' }, autoFocus: false });

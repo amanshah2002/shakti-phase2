@@ -1,7 +1,9 @@
+import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { ItemManagementService } from 'src/app/services/item-management.service';
+import { DialogComponent } from 'src/app/shared/dialog/dialog.component';
 
 @Component({
   selector: 'shakti-item-master-table',
@@ -17,8 +19,10 @@ export class ItemMasterTableComponent implements OnInit {
   itemData: [];
   displayedColumns = ['srNo', 'itemCode', 'itemName', 'unit', 'status', 'actions'];
 
-  constructor(private router: Router,
-    private itemMasterService: ItemManagementService) { }
+  constructor(
+    private router: Router,
+    private itemMasterService: ItemManagementService,
+    private dialog: MatDialog) { }
 
   ngOnInit(): void {
     this.itemMasterService.getItemMaster().subscribe(response => {
@@ -37,7 +41,15 @@ export class ItemMasterTableComponent implements OnInit {
   }
 
   onDeleteItem = (id) => {
-    console.log(id);
+    const dialogref = this.dialog.open(DialogComponent, {
+      data: { header: 'Are you sure?', content: 'If you proceed, you will loose all your data for this company. Are you sure you want to delete?', yesBtn: 'Yes, delete it!', noBtn: 'No, cancel it!' },
+      autoFocus: false,
+    });
+    dialogref.afterClosed().subscribe(data => {
+      if(data){
+        console.log(id);
+      }
+    })
   }
 
   onAdd = () => {

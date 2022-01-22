@@ -255,3 +255,9 @@ export interface brandMaster {
   label: string;
   status: number;
 }
+
+export interface permission{
+  id:number;
+  name:string;
+  
+}
