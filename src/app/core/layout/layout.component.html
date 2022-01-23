@@ -1,15 +1,21 @@
 <ng-container>
   <mat-toolbar fxLayoutAlign="space-between center" #toolbar *ngIf="isAuth" class="toolBar-1">
     <img src="../../../assets/images/Screenshot 2021-08-07 at 9.37.49 PM.png" alt="logo of shakti pharma">
-    <span class="poppins">{{date|date: 'fullDate'}}&nbsp;{{date|date: 'shortTime'}}</span>
+    <!-- <span class="poppins">{{date|date: 'fullDate'}}&nbsp;{{date|date: 'shortTime'}}</span> -->
+    <div fxLayout="row">
+      <button mat-icon-button *ngIf="this.quotationPermission && this.marketingPermission" (click)="onSwitchPhase()">
+        <mat-icon>swap_horiz</mat-icon>
+      </button>
+      <p>Switch to Marketing</p>
+    </div>
     <div fxLayout="row" fxLayoutGap="5px" fxHide.lt-md class="align-center">
       <mat-icon class="material-icons-outlined toolbar1-icon">person</mat-icon>
       <span class="poppins">Hi,</span>
       <p>&nbsp;{{userName | titlecase}}</p>
       <span class="margin-left-right">|</span>
-      <button mat-icon-button *ngIf="this.quotationPermission && this.marketingPermission" (click)="onSwitchPhase()"><mat-icon>switch_account</mat-icon></button>
       <button class="logout-button" mat-button (click)="onLogout()">Logout</button>
     </div>
+
     <mat-icon *ngIf="!drawer.opened" fxHide.gt-md fxHide.md (click)="drawer.toggle();toggleSidenav()"
       class="action-icon">menu</mat-icon>
     <mat-icon *ngIf="drawer.opened" fxHide.gt-md fxHide.md (click)="drawer.toggle();toggleSidenav()"
@@ -41,24 +47,24 @@
   </mat-menu>
 
   <mat-toolbar class="toolBar-2" fxHide.lt-md *ngIf="isAuth" fxLayoutAlign="space-between center">
-      <div [mat-menu-trigger-for]="companyMenu" [class.router-active]="isActive()" class="manage-company-label-width">
-        <mat-icon class="Business-icon action-icon">business</mat-icon>
-        <a class="action-icon poppins text-color">Manage
-          Company</a>
-      </div>
-      <div *ngIf="isAdmin" routerLinkActive="router-active" [routerLink]="['users']">
-        <mat-icon class="Groups-icon action-icon">groups</mat-icon>
-        <a class="action-icon   poppins text-color"> Manage Users</a>
-      </div>
-      <div class=" text-color action-icon" [class.router-active]="isNewCompanyActive()"
-        [mat-menu-trigger-for]="addCompany">
-        <mat-icon class="add-icon">add_box</mat-icon>
-        <a class="action-icon poppins text-color">Add
-          Company</a>
-      </div>
-      <div>
-        <a class="action-icon poppins text-color" (click)="onChangePassword()">Change Password</a>
-      </div>
+    <div [mat-menu-trigger-for]="companyMenu" [class.router-active]="isActive()" class="manage-company-label-width">
+      <mat-icon class="Business-icon action-icon">business</mat-icon>
+      <a class="action-icon poppins text-color">Manage
+        Company</a>
+    </div>
+    <div *ngIf="isAdmin" routerLinkActive="router-active" [routerLink]="['users']">
+      <mat-icon class="Groups-icon action-icon">groups</mat-icon>
+      <a class="action-icon   poppins text-color"> Manage Users</a>
+    </div>
+    <div class=" text-color action-icon" [class.router-active]="isNewCompanyActive()"
+      [mat-menu-trigger-for]="addCompany">
+      <mat-icon class="add-icon">add_box</mat-icon>
+      <a class="action-icon poppins text-color">Add
+        Company</a>
+    </div>
+    <div>
+      <a class="action-icon poppins text-color" (click)="onChangePassword()">Change Password</a>
+    </div>
   </mat-toolbar>
 
   <mat-menu #addCompany="matMenu" xPosition="after" class="add-company-menu-width">
@@ -116,7 +122,8 @@
         </mat-expansion-panel>
       </mat-accordion>
       <a class="menu-item action-icon" routerLink="/users" routerLinkActive="active-sidenav-items">Manage Users</a>
-      <a class="menu-item action-icon" (click)="onChangePassword();drawer.opened='false';this.hideDrawer=true">Change Password</a>
+      <a class="menu-item action-icon" (click)="onChangePassword();drawer.opened='false';this.hideDrawer=true">Change
+        Password</a>
       <a class="menu-item action-icon" (click)="onLogout();drawer.opened='false';this.hideDrawer=true">Logout</a>
     </div>
   </mat-drawer>
@@ -141,4 +148,3 @@
 </ng-container>
 
 <!-- TODO: add all phase 2 routes as child routes -->
-

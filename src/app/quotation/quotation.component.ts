@@ -163,7 +163,7 @@ export class QuotationComponent implements OnInit {
       this.id = params['id']
       this.filterDropDownById();
       this.getCompanies();
-    })
+    });
     this.chargesForm.controls['after_discount_amount'].disable();
 
     if (this.id != 'domestic' && this.id != 'international') {

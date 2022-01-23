@@ -1,4 +1,4 @@
-<div class="main-div">
+<!-- <div class="main-div">
   <section class="quotation-header-container">
     <h2>Brand</h2>
   </section>
@@ -51,4 +51,57 @@
   <pagination-controls id="pagingID" (pageChange)="p = $event" directionLinks="true" autoHide="true" responsive="true"
     screenReaderPaginationLabel="Pagination" screenReaderPageLabel="page" screenReaderCurrentLabel="You're on page">
   </pagination-controls>
+</div> -->
+
+<div class="main-div poppins">
+  <section class="quotation-header-container" fxLayoutAlign="space-between center">
+    <h2>Brand Master</h2>
+    <mat-form-field fxFlex="28">
+      <mat-label>Search brand</mat-label>
+      <mat-icon matSuffix>search</mat-icon>
+      <input matInput>
+    </mat-form-field>
+  </section>
+
+  <section fxLayoutAlign="end" class="add-quotation-btn-container">
+    <button mat-button class="add-quotation-btn" (click)="onAddBrand()">Add Brand</button>
+  </section>
+
+  <div fxLayout="column" class="table-container" fxLayoutGap="1rem">
+    <mat-card fxLayout="row" class="header primary-bg">
+      <p fxFlex="15" class="action-icon">Sr.no</p>
+      <p fxFlex="40" class="action-icon">Brand Name</p>
+      <p fxFlex="30" class="action-icon">Status</p>
+      <p fxFlex="15" class="action-icon">Actions</p>
+    </mat-card>
+    <mat-card *ngFor="let brand of brandData | paginate: {
+      id: 'pagingID',
+      itemsPerPage: 1,
+      currentPage: p,
+      totalItems: totalLength }"  class="header align-padding">
+      <p fxFlex="15">{{brand.id}}</p>
+      <p fxFlex="40">{{brand.label}}</p>
+      <p fxFlex="30">{{brand.statusLabel}}</p>
+      <div class="actions" fxFlex="15" fxLayout="row" fxLayoutAlign="center center">
+        <button mat-icon-button>
+          <mat-icon (click)="onEditBrand(brand.id)" class="edit-btn" matTooltip="Edit" matTooltipPosition="below">edit
+          </mat-icon>
+        </button>
+
+        <button mat-icon-button>
+          <mat-icon class="delete-btn" (click)="onDeleteBrand(brand.id)" matTooltip="Delete"
+            matTooltipPosition="below">delete</mat-icon>
+        </button>
+      </div>
+    </mat-card>
+
+    <div class="pagination" fxLayout="row" fxLayoutAlign="end none">
+      <pagination-controls id="pagingID" (pageChange)="p = $event" directionLinks="true" autoHide="true" responsive="true"
+        screenReaderPaginationLabel="Pagination" screenReaderPageLabel="page" screenReaderCurrentLabel="You're on page">
+      </pagination-controls>
+    </div>
+  </div>
 </div>
+
+<!-- TODO: mat-paginator -->
+<!-- TODO: sorting in brand table-->
