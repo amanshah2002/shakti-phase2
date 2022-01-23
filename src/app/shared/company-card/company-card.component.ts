@@ -276,6 +276,4 @@ export class CompanyCardComponent implements OnInit {
   }
 }
 
-//FIXME: sync paginators.
-
 

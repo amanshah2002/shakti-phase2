@@ -48,7 +48,6 @@ export class LoginComponent implements OnInit {
   marketingPermission:boolean = false
 
   showPermissionDialog = () => {
-    console.log("hello");
     this.authService.quotationPermission.subscribe(permission => {
       this.quotationPermission = permission
     });
@@ -64,7 +63,7 @@ export class LoginComponent implements OnInit {
         if(data){
           return
         }
-        this.router.navigate(['quotation-table/domestic']);
+        this.router.navigate(['phase2/quotation-table/domestic']);
       })
     }
   }

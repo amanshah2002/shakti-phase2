@@ -49,7 +49,7 @@ export class CreateUnitMasterComponent implements OnInit {
     this.unitMasterService.createUnitMaster(this.unitMasterForm.value).subscribe(response => {
       console.log(response)
       if (response) {
-        this.router.navigate(['unit-master-table'])
+        this.router.navigate(['phase2/unit-master-table'])
       }
     })
   }

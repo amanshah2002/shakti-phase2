@@ -28,30 +28,30 @@ export class AdminPanelComponent implements OnInit {
   }
 
   onBrandMaster = () => {
-    this.router.navigate(['brand-table'])
+    this.router.navigate(['phase2/brand-table'])
   }
 
   onCompanyMaster = () => {
-    this.router.navigate(['company-master-table'])
+    this.router.navigate(['phase2/company-master-table'])
   }
 
   onItemMaster = () => {
-    this.router.navigate(['item-master-table'])
+    this.router.navigate(['phase2/item-table'])
   }
 
   onTandCMaster = () => {
-    this.router.navigate(['terms-condition-table'])
+    this.router.navigate(['phase2/terms-condition-table'])
   }
 
   onUnitMaster = () => {
-    this.router.navigate(['unit-master-table'])
+    this.router.navigate(['phase2/unit-master-table'])
   }
 
   onDomesticQuotation = () => {
-    this.router.navigate(['quotation-table/domestic']);
+    this.router.navigate(['phase2/quotation-table/domestic']);
   }
 
   onInternationalQuotation = () => {
-    this.router.navigate(['quotation-table/international']);
+    this.router.navigate(['phase2/quotation-table/international']);
   }
 }

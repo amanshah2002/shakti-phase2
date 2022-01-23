@@ -23,7 +23,7 @@ import { changePass, permission } from 'src/app/interfaces/interfaces.component'
 })
 export class LayoutComponent implements OnInit {
   constructor(private authService: AuthService, private dialog: MatDialog, private confirmDialog: DialogComponent,
-    private router: Router,
+    public router: Router,
     private callApiService: CallAPIService,
     private snackbar: MatSnackBar,
     private locationService: LocationService) { }
@@ -146,6 +146,14 @@ export class LayoutComponent implements OnInit {
         });
       }
     })
+  }
+
+  onSwitchPhase = () => {
+    if(this.router.url.includes('phase2')){
+      this.router.navigate(['users']);
+      return
+    }
+    this.router.navigate(['phase2/quotation-table/domestic']);
   }
 
 }

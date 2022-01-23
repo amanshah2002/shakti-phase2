@@ -28,11 +28,11 @@ export class TermsConditionTableComponent implements OnInit {
   }
 
   onAdd = () => {
-    this.router.navigate(['terms-condition-table/new']);
+    this.router.navigate(['phase2/terms-condition-table/new']);
   }
 
   onEditUnit = (id) => {
-    this.router.navigate(['terms-condition-table/' + id]);
+    this.router.navigate(['phase2/terms-condition-table/' + id]);
   }
 
   onDeleteUnit = (id) => {

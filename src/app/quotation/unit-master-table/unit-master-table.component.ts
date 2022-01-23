@@ -31,11 +31,11 @@ export class UnitMasterTableComponent implements OnInit {
   }
 
   onAdd = () => {
-    this.router.navigate(['unit-master-table/new']);
+    this.router.navigate(['phase2/unit-master-table/new']);
   }
 
   onEditUnit = (id) => {
-    this.router.navigate(['unit-master-table/' + id]);
+    this.router.navigate(['phase2/unit-master-table/' + id]);
   }
 
   onDeleteUnit = (id) => {

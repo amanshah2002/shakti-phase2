@@ -159,9 +159,11 @@ export class QuotationComponent implements OnInit {
   });
 
   ngOnInit() {
-    this.id = this.route.snapshot.params['id'];
-    this.filterDropDownById();
-    this.getCompanies();
+    this.route.params.subscribe((params:Params) => {
+      this.id = params['id']
+      this.filterDropDownById();
+      this.getCompanies();
+    })
     this.chargesForm.controls['after_discount_amount'].disable();
 
     if (this.id != 'domestic' && this.id != 'international') {

@@ -33,11 +33,11 @@ export class BrandTableComponent implements OnInit {
   }
 
   onAddBrand = () => {
-    this.router.navigate(['brand-table/new']);
+    this.router.navigate(['phase2/brand-table/new']);
   }
 
   onEditBrand = (id) => {
-    this.router.navigate(['brand-table/' + id]);
+    this.router.navigate(['phase2/brand-table/' + id]);
   }
 
   onDeleteBrand = (id) => {

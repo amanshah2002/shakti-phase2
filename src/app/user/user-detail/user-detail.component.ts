@@ -306,5 +306,3 @@ export class UserDetailComponent implements OnInit, CanComponentDeactivate {
     return country ? this.userCountryDropDown[country - 1].name : '';
   };
 }
-
-//FIXME: email of user not pre filled when editing.

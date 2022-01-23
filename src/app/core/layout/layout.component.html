@@ -7,6 +7,7 @@
       <span class="poppins">Hi,</span>
       <p>&nbsp;{{userName | titlecase}}</p>
       <span class="margin-left-right">|</span>
+      <button mat-icon-button *ngIf="this.quotationPermission && this.marketingPermission" (click)="onSwitchPhase()"><mat-icon>switch_account</mat-icon></button>
       <button class="logout-button" mat-button (click)="onLogout()">Logout</button>
     </div>
     <mat-icon *ngIf="!drawer.opened" fxHide.gt-md fxHide.md (click)="drawer.toggle();toggleSidenav()"
@@ -136,6 +137,8 @@
     </mat-sidenav-content>
   </mat-sidenav-container>
 
-  <shakti-admin-panel *ngIf="this.quotationPermission"></shakti-admin-panel>
+  <shakti-admin-panel *ngIf="this.router.url.includes('phase2')"></shakti-admin-panel>
 </ng-container>
+
+<!-- TODO: add all phase 2 routes as child routes -->
 

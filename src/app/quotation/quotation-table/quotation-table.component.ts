@@ -1,5 +1,5 @@
 import { MatDialog } from '@angular/material/dialog';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import { QuotationService } from 'src/app/services/quotation.service';
 import { FormControl } from '@angular/forms';
@@ -35,16 +35,19 @@ export class QuotationTableComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.id = this.route.snapshot.params['id'];
-    this.listQuotations()
+    this.route.params.subscribe((params:Params) => {
+      this.id = params['id']
+      this.listQuotations()
+    })
   }
 
   onAddQuotation = () => {
-    this.router.navigate(['quotation/' + this.id]);
+    this.router.navigate(['phase2/quotation/' + this.id]);
   }
 
   listQuotations = () => {
     this.quotationService.getQuotation().subscribe((res) => {
+      console.log(this.id);
       this.quotationData = res.data.data;
       this.filterQuotation = this.quotationData;
       this.filterQuotationById();
@@ -60,7 +63,7 @@ export class QuotationTableComponent implements OnInit {
   }
 
   onEditQuotation = (id) => {
-    this.router.navigate(['quotation/' + id]);
+    this.router.navigate(['phase2/quotation/' + id]);
   };
 
   onDeleteQuotation = (id) => {

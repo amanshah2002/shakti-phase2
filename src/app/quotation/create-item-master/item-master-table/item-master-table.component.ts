@@ -33,11 +33,11 @@ export class ItemMasterTableComponent implements OnInit {
   }
 
   onAddItem = () => {
-    this.router.navigate(['item-table/new']);
+    this.router.navigate(['phase2/item-table/new']);
   }
 
   onEditItem = (id) => {
-    this.router.navigate(['item-table/' + id]);
+    this.router.navigate(['phase2/item-table/' + id]);
   }
 
   onDeleteItem = (id) => {
@@ -53,7 +53,7 @@ export class ItemMasterTableComponent implements OnInit {
   }
 
   onAdd = () => {
-    this.router.navigate(['item-table/new']);
+    this.router.navigate(['phase2/item-table/new']);
   }
 
 }
