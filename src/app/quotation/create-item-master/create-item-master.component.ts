@@ -41,7 +41,7 @@ export class CreateItemMasterComponent implements OnInit {
       this.itemDetailsForm.patchValue(response.data)
       })
 
-      this.itemManagementService.getItemDetailsById(1).subscribe(response => {
+      this.itemManagementService.getItemMasterById(this.id).subscribe(response => {
         console.log(response);
       })
 

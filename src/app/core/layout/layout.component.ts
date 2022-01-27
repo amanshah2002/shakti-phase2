@@ -9,7 +9,7 @@ import { UserRoles } from './../../shared/enums/user-roles.enum';
 import { BehaviorSubject, throwError } from 'rxjs';
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
 import { DialogComponent } from 'src/app/shared/dialog/dialog.component';
 import { changePass, permission } from 'src/app/interfaces/interfaces.component';
@@ -26,7 +26,8 @@ export class LayoutComponent implements OnInit {
     public router: Router,
     private callApiService: CallAPIService,
     private snackbar: MatSnackBar,
-    private locationService: LocationService) { }
+    private locationService: LocationService,
+    private activatedRoute: ActivatedRoute) { }
   UerType = UserType;
   quotationPermission: boolean = false;
   marketingPermission: boolean = false;
@@ -45,6 +46,7 @@ export class LayoutComponent implements OnInit {
   isAdminSubject = new BehaviorSubject<any>(null);
   isAdminSubjectObs = this.isAdminSubject.asObservable();
   changePassDetails: changePass;
+  hideAdminPanel: boolean = false;
 
   ngOnInit(): void {
     this.authService.currentUser.subscribe(user => {
@@ -57,7 +59,7 @@ export class LayoutComponent implements OnInit {
         this.userType == UserType.Domestic ? this.isDomestic = true : this.isDomestic = false;
         this.userType == UserType.International ? this.isInternational = true : this.isInternational = false;
         user.role == UserRoles.Admin ? this.isAdmin = true : this.isAdmin = false;
-        const permissions = user.roles[0].permissions;
+        const permissions = user?.permission;
         this.checkPermissions(permissions)
       }
     });
@@ -68,17 +70,19 @@ export class LayoutComponent implements OnInit {
   }
 
   checkPermissions = (permissions) => {
-    permissions.map((permission:permission) => {
-      if(permission.name == 'quotation'){
-        this.quotationPermission = true
+    if(permissions){
+    permissions?.map((permission: permission) => {
+      if (+permission.permission == 1) {
+        this.marketingPermission = true
       }
-      else if(permission.name == 'marketing'){
-        this.marketingPermission = true;
+      else if (+permission.permission == 2) {
+        this.quotationPermission = true;
       }
     });
-    console.log('marketing',this.marketingPermission);
-    console.log('quotation',this.quotationPermission);
-    this.authService.permissionCheck(this.quotationPermission,this.marketingPermission);
+  }
+    console.log('marketing', this.marketingPermission);
+    console.log('quotation', this.quotationPermission);
+    this.authService.permissionCheck(this.quotationPermission, this.marketingPermission);
   }
   onLogout = () => {
     const dialogRef = this.dialog.open(DialogComponent, { data: { header: 'Logout', content: 'Are you sure you want to logout?', yesBtn: 'Yes', noBtn: 'No' }, autoFocus: false });
@@ -149,11 +153,44 @@ export class LayoutComponent implements OnInit {
   }
 
   onSwitchPhase = () => {
-    if(this.router.url.includes('phase2')){
+    if (this.router.url.includes('phase2')) {
       this.router.navigate(['users']);
       return
     }
     this.router.navigate(['phase2/quotation-table/domestic']);
+  }
+
+  toggleAdminPanel = () => {
+    this.hideAdminPanel = !this.hideAdminPanel;
+    console.log(this.hideAdminPanel);
+  }
+
+  onBrandMaster = () => {
+    this.router.navigate(['phase2/brand-table'])
+  }
+
+  onCompanyMaster = () => {
+    this.router.navigate(['phase2/company-master-table'])
+  }
+
+  onItemMaster = () => {
+    this.router.navigate(['phase2/item-table'])
+  }
+
+  onTandCMaster = () => {
+    this.router.navigate(['phase2/terms-condition-table'])
+  }
+
+  onUnitMaster = () => {
+    this.router.navigate(['phase2/unit-master-table'])
+  }
+
+  onDomesticQuotation = () => {
+    this.router.navigate(['phase2/quotation-table/domestic']);
+  }
+
+  onInternationalQuotation = () => {
+    this.router.navigate(['phase2/quotation-table/international']);
   }
 
 }

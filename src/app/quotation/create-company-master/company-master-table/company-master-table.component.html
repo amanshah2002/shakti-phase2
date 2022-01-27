@@ -90,12 +90,12 @@
       <p fxFlex="34" class="action-icon remarks-text-align">{{company?.remarks}}</p>
       <div class="actions" fxFlex="10" fxLayout="row" fxLayoutAlign="center center">
         <button mat-icon-button>
-          <mat-icon (click)="onEditBrand(company.id)" class="edit-btn" matTooltip="Edit" matTooltipPosition="below">edit
+          <mat-icon (click)="onEditItem(company.id)" class="edit-btn" matTooltip="Edit" matTooltipPosition="below">edit
           </mat-icon>
         </button>
 
         <button mat-icon-button>
-          <mat-icon class="delete-btn" (click)="onDeleteBrand(company.id)" matTooltip="Delete"
+          <mat-icon class="delete-btn" (click)="onDeleteItem(company.id)" matTooltip="Delete"
             matTooltipPosition="below">delete</mat-icon>
         </button>
       </div>

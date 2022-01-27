@@ -4,6 +4,7 @@ import { Component, OnInit } from '@angular/core';
 import { QuotationService } from 'src/app/services/quotation.service';
 import { FormControl } from '@angular/forms';
 import { DialogComponent } from 'src/app/shared/dialog/dialog.component';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'shakti-quotation-table',
@@ -17,6 +18,7 @@ export class QuotationTableComponent implements OnInit {
   showDelay = new FormControl(500)
   quotationData = [];
   filterQuotation = [];
+  quotation$: Observable<any>;
   displayedColumns = [
     'itemId',
     'city',
@@ -34,8 +36,10 @@ export class QuotationTableComponent implements OnInit {
     private dialog: MatDialog
   ) { }
 
+  isQuotationReceived: boolean = false;
+
   ngOnInit(): void {
-    this.route.params.subscribe((params:Params) => {
+    this.route.params.subscribe((params: Params) => {
       this.id = params['id']
       this.listQuotations()
     })
@@ -47,11 +51,14 @@ export class QuotationTableComponent implements OnInit {
 
   listQuotations = () => {
     this.quotationService.getQuotation().subscribe((res) => {
-      console.log(this.id);
-      this.quotationData = res.data.data;
-      this.filterQuotation = this.quotationData;
-      this.filterQuotationById();
-      this.totalLength = this.filterQuotation.length
+      if (res) {
+        this.isQuotationReceived = true;
+        console.log(this.id);
+        this.quotationData = res.data.data;
+        this.filterQuotation = this.quotationData;
+        this.filterQuotationById();
+        this.totalLength = this.filterQuotation.length
+      }
     });
   }
 
@@ -76,7 +83,7 @@ export class QuotationTableComponent implements OnInit {
         this.quotationService.deleteQuotation(id).subscribe(response => {
           console.log(response);
           if (response) {
-            this.listQuotations();
+            // this.listQuotations();
           }
         })
       } else {

@@ -10,6 +10,7 @@ import { ForgotPasswordDialogComponent } from '../forgot-password/forgot-passwor
 import { error } from 'protractor';
 import { ChangePasswordDialogComponent } from 'src/app/shared/dialog/change-password/change-password-dialog.component';
 import { DialogComponent } from 'src/app/shared/dialog/dialog.component';
+import { PermissionDialogComponent } from 'src/app/shared/dialog/permission-dialog/permission-dialog.component';
 @Component({
   selector: 'shakti-login',
   templateUrl: './login.component.html',
@@ -47,24 +48,33 @@ export class LoginComponent implements OnInit {
   quotationPermission:boolean = false
   marketingPermission:boolean = false
 
-  showPermissionDialog = () => {
+  getPermission = () => {
     this.authService.quotationPermission.subscribe(permission => {
       this.quotationPermission = permission
     });
     this.authService.marketingPermission.subscribe(permission => {
       this.marketingPermission = permission
     });
+  }
+
+  showPermissionDialog = () => {
+    this.getPermission();
     if(this.quotationPermission && this.marketingPermission){
-      const dialogref = this.resetpassDialog.open(DialogComponent, {
-        data: { header: 'Where do you want to go?', content: 'Do you want to stay on marketing or do to quotations?', yesBtn: 'Stay in marketing', noBtn: 'Go to quotations' },
-        autoFocus: false,
+      const dialoRef = this.resetpassDialog.open(PermissionDialogComponent,{
+        width: '100vw',
+        maxWidth: '100vw',
+        height: '100vh',
+        autoFocus: false
       });
-      dialogref.afterClosed().subscribe(data => {
-        if(data){
-          return
+      dialoRef.afterClosed().subscribe(data => {
+        if(data == 'Company'){
+          this.router.navigate(['users']);
         }
-        this.router.navigate(['phase2/quotation-table/domestic']);
+        else if(data == 'Quotation'){
+          this.router.navigate(['phase2/quotation-table/domestic']);
+        }
       })
+
     }
   }
 
@@ -73,9 +83,9 @@ export class LoginComponent implements OnInit {
     const password = this.loginForm.value.password;
     this.authService.signIn(email, password).subscribe(
       (data) => {
-        this.showPermissionDialog();
         this.authService.storeUserData(data, this.rememberMe);
         this.snackbar.dismiss();
+        this.showPermissionDialog();
         if( data.data.role.role_id=UserRoles.Admin){
           this.router.navigate(['/users'])
           return

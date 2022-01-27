@@ -19,11 +19,16 @@ export class TermsConditionTableComponent implements OnInit {
   termsConditionColumns = ['srNo', 'title', 'status', 'actions']
   constructor(private router: Router, private termsConditionService: TermsConditionsService) { }
 
+  isDataReceived:boolean = false
+
   ngOnInit(): void {
     this.termsConditionService.getTermsCondition().subscribe(response => {
-      console.log(response.data);
-      this.termsConditionDetails = response.data.data
-      this.totalLength = this.termsConditionDetails.length
+      if(response){
+        this.isDataReceived = true;
+        console.log(response.data);
+        this.termsConditionDetails = response.data.data
+        this.totalLength = this.termsConditionDetails.length
+      }
     })
   }
 

@@ -1,9 +1,9 @@
 .main-div {
   padding: 0 10px;
-  .quotation-header-container{
+  .quotation-header-container {
     border-bottom: 1px solid black;
     padding: 25px;
-    h2{
+    h2 {
       margin: auto 0;
       font-weight: bold;
     }
@@ -31,7 +31,8 @@ table {
   border-radius: 5px;
 }
 
-td, th {
+td,
+th {
   text-align: center !important;
   vertical-align: middle !important;
   cursor: pointer;
@@ -58,7 +59,9 @@ td, th {
   width: 20%;
 }
 
-.mat-column-amount, .mat-column-totalAmount, .mat-column-actions {
+.mat-column-amount,
+.mat-column-totalAmount,
+.mat-column-actions {
   width: 10%;
   // max-width: 10%;
   // background-color: cadetblue;
@@ -92,11 +95,15 @@ button {
   text-align: center;
 }
 
-th.mat-header-cell:last-of-type, td.mat-cell:last-of-type, td.mat-footer-cell:last-of-type {
- padding-right: 0px;
+th.mat-header-cell:last-of-type,
+td.mat-cell:last-of-type,
+td.mat-footer-cell:last-of-type {
+  padding-right: 0px;
 }
 
-th.mat-header-cell:first-of-type, td.mat-cell:first-of-type, td.mat-footer-cell:first-of-type {
+th.mat-header-cell:first-of-type,
+td.mat-cell:first-of-type,
+td.mat-footer-cell:first-of-type {
   padding-left: 0px;
 }
 
@@ -105,11 +112,16 @@ th.mat-header-cell:first-of-type, td.mat-cell:first-of-type, td.mat-footer-cell:
   white-space: pre-wrap;
   color: #fff !important;
   background-color: #000000 !important;
-  border:1px solid gray !important;
+  border: 1px solid gray !important;
   max-width: unset !important;
   margin-top: -5px !important;
- }
+}
 
- .pagination {
-   padding: 0 25px;
- }
+.pagination {
+  padding: 0 25px;
+}
+
+.add-quotation-text {
+  color: #551a8b;
+  text-decoration: underline;
+}

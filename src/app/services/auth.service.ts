@@ -43,7 +43,7 @@ export class AuthService {
         password
       }
     ).pipe(tap(data => {
-      let user = new UserModel(data.data.name,data.data.email, data.data.token, data.data.role.role_id,data.data.user_type,data.data.user_country,data.data.roles);
+      let user = new UserModel(data.data.name,data.data.email, data.data.token, data.data.role.role_id,data.data.user_type,data.data.user_country,data.data.roles,data.data.permission);
       this.user.next(user);
     }),
       catchError(error => {
@@ -87,7 +87,7 @@ export class AuthService {
   autoLogin = () => {
     const user = JSON.parse(localStorage.getItem('user')) || JSON.parse(sessionStorage.getItem('user'));
     if (user) {
-      let User = new UserModel(user.data.name,user.data.email, user.data.token, user.data.role.role_id,user.data.user_type,user.data.user_country,user.data.roles);
+      let User = new UserModel(user.data.name,user.data.email, user.data.token, user.data.role.role_id,user.data.user_type,user.data.user_country,user.data.roles,user.data.permission);
       this.user.next(User);
       this.navigateByUserType();
     } else {

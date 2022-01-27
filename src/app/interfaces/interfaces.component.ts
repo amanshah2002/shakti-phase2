@@ -258,6 +258,5 @@ export interface brandMaster {
 
 export interface permission{
   id:number;
-  name:string;
-  
+  permission: string;
 }

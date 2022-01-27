@@ -2,11 +2,12 @@
   <mat-toolbar fxLayoutAlign="space-between center" #toolbar *ngIf="isAuth" class="toolBar-1">
     <img src="../../../assets/images/Screenshot 2021-08-07 at 9.37.49 PM.png" alt="logo of shakti pharma">
     <!-- <span class="poppins">{{date|date: 'fullDate'}}&nbsp;{{date|date: 'shortTime'}}</span> -->
-    <div fxLayout="row">
-      <button mat-icon-button *ngIf="this.quotationPermission && this.marketingPermission" (click)="onSwitchPhase()">
+    <div *ngIf="this.quotationPermission && this.marketingPermission" fxLayout="row"
+      class="switch-account-container poppins" fxLayoutAlign="center center" fxLayoutGap="0.5rem">
+      <button mat-icon-button (click)="onSwitchPhase()">
         <mat-icon>swap_horiz</mat-icon>
       </button>
-      <p>Switch to Marketing</p>
+      <p>Switch to {{this.router.url.includes('phase2')?'Marketing' : 'Quotation'}}</p>
     </div>
     <div fxLayout="row" fxLayoutGap="5px" fxHide.lt-md class="align-center">
       <mat-icon class="material-icons-outlined toolbar1-icon">person</mat-icon>
@@ -47,17 +48,23 @@
   </mat-menu>
 
   <mat-toolbar class="toolBar-2" fxHide.lt-md *ngIf="isAuth" fxLayoutAlign="space-between center">
-    <div [mat-menu-trigger-for]="companyMenu" [class.router-active]="isActive()" class="manage-company-label-width">
+    <button *ngIf="this.router.url.includes('phase2')" (click)="adminPanel.toggle()" class="admin-panel-trigger"
+      mat-icon-button>
+      <mat-icon>menu</mat-icon>
+    </button>
+    <div *ngIf="!this.router.url.includes('phase2')" [mat-menu-trigger-for]="companyMenu"
+      [class.router-active]="isActive()" class="manage-company-label-width">
       <mat-icon class="Business-icon action-icon">business</mat-icon>
       <a class="action-icon poppins text-color">Manage
         Company</a>
     </div>
-    <div *ngIf="isAdmin" routerLinkActive="router-active" [routerLink]="['users']">
+    <div *ngIf="isAdmin && !this.router.url.includes('phase2')" routerLinkActive="router-active"
+      [routerLink]="['users']">
       <mat-icon class="Groups-icon action-icon">groups</mat-icon>
       <a class="action-icon   poppins text-color"> Manage Users</a>
     </div>
-    <div class=" text-color action-icon" [class.router-active]="isNewCompanyActive()"
-      [mat-menu-trigger-for]="addCompany">
+    <div *ngIf="!this.router.url.includes('phase2')" class="text-color action-icon"
+      [class.router-active]="isNewCompanyActive()" [mat-menu-trigger-for]="addCompany">
       <mat-icon class="add-icon">add_box</mat-icon>
       <a class="action-icon poppins text-color">Add
         Company</a>
@@ -144,7 +151,48 @@
     </mat-sidenav-content>
   </mat-sidenav-container>
 
-  <shakti-admin-panel *ngIf="this.router.url.includes('phase2')"></shakti-admin-panel>
-</ng-container>
+  <!-- <shakti-admin-panel *ngIf="this.router.url.includes('phase2') && !this.hideAdminPanel"></shakti-admin-panel> -->
 
-<!-- TODO: add all phase 2 routes as child routes -->
+  <mat-drawer [opened]="this.router.url.includes('phase2')" #adminPanel class="example-container poppins"
+    fxLayout="column">
+    <section fxLayoutAlign="end" class="close-icon-container">
+      <mat-icon (click)="adminPanel.opened='false'" class="material-icons-outlined action-icon">close</mat-icon>
+    </section>
+    <div class="image-welcome-container" fxLayout="row" fxLayoutGap="0.3rem">
+      <img src="../../assets/images/Add User-rafiki (2).svg" alt="shakti pharma logo">
+      <p>Welcome, {{this.userName}}</p>
+    </div>
+
+    <mat-accordion fxLayout="column" fxLayoutGap="1rem" multi>
+      <mat-expansion-panel expanded>
+        <mat-expansion-panel-header class="expansion-panel poppins">
+          <mat-panel-title>
+            <mat-icon>launch</mat-icon>
+            <p>Master</p>
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+        <ul fxLayout="column" fxLayoutGap="0.4rem">
+          <li class="action-icon poppins" (click)="onBrandMaster()">Brand master</li>
+          <li class="action-icon poppins" (click)="onCompanyMaster()"> Company master</li>
+          <li class="action-icon poppins" (click)="onItemMaster()"> Item master</li>
+          <li class="action-icon poppins" (click)="onTandCMaster()"> Terms and Condition master</li>
+          <li class="action-icon poppins" (click)="onUnitMaster()"> Unit master</li>
+        </ul>
+      </mat-expansion-panel>
+
+      <mat-expansion-panel expanded>
+        <mat-expansion-panel-header class="expansion-panel poppins">
+          <mat-panel-title>
+            <mat-icon>desktop_windows</mat-icon>
+            <p>Marketing</p>
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+        <ul fxLayout="column" fxLayoutGap="0.4rem">
+          <li (click)="onDomesticQuotation()" class="action-icon poppins">Domestic Quotation</li>
+          <li (click)="onInternationalQuotation()" class="action-icon poppins">International Quotation</li>
+        </ul>
+      </mat-expansion-panel>
+    </mat-accordion>
+  </mat-drawer>
+
+</ng-container>

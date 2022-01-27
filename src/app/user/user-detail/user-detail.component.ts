@@ -10,6 +10,8 @@ import { Observable } from 'rxjs';
 import { LocationService } from 'src/app/services/location.service';
 import { UserDataService } from '../../services/user-data.service';
 import { CanComponentDeactivate } from '../can-deactivate.guard';
+import { ThisReceiver, ThrowStmt } from '@angular/compiler';
+import { TitleCasePipe } from '@angular/common';
 
 @Component({
   selector: 'shakti-user-detail',
@@ -25,7 +27,7 @@ export class UserDetailComponent implements OnInit, CanComponentDeactivate {
     private snackbar: MatSnackBar,
     private dialog: MatDialog,
     private companyVisitService: CompanyVisitService
-  ) {}
+  ) { }
   canDeactivate():
     | boolean
     | UrlTree
@@ -54,10 +56,7 @@ export class UserDetailComponent implements OnInit, CanComponentDeactivate {
         Validators.pattern('[a-zA-Z][a-zA-Z ]+'),
       ]),
       Role: new FormControl(null, Validators.required),
-      email: new FormControl(null, [
-        Validators.required,
-        ,
-      ]),
+      email: new FormControl(null, Validators.required),
       Country: new FormControl(null, Validators.required),
       Phone_Number: new FormControl(null, [
         Validators.maxLength(13),
@@ -72,6 +71,7 @@ export class UserDetailComponent implements OnInit, CanComponentDeactivate {
       ]),
       confirmPassword: new FormControl(null, Validators.required),
       userType: new FormControl(null, Validators.required),
+      permission: new FormControl(null)
     },
     this.passCheck.bind(this)
   );
@@ -79,6 +79,7 @@ export class UserDetailComponent implements OnInit, CanComponentDeactivate {
   id;
   countryName = [];
   filteredCountry = [];
+  permissions = this.userData.pemrissionsArray;
   userTypeDropDown = this.userData.userTypeArray;
   userCountryDropDown;
   userRoleDropDown = this.userData.userRoleArray;
@@ -126,12 +127,27 @@ export class UserDetailComponent implements OnInit, CanComponentDeactivate {
     });
   }
 
+  createPermissionObject = () => {
+    let permissionObject = []
+    if (this.userForm.value.permission) {
+      this.userForm.value.permission?.map((permissionId) => {
+        permissionObject.push({ id: permissionId });
+      })
+    }
+    return permissionObject;
+  }
+
   onSave = () => {
     const form = this.userForm;
-    form.value.Name[0].toUpperCase();
     this.valueChanged = false;
+    const titleCase = new TitleCasePipe();
+    form.value["Name"] = titleCase.transform(form.value.Name);
+    const permissionObject = this.createPermissionObject();
+    console.log(permissionObject);
+    form.value['permission'] = permissionObject;
+    console.log(form.value);
     if (this.editMode) {
-      this.userData.onUpdateUser(this.id, form).subscribe(
+      this.userData.onUpdateUser(this.id, form.value).subscribe(
         (data) => {
           this.router.navigate(['/users']);
         },
@@ -169,7 +185,7 @@ export class UserDetailComponent implements OnInit, CanComponentDeactivate {
         }
       );
     } else {
-      this.userData.addUserData(form).subscribe(
+      this.userData.addUserData(form.value).subscribe(
         (data) => {
           this.router.navigate(['users']);
         },
@@ -218,11 +234,19 @@ export class UserDetailComponent implements OnInit, CanComponentDeactivate {
       );
     }
   };
+  patchPermission = (userData) => {
+    let array = [];
+    userData?.permission.map(p => {
+      array.push(+p.permission);
+    })
+    return array;
+  }
 
   private editForm = () => {
     this.userData.findUserById(+this.id).subscribe(
       (data) => {
         if (data) {
+          console.log(data);
           const userData = data.data;
           this.userForm.controls.Name.setValue(userData?.name);
           this.userForm.controls.email.setValue(userData?.email);
@@ -230,6 +254,9 @@ export class UserDetailComponent implements OnInit, CanComponentDeactivate {
           this.userForm.controls.userType.setValue(userData?.user_type.id);
           this.userForm.controls.Country.setValue(userData?.user_country.id);
           this.userForm.controls.Phone_Number.setValue(userData?.phone);
+          const patchPermission = this.patchPermission(userData);
+          console.log("UserDetailComponent ~ array", patchPermission);
+          this.userForm.controls.permission.setValue(patchPermission);
           this.userForm.valueChanges.subscribe((val) => {
             this.valueChanged = true;
           });

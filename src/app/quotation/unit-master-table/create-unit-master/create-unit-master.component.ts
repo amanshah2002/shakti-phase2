@@ -36,7 +36,7 @@ export class CreateUnitMasterComponent implements OnInit {
         this.unitMasterForm.patchValue({
           short_label: response?.data.short_label,
           label: response?.data.label,
-          status: response.data.status
+          status: +response.data.status
         })
         this.valueChanged = false
       })

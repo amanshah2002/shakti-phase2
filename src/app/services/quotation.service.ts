@@ -1,5 +1,6 @@
+import { catchError } from 'rxjs/operators';
 import { item } from './../interfaces/interfaces.component';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, throwError } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { CallAPIService } from '../core/call-api-service.service';
 
@@ -14,7 +15,9 @@ export class QuotationService {
   constructor(private callApiService: CallAPIService) { }
 
   getQuotation = () => {
-    return this.callApiService.callGetAPI(this.quotation, {page: 1, perpage: 0})
+    return this.callApiService.callGetAPI(this.quotation, {page: 1, perpage: 0}).pipe(catchError(error => {
+      throw(error);
+    }))
   }
 
   postQuotation = (quotationFormValue) => {

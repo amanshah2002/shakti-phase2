@@ -59,6 +59,7 @@ export class CompanyVisitService {
     if (this.searchForm['filterCountry']) {
       const spreadFilterCountry = this.searchForm['filterCountry'].join(',');
       this.searchForm['filterCountry'] = spreadFilterCountry
+      console.log("CompanyVisitService ~  this.searchForm['filterCountry']",  this.searchForm['filterCountry']);
     }
     return this.callApiService.callGetAPI('company', form).pipe(catchError(error => {
       throw (error);

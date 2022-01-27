@@ -47,6 +47,7 @@ export class UserComponent implements OnInit {
 ​
 
   ngOnInit(): void {
+    this.getUserData();
     this.userDataService.siteStatic().subscribe(data=>{
     })
     this.locationService.countryObs.subscribe(data => {
@@ -82,6 +83,7 @@ export class UserComponent implements OnInit {
 
   getUserData = () => {
     this.userDataService.fetchUserData().subscribe(response => {
+      console.log(response);
       if (response.data) {
         this.userData = response.data.data;
         this.filterArray = this.userData.slice(this.startIndex, this.endIndex);//will be used in onSearch

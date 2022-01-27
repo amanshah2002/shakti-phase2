@@ -32,13 +32,13 @@ export class CreateBrandComponent implements OnInit {
   ngOnInit(): void {
     this.getParams();
 
-    // this.brandMasterService.getBrandDetailsById(this.id).subscribe(response => {
-    //   console.log(response.data);
-    //   this.brandForm.patchValue({
-    //     label: response?.data.label,
-    //     status: +response.data.status
-    //   })
-    // })
+    this.brandMasterService.getBrandDetailsById(this.id).subscribe(response => {
+      console.log(response.data);
+      this.brandForm.patchValue({
+        label: response?.data.label,
+        status: +response.data.status
+      })
+    })
     this.brandForm.valueChanges.subscribe((response) => {
       this.valueChanged = true;
       console.log("Martini Martini Baby");

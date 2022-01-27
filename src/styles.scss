@@ -8,7 +8,7 @@
   --btnOrange:  #FB923C;
 }
 html, body { height: 100%; }
-body { margin: 0; font-family: 'poppins', sans-serif;}
+body { margin: 0; font-family: 'poppins', sans-serif !important;}
 
 .action-icon{
     cursor: pointer;
@@ -32,6 +32,6 @@ body { margin: 0; font-family: 'poppins', sans-serif;}
 }
 
 .poppins{
-  font-family: 'poppins', sans-serif;
+  font-family: 'poppins', sans-serif !important;
   font-size: 22px !important;
 }

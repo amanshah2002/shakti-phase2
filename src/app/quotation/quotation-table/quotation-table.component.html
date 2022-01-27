@@ -1,13 +1,14 @@
 <div class="main-div">
   <section class="quotation-header-container">
-    <h2>Quotation</h2>
+    <h2 class="poppins">Quotation Master</h2>
   </section>
 
-  <section fxLayoutAlign="end" class="add-quotation-btn-container">
+  <section *ngIf="this.isQuotationReceived && this.quotationData.length > 0" fxLayoutAlign="end"
+    class="add-quotation-btn-container">
     <button mat-button class="add-quotation-btn" (click)="onAddQuotation()">Add Quotation</button>
   </section>
-  
-  <table mat-table [dataSource]="filterQuotation | paginate: {
+
+  <table *ngIf="this.isQuotationReceived && this.quotationData.length > 0" mat-table [dataSource]="filterQuotation | paginate: {
     id: 'pagingID',
     itemsPerPage: 1,
     currentPage: p,
@@ -69,3 +70,10 @@
       screenReaderPaginationLabel="Pagination" screenReaderPageLabel="page" screenReaderCurrentLabel="You're on page">
     </pagination-controls>
   </div>
+
+</div>
+
+<div *ngIf="this.isQuotationReceived && this.quotationData.length < 1" fxLayoutAlign="center center" class="container">
+  <h1 class="poppins">There are no quotations available, try <a class="add-quotation-text action-icon"
+      (click)="this.onAddQuotation()">adding a quotation</a> </h1>
+</div>

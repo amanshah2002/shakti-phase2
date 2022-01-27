@@ -1,0 +1,21 @@
+<div>
+  <mat-toolbar class="header" fxLayoutAlign="center center">
+    <img src="../../../../assets/images/shakti_logo.png" alt="">
+  </mat-toolbar>
+  
+  <div fxLayoutAlign="row" fxLayoutAlign="space-between center" class="dialog-container">
+    <section class="section-left" fxFlex="50" fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="1rem">
+      <button mat-button [mat-dialog-close]="'Company'">
+        <img src="../../../../assets/images/skyline.png" alt="">
+      </button>
+      <p class="poppins">Manage Companies</p>
+    </section>
+
+    <section fxFlex="50" fxLayoutAlign="center center" fxLayout="column" fxLayoutGap="1rem">
+      <button mat-button [mat-dialog-close]="'Quotation'">
+        <img src="../../../../assets/images/quottaion-icon.png" alt="">
+      </button>
+      <p class="poppins">Manage Quotation</p>
+    </section>
+  </div>
+</div>

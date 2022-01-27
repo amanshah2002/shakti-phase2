@@ -17,6 +17,7 @@ export class BrandTableComponent implements OnInit {
   showDelay = new FormControl(500);
   brandData: [];
   displayedColumns = ['srNo', 'brandName', 'status', 'actions'];
+  isBrandReceived:boolean = false;
   constructor(
     private brandManagementService: BrandManagementService,
     private route: ActivatedRoute,
@@ -26,9 +27,11 @@ export class BrandTableComponent implements OnInit {
 
   ngOnInit(): void {
     this.brandManagementService.getBrandMasterList().subscribe((res) => {
-      // console.log(res.data.data);
-      this.brandData = res.data.data;
-      this.totalLength = this.brandData.length
+      if(res){
+        this.isBrandReceived = true;
+        this.brandData = res.data.data;
+        this.totalLength = this.brandData?.length
+      }
     });
   }
 

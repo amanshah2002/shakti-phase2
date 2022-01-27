@@ -16,6 +16,7 @@ export class UnitMasterTableComponent implements OnInit {
   totalLength: number
   unitDetails = []
   showDelay = new FormControl(500)
+  isUnitsReceived:boolean = false;
   unitDetailsColumns = ['unitShortName', 'unitName', 'status', 'actions']
   constructor(
     private router: Router,
@@ -24,9 +25,12 @@ export class UnitMasterTableComponent implements OnInit {
 
   ngOnInit(): void {
     this.unitMasterService.getUnitMasterList().subscribe(response => {
-      console.log(response.data.data);
-      this.unitDetails = response.data.data
-      this.totalLength = this.unitDetails.length
+      if(response){
+        this.isUnitsReceived = true;
+        console.log(response.data.data);
+        this.unitDetails = response.data.data;
+        this.totalLength = this.unitDetails.length;
+      }
     })
   }
 

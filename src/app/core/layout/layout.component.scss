@@ -15,6 +15,12 @@ a {
 
 }
 
+.switch-account-container{
+  mat-icon{
+    line-height: 0.63;
+  }
+}
+
 .border-bottom-add-company-item-1{
   padding-bottom: 6px;
   padding-top: 6px;
@@ -91,6 +97,13 @@ a {
 
 .text-color{
    color: #fff;
+}
+
+.admin-panel-trigger{
+  mat-icon{
+    color: white;
+    line-height: 0.67;
+  }
 }
 .menu-active {
   color: #fff;
@@ -374,39 +387,84 @@ p {
   color: #3b82f6;
 }
 
+::ng-deep .mat-expansion-indicator::after {
+  color: white !important;
+  margin-right: 6px !important;
+}
+
+.example-container {
+  padding: 0.5rem;
+  width: 15vw;
+  background-color: #0b2559;
+  margin-top: 64px;
+
+  .close-icon-container{
+    padding: 5px;
+    color: white;
+    font-size: medium !important;
+  }
+
+  .image-welcome-container {
+    margin-bottom: 1rem;
+    img {
+      border-radius: 100%;
+      width: 35%;
+      height: 8vh;
+    }
+    p {
+      font-size: 19px !important;
+      margin: auto;
+      color: white;
+    }
+  }
+
+  mat-expansion-panel {
+    background-color: #0b2559 !important;
+    ul {
+      li {
+        margin-left: 0.9rem;
+        font-size: small !important;
+        color: white;
+        transition: margin-left ease-in;
+        transition-duration: 0.3s;
+        &:hover{
+          margin-left: 1.3rem;
+          transition: all ease-in;
+          transition-duration: 0.3s;
+        }
+      }
+    }
+  }
+
+  .expansion-panel {
+    background: #0b2559;
+    mat-icon {
+      color: white;
+      font-size: 18px !important;
+      line-height: 1.1;
+    }
+
+    p {
+      color: white;
+      margin-bottom: 0 !important;
+      font-size: medium !important;
+    }
+  }
+}
+
+// ::ng-deep.custom-header .mat-expansion-panel-header-title,
+// .custom-header .mat-expansion-panel-header-description {
+//   margin-right: 5px !important;
+// }
+
+// .custom-header .mat-expansion-panel-header-description {
+//   justify-content: space-between;
+//   align-items: center;
+// }
+
+
 @media (max-width: 960px){
   mat-sidenav-container{
     height: calc(100vh - 64px) !important;
   }
 }
-
-// @media (max-width: 1610px) {
-//   mat-toolbar {
-//     width: 100vw;
-//   }
-// }
-// @media (max-width: 1000px) {
-//   mat-toolbar {
-//     width: 100%;
-//   }
-// }
-// @media (max-width: 680px) {
-//   mat-toolbar {
-//     max-width: 100%;
-//   }
-// }
-// @media (max-width: 960px) {
-//   .ham-end {
-//     margin-left: 90%;
-//   }
-// }
-// @media (max-width: 960px) {
-//   .menu-btn {
-//     margin-left: 40px;
-//   }
-// }
-
-// @media(max-width:1530px){
-//     .User{
-//         marg
-//
