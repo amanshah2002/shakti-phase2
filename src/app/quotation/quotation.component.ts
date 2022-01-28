@@ -177,7 +177,7 @@ export class QuotationComponent implements OnInit {
 
     this.brandManagementService.getBrandMasterList().subscribe(response => {
       console.log(response.data.data);
-      this.brandList = response.data.data
+      this.brandList = response.data.data.filter((a:any) => +a.status == 1);
     })
 
     this.id = this.route.snapshot.params['id'];
@@ -212,9 +212,8 @@ export class QuotationComponent implements OnInit {
           quantity: 1,
           amount: data[0].rate
         });
-        console.log(this.itemArrayControls[0].value);
       });
-      // this.itemForm.get('items')["controls"][0].get('item_id').setValue(res)
+      console.log(this.itemArrayControls[0].value);
     })
   }
 
