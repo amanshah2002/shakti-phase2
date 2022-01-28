@@ -58,6 +58,10 @@ export class CreateTermsConditionComponent implements OnInit {
 
   onUpdateForm = () => {};
 
+  onCancel = () => {
+    this.router.navigate(['phase2/terms-condition-table'])
+  }
+
   onClearForm = () => {
     this.termsConditionForm.reset()
   };

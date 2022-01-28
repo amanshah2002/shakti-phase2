@@ -54,6 +54,8 @@ import { TermsConditionTableComponent } from './quotation/terms-condition-table/
 import { CreateTermsConditionComponent } from './quotation/terms-condition-table/create-terms-condition/create-terms-condition.component';
 import { AdminPanelComponent } from './admin-panel/admin-panel.component';
 import {NgxPaginationModule} from 'ngx-pagination';
+import { ItemDialogComponent } from './shared/dialog/item-dialog/item-dialog.component';
+import { PermissionDialogComponent } from './shared/dialog/permission-dialog/permission-dialog.component';
 
 
 
@@ -93,7 +95,8 @@ import {NgxPaginationModule} from 'ngx-pagination';
     TermsConditionTableComponent,
     CreateTermsConditionComponent,
     AdminPanelComponent,
-
+    ItemDialogComponent,
+    PermissionDialogComponent,
   ],
 
   imports: [

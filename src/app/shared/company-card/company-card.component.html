@@ -1,6 +1,7 @@
 <div class="container poppins" id='cardTop'>
-  <mat-icon class="materials-icons-outlined action-icon input-menu-icon" (click)="inputSidenav.open()">search
-  </mat-icon>
+  <!-- <mat-icon class="materials-icons-outlined action-icon input-menu-icon" (click)="inputSidenav.open()">search
+  </mat-icon> -->
+  <h2 class="filter input-menu-icon action-icon" (click)="inputSidenav.open()">Filter</h2>
   <div fxLayout.lt-sm="column" class="poppins">
     <div class="line-before">
       <h2 class="header-margin-bottom">Manage Company</h2>
@@ -223,7 +224,7 @@
         </mat-form-field>
       </div>
 
-      <div class="save-clear" fxLayout="column" fxLayoutGap="20px">
+      <div class="save-clear" fxLayout="column" fxLayoutGap="20px" fxLayoutAlign="center center">
         <button mat-flat-button class="search-btn" type="submit">Search</button>
         <button mat-flat-button class="clear-btn" type="button" (click)="onSearchClear()">Clear</button>
         <button mat-button class="action-icon download-btn" (click)="onExport()">Export excel</button>

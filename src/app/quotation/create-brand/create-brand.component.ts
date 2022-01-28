@@ -1,6 +1,6 @@
 import { DialogComponent } from './../../shared/dialog/dialog.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { ActivatedRoute, Params, UrlTree } from '@angular/router';
+import { ActivatedRoute, Params, UrlTree, Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import { BrandManagementService } from 'src/app/services/brand-management.service';
 import { FormControl, FormGroup } from '@angular/forms';
@@ -17,7 +17,8 @@ export class CreateBrandComponent implements OnInit {
     private brandMasterService: BrandManagementService,
     private activatedRoute: ActivatedRoute,
     private snackbar: MatSnackBar,
-    private dialogComponent: DialogComponent
+    private dialogComponent: DialogComponent,
+    private router: Router
   ) {}
 
   brandDetails = [];
@@ -32,13 +33,13 @@ export class CreateBrandComponent implements OnInit {
   ngOnInit(): void {
     this.getParams();
 
-    // this.brandMasterService.getBrandDetailsById(this.id).subscribe(response => {
-    //   console.log(response.data);
-    //   this.brandForm.patchValue({
-    //     label: response?.data.label,
-    //     status: +response.data.status
-    //   })
-    // })
+    this.brandMasterService.getBrandDetailsById(this.id).subscribe(response => {
+      console.log(response.data);
+      this.brandForm.patchValue({
+        label: response?.data.label,
+        status: +response.data.status
+      })
+    })
     this.brandForm.valueChanges.subscribe((response) => {
       this.valueChanged = true;
       console.log("Martini Martini Baby");
@@ -93,6 +94,10 @@ export class CreateBrandComponent implements OnInit {
         });
     }
   };
+
+  onCancel = () => {
+    this.router.navigate(['phase2/brand-table']);
+  }
 
   canDeactivate() {
     if (this.valueChanged) {

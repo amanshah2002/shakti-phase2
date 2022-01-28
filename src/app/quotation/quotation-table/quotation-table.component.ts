@@ -40,7 +40,7 @@ export class QuotationTableComponent implements OnInit {
   }
 
   onAddQuotation = () => {
-    this.router.navigate(['quotation/' + this.id]);
+    this.router.navigate(['phase2/quotation/' + this.id]);
   }
 
   listQuotations = () => {
@@ -60,7 +60,7 @@ export class QuotationTableComponent implements OnInit {
   }
 
   onEditQuotation = (id) => {
-    this.router.navigate(['quotation/' + id]);
+    this.router.navigate(['phase2/quotation/' + id]);
   };
 
   onDeleteQuotation = (id) => {

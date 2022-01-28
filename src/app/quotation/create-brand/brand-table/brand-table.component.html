@@ -1,54 +1,70 @@
-<div class="main-div">
-  <section class="quotation-header-container">
-    <h2>Brand</h2>
+<div class="main-div poppins">
+  <section class="quotation-header-container" fxLayoutAlign="space-between center">
+    <h2>Brand Master</h2>
+    <mat-form-field *ngIf="this.brandData?.length" fxFlex="28" appearance="fill">
+      <mat-label>Search brand</mat-label>
+      <mat-icon matSuffix>search</mat-icon>
+      <input matInput #search (keyup)="onSearch(search.value)">
+    </mat-form-field>
   </section>
 
-  <section fxLayoutAlign="end" class="add-quotation-btn-container">
+  <section *ngIf="this.brandData?.length" fxLayoutAlign="end" class="add-quotation-btn-container">
     <button mat-button class="add-quotation-btn" (click)="onAddBrand()">Add Brand</button>
   </section>
 
-  <table mat-table [dataSource]="brandData | paginate: {
-    id: 'pagingID',
-    itemsPerPage: 1,
-    currentPage: p,
-    totalItems: totalLength }" class="mat-elevation-z8">
+  <div *ngIf="this.brandData?.length" fxLayout="column" class="table-container" fxLayoutGap="1rem">
+    <mat-card fxLayout="row" class="header primary-bg">
+      <p fxFlex="15" class="action-icon">Sr.no</p>
+      <section fxFlex="40" fxLayout="row" fxLayoutAlign="center center" matTooltip="Sort by brand name"
+        (click)="this.onSort('label')">
+        <p class="action-icon">Brand Name</p>
+        <mat-icon>
+          {{this.brandSortObject['label']?.sortState? 'keyboard_arrow_up' : 'keyboard_arrow_down'}}
+        </mat-icon>
+      </section>
 
-    <section matColumnDef="srNo" fxLayout="column">
-      <th mat-header-cell *matHeaderCellDef> sr. No </th>
-      <td mat-cell *matCellDef="let element"> {{element.id}} </td>
-    </section>
+      <section fxFlex="30" fxLayout="row" fxLayoutAlign="center center" matTooltip="Sort by brand status"
+        (click)="this.onSort('status')">
+        <p class="action-icon">Status</p>
+        <mat-icon>
+          {{this.brandSortObject['status']?.sortState? 'keyboard_arrow_up' : 'keyboard_arrow_down'}}
+        </mat-icon>
+      </section>
+      <p fxFlex="15" class="action-icon">Actions</p>
+    </mat-card>
 
-    <section matColumnDef="brandName" fxLayout="column">
-      <th mat-header-cell *matHeaderCellDef> Brand Name </th>
-      <td mat-cell *matCellDef="let element" matTooltip="{{element.label}}" matTooltipPosition="below"
-        [matTooltipShowDelay]="showDelay.value">
-        {{element.label}} </td>
-    </section>
+    <mat-card *ngFor="let brand of filterData | paginate: {
+      id: 'pagingID',
+      itemsPerPage: 1,
+      currentPage: p,
+      totalItems: totalLength }" class="header align-padding">
+      <p fxFlex="15">{{brand.id}}</p>
+      <p fxFlex="40">{{brand.label}}</p>
+      <p fxFlex="30">{{brand.status == 1? 'Active' : 'InActive'}}</p>
 
-    <section matColumnDef="status" fxLayout="column">
-      <th mat-header-cell *matHeaderCellDef> Status </th>
-      <td mat-cell *matCellDef="let element" matTooltip="{{element.statusLabel}}" matTooltipPosition="below"
-        [matTooltipShowDelay]="showDelay.value">
-        {{element.statusLabel}} </td>
-    </section>
+      <div class="actions" fxFlex="15" fxLayout="row" fxLayoutAlign="center center">
+        <button mat-icon-button>
+          <mat-icon (click)="onEditBrand(brand.id)" class="edit-btn" matTooltip="Edit" matTooltipPosition="below">edit
+          </mat-icon>
+        </button>
 
-    <section matColumnDef="actions" fxLayout="column">
-      <th mat-header-cell *matHeaderCellDef> Actions </th>
-      <td mat-cell *matCellDef="let element">
-        <div class="actions" fxLayout="row" fxLayoutAlign="space-around center">
-          <mat-icon (click)="onEditBrand(element.id)" matTooltip="Edit" matTooltipPosition="below">edit</mat-icon>
-          <mat-icon (click)="onDeleteBrand(element.id)" matTooltip="Delete" matTooltipPosition="below">delete</mat-icon>
-        </div>
-      </td>
-    </section>
+        <button mat-icon-button>
+          <mat-icon class="delete-btn" (click)="onDeleteBrand(brand.id)" matTooltip="Delete" matTooltipPosition="below">
+            delete</mat-icon>
+        </button>
+      </div>
+    </mat-card>
 
-    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-  </table>
+    <div class="pagination" fxLayout="row" fxLayoutAlign="end none">
+      <pagination-controls id="pagingID" (pageChange)="p = $event" directionLinks="true" autoHide="true"
+        responsive="true" screenReaderPaginationLabel="Pagination" screenReaderPageLabel="page"
+        screenReaderCurrentLabel="You're on page">
+      </pagination-controls>
+    </div>
+  </div>
 </div>
 
-<div class="pagination" fxLayout="row" fxLayoutAlign="end none">
-  <pagination-controls id="pagingID" (pageChange)="p = $event" directionLinks="true" autoHide="true" responsive="true"
-    screenReaderPaginationLabel="Pagination" screenReaderPageLabel="page" screenReaderCurrentLabel="You're on page">
-  </pagination-controls>
+<div *ngIf="this.isDataReceived && !this.brandData?.length" fxLayoutAlign="center center">
+  <h1 class="poppins">There are no brands available, try <a class="add-brand-text action-icon"
+      (click)="this.onAddBrand()">adding a brand</a> </h1>
 </div>

@@ -1,4 +1,5 @@
 .main-div {
+  font-size: 20px !important;
   padding: 0 10px;
 
   .quotation-header-container{
@@ -9,19 +10,19 @@
       font-weight: bold;
     }
   }
+  .add-quotation-btn-container {
+    padding-top: 25px;
 
-    .add-quotation-btn-container {
-      padding-top: 25px;
-      .add-quotation-btn {
-        color: white;
-        background-color: var(--btnGreen);
-        box-shadow: 0px 3px 5px -1px rgb(0 0 0 / 20%), 0px 6px 10px 0px rgb(0 0 0 / 14%),
-          0px 1px 18px 0px rgb(0 0 0 / 12%);
-      }
+    .add-quotation-btn {
+      color: white;
+      background-color: var(--btnGreen);
+      box-shadow: 0px 3px 5px -1px rgb(0 0 0 / 20%), 0px 6px 10px 0px rgb(0 0 0 / 14%),
+        0px 1px 18px 0px rgb(0 0 0 / 12%);
     }
+  }
 
-  .sub-div {
-    padding: 10px 50px 0;
+  .table-container{
+    margin-top: 1.5rem;
   }
 }
 
@@ -36,7 +37,8 @@ table {
   border-radius: 5px;
 }
 
-td, th {
+td,
+th {
   text-align: center !important;
   vertical-align: middle !important;
   cursor: pointer;
@@ -63,14 +65,16 @@ td, th {
   width: 20%;
 }
 
-.mat-column-amount, .mat-column-totalAmount, .mat-column-actions {
+.mat-column-amount,
+.mat-column-totalAmount,
+.mat-column-actions {
   width: 10%;
   // max-width: 10%;
   // background-color: cadetblue;
 }
 
 .actions {
-  padding: 0 10px;
+  // padding: 0 10px;
 }
 
 mat-icon {
@@ -97,11 +101,15 @@ button {
   text-align: center;
 }
 
-th.mat-header-cell:last-of-type, td.mat-cell:last-of-type, td.mat-footer-cell:last-of-type {
- padding-right: 0px;
+th.mat-header-cell:last-of-type,
+td.mat-cell:last-of-type,
+td.mat-footer-cell:last-of-type {
+  padding-right: 0px;
 }
 
-th.mat-header-cell:first-of-type, td.mat-cell:first-of-type, td.mat-footer-cell:first-of-type {
+th.mat-header-cell:first-of-type,
+td.mat-cell:first-of-type,
+td.mat-footer-cell:first-of-type {
   padding-left: 0px;
 }
 
@@ -110,29 +118,65 @@ th.mat-header-cell:first-of-type, td.mat-cell:first-of-type, td.mat-footer-cell:
   white-space: pre-wrap;
   color: #fff !important;
   background-color: #000000 !important;
-  border:1px solid gray !important;
+  border: 1px solid gray !important;
   max-width: unset !important;
   margin-top: -5px !important;
- }
-
-
-.add-btn {
-  background-color: var(--btnGreen);
-  font-weight: 5;
-  color: white;
-  font-size: 15px !important;
-}
-
-.action-btn-icon {
-  color: white;
-  font-size: 1.2em !important;
-  line-height: 0.7em;
-}
-
-.action-btn-line-height {
-  line-height: 0.8em;
 }
 
 .pagination {
   padding: 0 25px;
+}
+
+.header{
+  p{
+    text-align: center;
+    margin: auto 0;
+  }
+  mat-icon{
+    font-size: 22px !important;
+    margin: 0.3rem !important;
+  }
+
+  .edit-btn{
+    color: var(--btnOrange);
+  }
+
+  .delete-btn{
+    color: var(--btnRed);
+  }
+}
+
+.align-padding{
+  padding: 5px 16px;
+}
+
+.primary-bg{
+  background-color: var(--header-bg);
+  color: white;
+}
+
+// .remarks-text-align{
+//   text-align: justify !important;
+// }
+
+mat-card{
+  box-shadow: 0px 1px 7px 3px #e2e8f0 !important;
+  border-radius: 2px !important;
+  section{
+    p{
+      margin-left: 31px;
+    }
+  }
+  &:hover{
+    box-shadow: 0px 0px 10px rgb(68 0 255 / 43%) !important;
+  }
+
+}
+::ng-deep .mat-form-field-appearance-fill .mat-form-field-flex {
+  background-color: white !important;
+}
+
+.add-brand-text {
+  color: #551a8b;
+  text-decoration: underline;
 }

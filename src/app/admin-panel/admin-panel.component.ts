@@ -22,7 +22,7 @@ export class AdminPanelComponent implements OnInit {
   }
 
   onItemMaster = () => {
-    this.router.navigate(['item-master-table'])
+    this.router.navigate(['item-table'])
   }
 
   onTandCMaster = () => {

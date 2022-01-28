@@ -90,7 +90,8 @@
           <mat-form-field fxFlex="45">
             <mat-label>Company Name</mat-label>
             <!-- <input matInput formControlName="company_name"> -->
-            <mat-select formControlName="company_name" (selectionChange)="this.setContactNumber($event);this.setContactPerson($event)">
+            <mat-select formControlName="company_name"
+              (selectionChange)="this.setContactNumber($event);this.setContactPerson($event)">
               <mat-option *ngFor="let company of this.companyList" [value]="company?.company_name">
                 {{company?.company_name}}
               </mat-option>
@@ -103,9 +104,10 @@
             <mat-label>Contact Person</mat-label>
             <!-- <input matInput formControlName="contact_person"> -->
             <mat-select formControlName="contact_person">
-              <mat-option *ngFor="let contact of this.contactPersonObject[this.quotationForm?.value?.company_name]?.contactPerson"
-              [value]="contact?.id">
-              {{contact?.contact_name}}
+              <mat-option
+                *ngFor="let contact of this.contactPersonObject[this.quotationForm?.value?.company_name]?.contactPerson"
+                [value]="contact?.id">
+                {{contact?.contact_name}}
               </mat-option>
             </mat-select>
           </mat-form-field>
@@ -223,13 +225,16 @@
                 <div fxFlex="100" fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="8px">
                   <mat-form-field fxFlex="40" class="sr-no-container">
                     <mat-label>Item</mat-label>
-                    <input matInput formControlName="item_id">
+                    <div fxLayout="row" fxLayoutAlign="space-between center">
+                      <input matInput formControlName="item_id">
+                      <button class="item-btn" matSuffix (click)="openDialog()">Item</button>
+                    </div>
                   </mat-form-field>
 
-                  <mat-form-field fxFlex="22" class="sr-no-container">
+                  <mat-form-field fxFlex="22" class="sr-no-container" *ngFor="let brand of brandList">
                     <mat-label>Brand Name</mat-label>
                     <mat-select formControlName="brand_id">
-                      <mat-option>none</mat-option>
+                      <mat-option [value]="brand?.id">{{brand?.label}}</mat-option>
                     </mat-select>
                   </mat-form-field>
 
@@ -1020,5 +1025,3 @@
     <div></div>
   </mat-card>
 </div>
-
-<!-- TODO: give feature to remove child of child, child of child option etc... -->

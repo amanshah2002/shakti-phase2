@@ -33,13 +33,15 @@ import { CreateCompanyMasterComponent } from './quotation/create-company-master/
 import { FollowUpComponent } from './quotation/follow-up/follow-up.component';
 import { CompanyDetailReportComponent } from './quotation/company-detail-report/company-detail-report.component';
 import { CreateTermsConditionComponent } from './quotation/terms-condition-table/create-terms-condition/create-terms-condition.component';
+import { QuotationGuard } from './core/guards/quotation.guard';
+import { MarketingGuard } from './core/guards/marketing.guard';
 
 const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: '/login' },
   { path: 'login', component: LoginComponent, canActivate: [AuthPathGuard] },
   { path: 'forgot-password/:code', component: ForgotPasswordComponent },
   {
-    path: 'manage-company',
+    path: 'manage-company', canActivate: [MarketingGuard],
     children: [
       {
         path: 'all',
@@ -66,26 +68,27 @@ const routes: Routes = [
     canActivate: [AuthGuard],
     canDeactivate: [CompanyCanDeactivateGuard],
   },
-  { path: 'quotation/:id', component: QuotationComponent },
-  { path: 'quotation-table/:id', component: QuotationTableComponent },
-  { path: 'brand-table', component: BrandTableComponent },
-  { path: 'brand-table/:id', component: CreateBrandComponent, canDeactivate: [CanDeactivateGuard] },
-  { path: 'item-table', component: ItemMasterTableComponent },
-  { path: 'item-table/:id', component: CreateItemMasterComponent, canDeactivate: [CanDeactivateGuard] },
-  { path: 'company-master-table', component: CompanyMasterTableComponent },
-  { path: 'company-master-table/:id', component: CreateCompanyMasterComponent, canDeactivate: [CanDeactivateGuard] },
-  { path: 'follow-up', component: FollowUpComponent },
-  { path: 'company-detail-report', component: CompanyDetailReportComponent },
-  { path: 'unit-master-table', component: UnitMasterTableComponent },
-  { path: 'unit-master-table/:id', component: CreateUnitMasterComponent, canDeactivate: [CanDeactivateGuard] },
 
-  { path: 'terms-condition-table', component: TermsConditionTableComponent },
-  { path: 'terms-condition-table/:id', component: CreateTermsConditionComponent },
-  { path: 'admin-panel', component: AdminPanelComponent },
+  {path: 'phase2', canActivate: [QuotationGuard, AuthGuard],
+    children: [
+      { path: 'quotation/:id', component: QuotationComponent },
+      { path: 'quotation-table/:id', component: QuotationTableComponent },
+      { path: 'brand-table', component: BrandTableComponent },//done search
+      { path: 'brand-table/:id', component: CreateBrandComponent, canDeactivate: [CanDeactivateGuard] },
+      { path: 'item-table', component: ItemMasterTableComponent },//done search
+      { path: 'item-table/:id', component: CreateItemMasterComponent, canDeactivate: [CanDeactivateGuard] },
+      { path: 'company-master-table', component: CompanyMasterTableComponent },//done doubt search
+      { path: 'company-master-table/:id', component: CreateCompanyMasterComponent, canDeactivate: [CanDeactivateGuard] },
+      { path: 'unit-master-table', component: UnitMasterTableComponent },//done search
+      { path: 'unit-master-table/:id', component: CreateUnitMasterComponent, canDeactivate: [CanDeactivateGuard] },
+
+      { path: 'terms-condition-table', component: TermsConditionTableComponent },//done search
+      { path: 'terms-condition-table/:id', component: CreateTermsConditionComponent },
+    ]},
 
   {
     path: 'users',
-    canActivate: [AuthGuard, AdminGuard],
+    canActivate: [AuthGuard, AdminGuard, MarketingGuard],
     children: [
       { path: '', component: UserComponent },
       {
@@ -102,6 +105,8 @@ const routes: Routes = [
   },
   { path: '**', component: ErrorPageComponent },
 ];
+
+// TODO: doubt in company search.
 
 @NgModule({
   imports: [RouterModule.forRoot(routes, { onSameUrlNavigation: 'reload' })],

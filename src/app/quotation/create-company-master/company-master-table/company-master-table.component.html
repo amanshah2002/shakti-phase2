@@ -1,95 +1,86 @@
-<div class="main-div">
-
-  <section class="quotation-header-container">
-    <h2>Company</h2>
+<div class="main-div poppins">
+  <section class="quotation-header-container" fxLayoutAlign="space-between center">
+    <h2>Company Master</h2>
+    <mat-form-field *ngIf="this.companyDetails?.length" fxFlex="28" appearance="fill">
+      <mat-label>Search Company</mat-label>
+      <mat-icon matSuffix>search</mat-icon>
+      <input matInput #search (keyup)="onSearch(search.value)">
+    </mat-form-field>
   </section>
-  <table mat-table [dataSource]="companyDetails | paginate: {
-    id: 'pagingID',
-    itemsPerPage: 10,
-    currentPage: p,
-    totalItems: totalLength }" class="mat-elevation-z8">
 
-    <section matColumnDef="companyName" fxLayout="column" fxFlex="12">
-      <th mat-header-cell *matHeaderCellDef> Company Name </th>
-      <td mat-cell *matCellDef="let element"> {{element.company_name}} </td>
-    </section>
+  <div *ngIf="this.companyDetails?.length" fxLayout="column" class="table-container poppins" fxLayoutGap="1rem">
+    <mat-card fxLayout="row" class="header primary-bg">
+      <section fxFlex="20" fxLayout="row" fxLayoutAlign="center center" matTooltip="Sort by company name"
+        (click)="onSort('company_name')">
+        <p class="action-icon">Company name</p>
+        <mat-icon>{{this.companySortObject['company_name'].sortState? 'keyboard_arrow_up' : 'keyboard_arrow_down'}}
+        </mat-icon>
+      </section>
 
-    <section matColumnDef="city" fxLayout="column">
-      <th mat-header-cell *matHeaderCellDef> City </th>
-      <td mat-cell *matCellDef="let element" matTooltip="{{element.address[0].city}}" matTooltipPosition="below" [matTooltipShowDelay]="showDelay.value">
-        {{element.address[0].city}} </td>
-    </section>
+      <section fxFlex="12" fxLayout="row" fxLayoutAlign="center center" matTooltip="Sort by city"
+        (click)="onSort('city')">
+        <p class="action-icon">City</p>
+        <mat-icon>{{this.companySortObject['city'].sortState? 'keyboard_arrow_up' : 'keyboard_arrow_down'}}
+        </mat-icon>
+      </section>
 
-    <section matColumnDef="state" fxLayout="column">
-      <th mat-header-cell *matHeaderCellDef> State </th>
-      <td mat-cell *matCellDef="let element" matTooltip="{{element.address[0].state.name}}" matTooltipPosition="below" [matTooltipShowDelay]="showDelay.value">
-        {{element.address[0].state.name}} </td>
-    </section>
+      <section fxFlex="12" fxLayout="row" fxLayoutAlign="center center" matTooltip="Sort by state"
+        (click)="onSort('state.name')">
+        <p class="action-icon">State</p>
+        <mat-icon>{{this.companySortObject['state.name'].sortState? 'keyboard_arrow_up' : 'keyboard_arrow_down'}}
+        </mat-icon>
+      </section>
 
-    <section matColumnDef="country" fxLayout="column">
-      <th mat-header-cell *matHeaderCellDef> Country </th>
-      <td mat-cell *matCellDef="let element" matTooltip="{{element.address[0].country.name}}" matTooltipPosition="below" [matTooltipShowDelay]="showDelay.value">
-        {{element.address[0].country.name}} </td>
-    </section>
+      <section fxFlex="12" fxLayout="row" fxLayoutAlign="center center" matTooltip="Sort by country"
+        (click)="onSort('country.name')">
+        <p class="action-icon">Country</p>
+        <mat-icon>{{this.companySortObject['country.name'].sortState? 'keyboard_arrow_up' : 'keyboard_arrow_down'}}
+        </mat-icon>
+      </section>
 
-    <section matColumnDef="remarks" fxLayout="column">
-      <th mat-header-cell *matHeaderCellDef> Remarks </th>
-      <td mat-cell *matCellDef="let element" matTooltip="{{element.remarks}}" matTooltipPosition="below" [matTooltipShowDelay]="showDelay.value">
-        {{element.remarks}} </td>
-    </section>
+      <section fxFlex="34" fxLayout="row" fxLayoutAlign="center center" matTooltip="Sort by remarks"
+        (click)="onSort('company.remarks')">
+        <p class="action-icon">Remarks</p>
+        <mat-icon>{{this.companySortObject['company.remarks'].sortState? 'keyboard_arrow_up' : 'keyboard_arrow_down'}}
+        </mat-icon>
+      </section>
 
-    <section matColumnDef="actions" fxLayout="column" fxFlex="9">
-      <th mat-header-cell *matHeaderCellDef> Actions </th>
-      <td mat-cell *matCellDef="let element">
-        <div class="actions" fxLayout="row" fxLayoutAlign="space-around center">
-          <mat-icon (click)="onEditItem(element.id)" matTooltip="Edit" matTooltipPosition="below">edit</mat-icon>
-          <mat-icon (click)="onDeleteItem(element.id)" matTooltip="Delete" matTooltipPosition="below">delete</mat-icon>
-          <!-- <mat-icon (click)="onInfo(element.id)" matTooltip="Info" matTooltipPosition="below">remove_red_eye</mat-icon> -->
-        </div>
-      </td>
-    </section>
+      <p fxFlex="10" class="action-icon">Actions</p>
+    </mat-card>
+    <mat-card *ngFor="let company of filterData | paginate: {
+      id: 'pagingID',
+      itemsPerPage: 10,
+      currentPage: p,
+      totalItems: totalLength }" class="header align-padding poppins">
+      <p fxFlex="20" class="action-icon">{{company?.company_name}}</p>
+      <p fxFlex="12" class="action-icon">{{company?.address[0].city}}</p>
+      <p fxFlex="12" class="action-icon">{{company?.address[0].state.name}}</p>
+      <p fxFlex="12" class="action-icon">{{company?.address[0].country.name}}</p>
+      <p fxFlex="34" class="action-icon remarks-text-align">{{company?.remarks}}</p>
+      <div class="actions" fxFlex="10" fxLayout="row" fxLayoutAlign="center center">
+        <button mat-icon-button>
+          <mat-icon (click)="onEditBrand(company.id)" class="edit-btn material-icons-outlined" matTooltip="Edit"
+            matTooltipPosition="below">edit
+          </mat-icon>
+        </button>
 
-    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-  </table>
+        <button mat-icon-button>
+          <mat-icon class="delete-btn material-icons-outlined" (click)="onDeleteBrand(company.id)" matTooltip="Delete"
+            matTooltipPosition="below">delete</mat-icon>
+        </button>
+      </div>
+    </mat-card>
 
-  <div class="pagination" fxLayout="row" fxLayoutAlign="end none">
-    <pagination-controls id="pagingID" (pageChange)="p = $event" directionLinks="true" autoHide="true" responsive="true"
-      screenReaderPaginationLabel="Pagination" screenReaderPageLabel="page" screenReaderCurrentLabel="You're on page">
-    </pagination-controls>
+    <div class="pagination" fxLayout="row" fxLayoutAlign="end none">
+      <pagination-controls id="pagingID" (pageChange)="p = $event" directionLinks="true" autoHide="true"
+        responsive="true" screenReaderPaginationLabel="Pagination" screenReaderPageLabel="page"
+        screenReaderCurrentLabel="You're on page">
+      </pagination-controls>
+    </div>
   </div>
+</div>
 
-
-
-
-  <!-- <div class="info-table">
-    <table mat-table [dataSource]="companyDetails" class="mat-elevation-z8">
-
-      <section matColumnDef="personName" fxLayout="column">
-        <th mat-header-cell *matHeaderCellDef> Person Name </th>
-        <td mat-cell *matCellDef="let element"> {{element.company_name}} </td>
-      </section>
-
-      <section matColumnDef="contactNumber" fxLayout="column">
-        <th mat-header-cell *matHeaderCellDef> Contact Number </th>
-        <td mat-cell *matCellDef="let element" matTooltip="{{element.address.city}}" matTooltipPosition="below" [matTooltipShowDelay]="showDelay.value">
-          {{element.address.city}} </td>
-      </section>
-
-      <section matColumnDef="designation" fxLayout="column">
-        <th mat-header-cell *matHeaderCellDef> Designation </th>
-        <td mat-cell *matCellDef="let element" matTooltip="{{element.state}}" matTooltipPosition="below" [matTooltipShowDelay]="showDelay.value">
-          {{element.state}} </td>
-      </section>
-
-      <section matColumnDef="email" fxLayout="column">
-        <th mat-header-cell *matHeaderCellDef> Email </th>
-        <td mat-cell *matCellDef="let element" matTooltip="{{element.phone.contact_email}}" matTooltipPosition="below" [matTooltipShowDelay]="showDelay.value">
-          {{element.phone.contact_email}} </td>
-      </section>
-
-      <tr mat-header-row *matHeaderRowDef="infoColumns"></tr>
-      <tr mat-row *matRowDef="let row; columns: infoColumns;"></tr>
-    </table>
-  </div> -->
+<div *ngIf="this.isDataReceived && !this.companyDetails.length" fxLayoutAlign="center center">
+  <h1 class="poppins">There are no companies available, try <a class="add-brand-text action-icon"
+      (click)="this.onAddCompany()">adding a company</a> </h1>
 </div>

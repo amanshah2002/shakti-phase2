@@ -164,8 +164,8 @@ export class UserComponent implements OnInit {
     }
     if (sortString == 'role') {
       this.roleSort = !this.roleSort;
-      this.roleSort ? this.userData.sort((a, b) => a.role.role_id > b.role.role_id ? 1 : -1) :
-        this.userData.sort((a, b) => a.role.role_id > b.role.role_id ? -1 : 1);
+      this.roleSort ? this.userData.sort((a, b) => a.role?.role_id > b.role?.role_id ? 1 : -1) :
+        this.userData.sort((a, b) => a.role?.role_id > b.role?.role_id ? -1 : 1);
       this.nameSort = false;
       this.userTypeSort = false;
       this.emailSort = false;

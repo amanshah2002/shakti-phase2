@@ -10,6 +10,7 @@ import { Observable } from 'rxjs';
 import { LocationService } from 'src/app/services/location.service';
 import { UserDataService } from '../../services/user-data.service';
 import { CanComponentDeactivate } from '../can-deactivate.guard';
+import { TitleCasePipe } from '@angular/common';
 
 @Component({
   selector: 'shakti-user-detail',
@@ -54,10 +55,7 @@ export class UserDetailComponent implements OnInit, CanComponentDeactivate {
         Validators.pattern('[a-zA-Z][a-zA-Z ]+'),
       ]),
       Role: new FormControl(null, Validators.required),
-      email: new FormControl(null, [
-        Validators.required,
-        ,
-      ]),
+      email: new FormControl(null, Validators.required),
       Country: new FormControl(null, Validators.required),
       Phone_Number: new FormControl(null, [
         Validators.maxLength(13),
@@ -72,6 +70,7 @@ export class UserDetailComponent implements OnInit, CanComponentDeactivate {
       ]),
       confirmPassword: new FormControl(null, Validators.required),
       userType: new FormControl(null, Validators.required),
+      permission: new FormControl(null)
     },
     this.passCheck.bind(this)
   );
@@ -83,6 +82,7 @@ export class UserDetailComponent implements OnInit, CanComponentDeactivate {
   userCountryDropDown;
   userRoleDropDown = this.userData.userRoleArray;
   phonecode = {};
+  permissions = this.userData.pemrissionsArray;
   result;
   passwordType: 'password' | 'text' = 'password';
   ConfirmPasswordType: 'password' | 'text' = 'password';
@@ -128,8 +128,12 @@ export class UserDetailComponent implements OnInit, CanComponentDeactivate {
 
   onSave = () => {
     const form = this.userForm;
-    form.value.Name[0].toUpperCase();
     this.valueChanged = false;
+    const titleCase = new TitleCasePipe();
+    form.value["Name"] = titleCase.transform(form.value.Name);
+    const permissionObject = this.createPermissionObject();
+    console.log(permissionObject);
+    form.value['permission'] = permissionObject;
     if (this.editMode) {
       this.userData.onUpdateUser(this.id, form).subscribe(
         (data) => {
@@ -219,6 +223,14 @@ export class UserDetailComponent implements OnInit, CanComponentDeactivate {
     }
   };
 
+  patchPermission = (userData) => {
+    let array = [];
+    userData?.permission.map(p => {
+      array.push(+p.permission);
+    })
+    return array;
+  }
+
   private editForm = () => {
     this.userData.findUserById(+this.id).subscribe(
       (data) => {
@@ -230,6 +242,9 @@ export class UserDetailComponent implements OnInit, CanComponentDeactivate {
           this.userForm.controls.userType.setValue(userData?.user_type.id);
           this.userForm.controls.Country.setValue(userData?.user_country.id);
           this.userForm.controls.Phone_Number.setValue(userData?.phone);
+          const patchPermission = this.patchPermission(userData);
+          console.log("UserDetailComponent ~ array", patchPermission);
+          this.userForm.controls.permission.setValue(patchPermission);
           this.userForm.valueChanges.subscribe((val) => {
             this.valueChanged = true;
           });
@@ -286,6 +301,16 @@ export class UserDetailComponent implements OnInit, CanComponentDeactivate {
       this.passwordType = 'password';
     }
   };
+
+  createPermissionObject = () => {
+    let permissionObject = []
+    if (this.userForm.value.permission) {
+      this.userForm.value.permission?.map((permissionId) => {
+        permissionObject.push({ id: permissionId });
+      })
+    }
+    return permissionObject;
+  }
 
   onConfirmPasswordVisiblityToggle = () => {
     this.ConfirmPasswordvisible = !this.ConfirmPasswordvisible;

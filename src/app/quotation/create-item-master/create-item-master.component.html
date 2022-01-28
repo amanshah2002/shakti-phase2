@@ -1,71 +1,86 @@
-<div class="item-master-form-container">
-  <div class="line-before">
-    <h2 class="header-margin-bottom">Item Master</h2>
-    <p>Create items from here.</p>
+<div class="item-master-form-container" fxLayout="column">
+
+  <div>
+    <div class="line-before">
+      <h2 class="header-margin-bottom">Item Master</h2>
+      <p>Create items from here.</p>
+    </div>
   </div>
-  <div class="background-color" fxLayout="column" fxLayoutGap="1.5rem">
-    <form [formGroup]="createItemForm" fxLayout="column" class="item-form">
-      <h1 class="create-item-header">Create Item</h1>
-      <section fxFlex="100" fxLayout="row" fxLayout.lt-md="column" fxLayoutAlign="space-between center">
-        <mat-form-field fxFlex="45">
-          <mat-label>Item Code</mat-label>
-          <input matInput formControlName="item_code">
-        </mat-form-field>
 
-        <mat-form-field fxFlex="45">
-          <mat-label>Item Name</mat-label>
-          <input matInput formControlName="item_name">
-        </mat-form-field>
-      </section>
 
-      <section fxFlex="100" fxLayout="row" fxLayout.lt-md="column" fxLayoutAlign="space-between center">
-        <mat-form-field fxFlex="45">
-          <mat-label>Unit</mat-label>
-          <mat-select formControlName="item_unit">
-            <mat-option value="1">nos</mat-option>
-            <mat-option value="2">nof</mat-option>
-          </mat-select>
-        </mat-form-field>
+  <div>
+    <div class="main-div" fxFlex="100" fxLayout="row" fxLayoutAlign="space-around center">
+      <div class="img" fxFlex="35">
+        <img src="../../../assets/images/Add User-rafiki (2).svg" alt="" width="500px" height="300px">
+      </div>
 
-        <mat-slide-toggle formControlName="item_status" (click)="onToggleStatus($event)" fxFlex="45" fxLayoutAlign="start"> {{this.createItemForm.value.item_status == 1 ? 'Active' : 'InActive'}}</mat-slide-toggle>
-      </section>
+      <div class="background-color" fxLayout="column" fxFlex="55">
+        <form [formGroup]="createItemForm" fxLayout="column" class="item-form">
+          <!-- <h1 class="create-item-header">Create Item</h1> -->
+          <section fxFlex="100" fxLayout="row" fxLayout.lt-md="column" fxLayoutAlign="space-between center">
+            <mat-form-field fxFlex="45">
+              <mat-label>Item Code</mat-label>
+              <input matInput formControlName="item_code">
+            </mat-form-field>
 
-      <section fxFlex="100" fxLayout="row" fxLayoutAlign="space-between center">
-        <mat-form-field fxFlex="100">
-          <mat-label>Specification</mat-label>
-          <input matInput formControlName="item_specification">
-        </mat-form-field>
-      </section>
-    </form>
+            <mat-form-field fxFlex="45">
+              <mat-label>Item Name</mat-label>
+              <input matInput formControlName="item_name">
+            </mat-form-field>
+          </section>
 
-    <form class="item-details-form" [formGroup]="itemDetailsForm">
-      <h2 class="item-details-header">Item Details</h2>
-      <section fxLayout="row" fxLayout.lt-md="column" fxLayoutAlign="space-between">
-        <mat-form-field fxFlex="35">
-          <mat-label>Item Id</mat-label>
-          <input matInput formControlName="item_id">
-        </mat-form-field>
+          <section fxFlex="100" fxLayout="row" fxLayout.lt-md="column" fxLayoutAlign="space-between center">
+            <mat-form-field>
+              <mat-label>Unit</mat-label>
+              <mat-select formControlName="item_unit">
+                <mat-option value="1">nos</mat-option>
+                <mat-option value="2">nof</mat-option>
+              </mat-select>
+            </mat-form-field>
 
-        <mat-form-field fxFlex="35">
-          <mat-label>Brand</mat-label>
-          <input matInput formControlName="brand_id">
-        </mat-form-field>
+            <mat-slide-toggle formControlName="item_status" (click)="onToggleStatus($event)" fxFlex="45"
+              fxLayoutAlign="start"> {{this.createItemForm.value.item_status == 1 ? 'Active' : 'InActive'}}
+            </mat-slide-toggle>
+          </section>
 
-        <mat-form-field fxFlex="20">
-          <mat-label>Rate</mat-label>
-          <input matInput formControlName="rate">
-        </mat-form-field>
-      </section>
+          <section fxFlex="100" fxLayout="row" fxLayoutAlign="space-between center">
+            <mat-form-field fxFlex="100">
+              <mat-label>Specification</mat-label>
+              <input matInput formControlName="item_specification">
+            </mat-form-field>
+          </section>
+        </form>
 
-      <section fxLayoutAlign="end">
-        <!-- <button mat-button class="add-item-details-btn" (click)="onAddItemDetails()">Add Item Details</button> -->
-      </section>
-    </form>
+        <form class="item-details-form" [formGroup]="itemDetailsForm">
+          <h2 class="item-details-header">Item Details</h2>
+          <section fxLayout="column" fxLayout.lt-md="column" fxLayoutAlign="space-between">
+            <mat-form-field fxFlex="35">
+              <mat-label>Item Id</mat-label>
+              <input matInput formControlName="item_id">
+            </mat-form-field>
 
-    <section class="add-clear-btn-container" fxLayout="row" fxLayoutGap="0.5rem" fxLayoutAlign="center center">
-      <button mat-button class="add-item-btn" (click)="onAdd()">Add</button>
-      <button mat-button class="clear-btn" (click)="onClear()">Clear</button>
-      <!-- <button mat-button class="clear-btn" (click)="onListItem()">List item</button> -->
-    </section>
+            <mat-form-field fxFlex="35">
+              <mat-label>Brand</mat-label>
+              <input matInput formControlName="brand_id">
+            </mat-form-field>
+
+            <mat-form-field fxFlex="20">
+              <mat-label>Rate</mat-label>
+              <input matInput formControlName="rate">
+            </mat-form-field>
+          </section>
+
+          <section fxLayoutAlign="end">
+            <!-- <button mat-button class="add-item-details-btn" (click)="onAddItemDetails()">Add Item Details</button> -->
+          </section>
+        </form>
+      </div>
+    </div>
   </div>
+
+  <section class="btn-submit" fxLayoutAlign="end" fxLayoutGap="0.3rem">
+    <button mat-button class="btn-red" (click)="onCancel()">Cancel</button>
+    <button mat-button class="add-brand-btn" (click)="onAdd()">Save</button>
+  </section>
+
 </div>

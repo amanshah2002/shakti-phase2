@@ -583,5 +583,3 @@ export class CompanyVisitDetailsComponent
     }
   };
 }
-
-//TODO: store gst details in local storage.

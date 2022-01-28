@@ -36,7 +36,7 @@ export class CreateUnitMasterComponent implements OnInit {
         this.unitMasterForm.patchValue({
           short_label: response?.data.short_label,
           label: response?.data.label,
-          status: response.data.status
+          status: +response.data.status
         })
         this.valueChanged = false
       })
@@ -49,7 +49,7 @@ export class CreateUnitMasterComponent implements OnInit {
     this.unitMasterService.createUnitMaster(this.unitMasterForm.value).subscribe(response => {
       console.log(response)
       if (response) {
-        this.router.navigate(['unit-master-table'])
+        this.router.navigate(['phase2/unit-master-table'])
       }
     })
   }
@@ -62,6 +62,10 @@ export class CreateUnitMasterComponent implements OnInit {
 
   onClearForm = () => {
     this.unitMasterForm.reset()
+  }
+
+  onCancel = () => {
+    this.router.navigate(['phase2/unit-master-table'])
   }
 
   canDeactivate() {

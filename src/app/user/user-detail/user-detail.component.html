@@ -14,7 +14,8 @@
         <p class="poppins" *ngIf="!editMode">Fill out all mandatory details in the form below to add a new user in the
           system</p>
         <p class="poppins" *ngIf="editMode">Edit all or selected details of a user</p>
-        <div class="divPos" fxLayout="row" fxLayoutAlign="{{editMode?'space-around' : 'space-around center'}}">
+        <div class="divPos">
+        <div fxLayout="row" fxLayoutAlign="{{editMode?'space-around' : 'space-around center'}}">
           <div fxFlex="40">
             <mat-form-field>
               <mat-label>Full Name</mat-label>
@@ -129,8 +130,29 @@
                 <mat-error *ngIf="userForm.controls.Phone_Number.hasError('pattern')">Please enter numeric value
                 </mat-error>
               </mat-form-field>
+
+              <mat-form-field *ngIf="this.editMode">
+                <mat-label>Permission</mat-label>
+                <mat-select multiple formControlName="permission">
+                  <mat-option *ngFor="let permission of permissions" [value]="permission.value">
+                    {{permission.label}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
             </div>
           </div>
+        </div>
+
+        <div fxLayoutAlign="space-around" *ngIf="!this.editMode">
+          <mat-form-field fxFlex="86">
+            <mat-label>Permission</mat-label>
+            <mat-select multiple formControlName="permission">
+              <mat-option *ngFor="let permission of permissions" [value]="permission.value">
+                {{permission.label}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
         </div>
         <div fxLayoutAlign="end" fxLayoutGap="20px" fxLayout="row">
           <a class="clearbtn" fxLayoutAlign="center center" routerLink="/users">Cancel</a>

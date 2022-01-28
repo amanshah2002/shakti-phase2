@@ -17,6 +17,11 @@ export class UnitMasterTableComponent implements OnInit {
   unitDetails = []
   showDelay = new FormControl(500)
   unitDetailsColumns = ['unitShortName', 'unitName', 'status', 'actions']
+  unitSortKey = ['short_label', 'label','status']
+  unitSortObject = {};
+  filterData = []
+  searchKeys = ['short_label','label','status'];
+  isDataReceived:boolean = false;
   constructor(
     private router: Router,
     private unitMasterService: UnitMasterService,
@@ -25,17 +30,20 @@ export class UnitMasterTableComponent implements OnInit {
   ngOnInit(): void {
     this.unitMasterService.getUnitMasterList().subscribe(response => {
       console.log(response.data.data);
-      this.unitDetails = response.data.data
-      this.totalLength = this.unitDetails.length
+      this.isDataReceived = true;
+      // this.unitDetails = response.data.data
+      this.filterData = this.unitDetails;
+      this.totalLength = this.filterData?.length
     })
+    this.initializeSortKeys();
   }
 
   onAdd = () => {
-    this.router.navigate(['unit-master-table/new']);
+    this.router.navigate(['phase2/unit-master-table/new']);
   }
 
   onEditUnit = (id) => {
-    this.router.navigate(['unit-master-table/' + id]);
+    this.router.navigate(['phase2/unit-master-table/' + id]);
   }
 
   onDeleteUnit = (id) => {
@@ -44,10 +52,46 @@ export class UnitMasterTableComponent implements OnInit {
       autoFocus: false,
     });
     dialogref.afterClosed().subscribe(data => {
-      if(data){
+      if (data) {
         console.log(id);
       }
     })
+  }
+
+  onSearch = (searchString) => {
+    this.filterData = [];
+    if(searchString == ''){
+      console.log(searchString);
+      this.filterData = this.unitDetails
+      return
+    }
+    this.searchKeys.map(keys => {
+      this.unitDetails.map((data:any) => {
+        if(data[keys].toString().toLowerCase().includes(searchString.toLowerCase())){
+          if(this.filterData.indexOf(data) === -1){
+            this.filterData.push(data);
+          }
+        }
+      })
+    });
+    console.log(this.filterData);
+  }
+
+  initializeSortKeys = () => {
+    this.unitSortKey.map(keys => {
+      this.unitSortObject[keys] = {
+        sortState: false
+      }
+    })
+    console.log(this.unitSortObject);
+  }
+
+  onSort = (sortString: string) => {
+    this.unitSortObject[sortString].sortState = !this.unitSortObject[sortString].sortState;
+    console.log(this.unitSortObject);
+    this.unitSortObject[sortString].sortState ? this.unitDetails.sort((a, b) => a[sortString] > b[sortString] ? 1 : -1) :
+      this.unitDetails.sort((a, b) => a[sortString] < b[sortString] ? 1 : -1);
+
   }
 
 }

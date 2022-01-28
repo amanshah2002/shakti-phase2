@@ -1,4 +1,4 @@
-<div class="main-div">
+<!-- <div class="main-div">
   <div class="container" fxLayout="row" fxLayoutAlign="space-between center">
     <h2>Unit Master</h2>
   </div>
@@ -59,4 +59,81 @@
   <pagination-controls id="pagingID" (pageChange)="p = $event" directionLinks="true" autoHide="true" responsive="true"
     screenReaderPaginationLabel="Pagination" screenReaderPageLabel="page" screenReaderCurrentLabel="You're on page">
   </pagination-controls>
+</div> -->
+
+
+<div class="main-div poppins">
+  <section class="quotation-header-container" fxLayoutAlign="space-between center">
+    <h2>Unit Master</h2>
+    <mat-form-field *ngIf="this.unitDetails.length" fxFlex="28" appearance="fill">
+      <mat-label>Search Unit</mat-label>
+      <mat-icon matSuffix>search</mat-icon>
+      <input matInput #search (keyup)="onSearch(search.value)">
+    </mat-form-field>
+  </section>
+
+  <section *ngIf="this.unitDetails?.length" fxLayoutAlign="end" class="add-quotation-btn-container">
+    <button mat-button class="add-quotation-btn" (click)="onAdd()">Add Item</button>
+  </section>
+
+  <div *ngIf="this.unitDetails?.length" fxLayout="column" class="table-container poppins" fxLayoutGap="1rem">
+    <mat-card fxLayout="row" class="header primary-bg">
+      <section fxFlex="30" fxLayout="row" fxLayoutAlign="center center" matTooltip="Sort by unit short name"
+        (click)="onSort('short_label')">
+        <p class="action-icon">Unit Short Name</p>
+        <mat-icon>{{this.unitSortObject['short_label'].sortState? 'keyboard_arrow_up' : 'keyboard_arrow_down'}}
+        </mat-icon>
+      </section>
+
+      <section fxFlex="40" fxLayout="row" fxLayoutAlign="center center" matTooltip="Sort by unit name"
+        (click)="onSort('label')">
+        <p class="action-icon">Unit Name</p>
+        <mat-icon>{{this.unitSortObject['label'].sortState? 'keyboard_arrow_up' : 'keyboard_arrow_down'}}</mat-icon>
+      </section>
+
+      <section fxFlex="15" fxLayout="row" fxLayoutAlign="center center" matTooltip="Sort by status"
+        (click)="onSort('status')">
+        <p class="action-icon">Status</p>
+        <mat-icon>{{this.unitSortObject['status'].sortState? 'keyboard_arrow_up' : 'keyboard_arrow_down'}}</mat-icon>
+      </section>
+
+      <p fxFlex="15" class="action-icon">Actions</p>
+    </mat-card>
+
+    <mat-card *ngFor="let item of filterData | paginate: {
+      id: 'pagingID',
+      itemsPerPage: 10,
+      currentPage: p,
+      totalItems: totalLength }" class="header align-padding poppins">
+      <p fxFlex="30" class="action-icon">{{item?.short_label}}</p>
+      <p fxFlex="40" class="action-icon">{{item?.label}}</p>
+      <p fxFlex="15" class="action-icon remarks-text-align">{{item.status == 1 ? 'Active' : 'Inactive' }}
+      </p>
+
+      <div class="actions" fxFlex="15" fxLayout="row" fxLayoutAlign="center center">
+        <button mat-icon-button>
+          <mat-icon (click)="onEditUnit(item.id)" class="edit-btn material-icons-outlined" matTooltip="Edit"
+            matTooltipPosition="below">edit
+          </mat-icon>
+        </button>
+
+        <button mat-icon-button>
+          <mat-icon class="delete-btn material-icons-outlined" (click)="onDeleteUnit(item.id)" matTooltip="Delete"
+            matTooltipPosition="below">delete</mat-icon>
+        </button>
+      </div>
+    </mat-card>
+
+    <div class="pagination" fxLayout="row" fxLayoutAlign="end none">
+      <pagination-controls id="pagingID" (pageChange)="p = $event" directionLinks="true" autoHide="true"
+        responsive="true" screenReaderPaginationLabel="Pagination" screenReaderPageLabel="page"
+        screenReaderCurrentLabel="You're on page">
+      </pagination-controls>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="this.isDataReceived && !this.unitDetails?.length" fxLayoutAlign="center center">
+  <h1 class="poppins">There are no units available, try <a class="add-brand-text action-icon"
+      (click)="this.onAdd()">adding a unit</a> </h1>
 </div>

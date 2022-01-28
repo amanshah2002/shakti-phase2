@@ -1,151 +1,86 @@
+
+
+::ng-deep .mat-expansion-indicator::after {
+  color: white !important;
+}
+
 .example-container {
-  height: calc(100vh - 64px - 50px - 45px);
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  background: #eee;
-}
+  padding: 0.5rem;
+  width: 15vw;
+  background-color: #0B2559;
 
-::ng-deep .height-container[_ngcontent-giv-c291] {
-  min-height: calc(100% - 45px) !important;
-}
-
-mat-drawer {
-  width: 200px;
-  background: #1B1546;
-}
-
-.profile {
-  padding: 15px;
-  height: 100px;
-  margin-bottom: 50px;
-
-  .image {
-    height: 60px;
-    width: 60px;
-    border-radius: 50%;
-  }
-
-  .welcome {
-    margin: 0 0 0 10px;
-
-    p, h2 {
+  .image-welcome-container {
+    margin-bottom: 2rem;
+    img {
+      border-radius: 100%;
+      width: 35%;
+      height: 8vh;
+    }
+    p {
+      font-size: 17px !important;
+      margin: auto;
       color: white;
-      margin: 0;
-      font-size: 18px !important;
+    }
+  }
+
+  mat-expansion-panel {
+    background-color: #0B2559 !important;
+    ul {
+      margin-left: 0;
+      padding-left: 26px !important;
+
+      li {
+        font-size: 15px !important;
+        color: white;
+        position: relative;
+        padding-bottom: 12px;
+
+        &::before {
+          content: '';
+          position: absolute;
+          height: 100%;
+          width: 2px;
+          background-color: #eee;
+          top: 0;
+          bottom: 0;
+          left: -14px;
+        }
+      }
+    }
+
+    span {
+      line-height: 0px !important;
+    }
+  }
+
+  .expansion-panel {
+    background: #0B2559;
+    mat-icon {
+      color: white;
+      font-size: 17px !important;
+      line-height: 1.19;
+    }
+
+    p {
+      color: white;
+      margin-bottom: 0 !important;
+      font-size: large;
     }
   }
 }
 
-.master {
-  padding: 0 5px;
-  margin-bottom: 15px;
-  span, p, mat-icon {
-    margin: 0;
-    padding: 0;
-  }
-
-  mat-icon {
-    font-size: 20px !important;
-    color: white;
-    align-items: center;
-  }
-
-  p {
-    font-size: 12px !important;
-  }
-
-  span {
-    font-size: 15px !important;
-  }
-
-  p {
-    padding-left: 10px;
-    position: relative;
-    cursor: pointer;
-    border-left: 1px solid black;
-    background-color: #1B1546 !important;
-    color: white;
-
-    &::before {
-      content: "";
-    height: 7px;
-    width: 7px;
-    background-color: white;
-    border-radius: 50%;
-    left: -5px;
-    position: absolute;
-    z-index: 999;
-    top: 6px;
-    }
-  }
-}
 
 .mat-expansion-panel-header {
   display: flex;
   flex-direction: row;
   align-items: center;
-  width: 155px;
-  padding: 0;
-  border-radius: 0;
+  padding: 0 5px 0 0;
+  border-radius: inherit;
   transition: height 225ms cubic-bezier(0.4, 0, 0.2, 1);
   height: 25px;
-  background-color: #1B1546;
+  margin-bottom: 10px
 }
 
-// .mat-expansion-panel .mat-expansion-panel-header.cdk-keyboard-focused:not([aria-disabled=true]), .mat-expansion-panel .mat-expansion-panel-header.cdk-program-focused:not([aria-disabled=true]), .mat-expansion-panel:not(.mat-expanded) .mat-expansion-panel-header:hover:not([aria-disabled=true]) {
-//   background: #1B1546 !important;
-// }
-
-.mat-expansion-panel-header.mat-expanded:focus, .mat-expansion-panel-header.mat-expanded:hover {
-  background: #1B1546 !important;
-}
-
-// .mat-expansion-panel-header.mat-expanded[_ngcontent-wym-c126]:focus, .mat-expansion-panel-header.mat-expanded[_ngcontent-wym-c126]:hover {
-//   background: currentColor;
-// }
-
-// .mat-expansion-panel-header.mat-expanded:focus, .mat-expansion-panel-header.mat-expanded:hover {
-//   background: #1B1546 !important;
-// }
-
-.mat-expansion-panel-header-title, .mat-expansion-panel-header-description {
-  display: flex;
-  flex-grow: 1;
-  font-size: 16px !important;
-  // margin-right: 16px;
-}
-
-.mat-expansion-panel-header-title {
-  color: white
-}
-
-::ng-deep .mat-expansion-indicator::after {
-  border-style: solid;
-  border-width: 0 2px 2px 0;
-  content: "";
-  display: inline-block;
-  padding: 3px;
-  margin-right: 6px;
-  transform: rotate(45deg);
-  vertical-align: middle;
-  color: white !important;
-}
-
-
-// .mat-expansion-panel-header.mat-expanded,
-// .mat-expansion-panel-header.mat-expanded:hover {
-//   background: transparent;
-// }
-
-.mat-accordion .mat-expansion-panel:first-of-type {
-   border-top-right-radius: 0px;
-   border-top-left-radius: 0px;
-}
-
-.mat-accordion .mat-expansion-panel:last-of-type {
-   border-bottom-right-radius: 0px;
-   border-bottom-left-radius: 0px;
+img {
+  filter: invert(1);
 }

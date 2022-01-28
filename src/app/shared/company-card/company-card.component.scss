@@ -103,14 +103,21 @@ mat-expansion-panel {
 .download-btn {
   background-color: green;
   color: white;
-  width: 100%;
+  width: 60%;
+  padding: 2px;
+}
+
+.filter {
+  transform: rotate(-90deg);
+  color: black;
+  text-decoration: underline;
 
 }
 
 .clear-btn {
   background-color: #ef4444;
-  padding: 0 16px;
-  width: 100%;
+  width: 60%;
+  padding: 2px;
   color: #fff;
 }
 
@@ -125,7 +132,8 @@ mat-expansion-panel {
 
 .search-btn {
   background-color: #4050b5;
-  width: 100%;
+  width: 60%;
+  padding: 2px;
   color: #fff;
 }
 
@@ -363,7 +371,7 @@ mat-paginator {
   left: 0;
   height: 100%;
   z-index: 100;
-  padding: 20px 20px 0 20px;
+  padding: 20px 0px 0 20px;
   background-color: #f3f6f9;
   overflow: hidden;
 }

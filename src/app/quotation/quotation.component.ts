@@ -1,3 +1,4 @@
+import { ItemDialogComponent } from './../shared/dialog/item-dialog/item-dialog.component';
 import { map } from 'rxjs/operators';
 import { CompanyVisitService } from './../services/company-visit.service';
 import { Child, option_item_array } from './../interfaces/interfaces.component';
@@ -22,6 +23,7 @@ import {
 import * as _moment from 'moment';
 import { QuotationService } from '../services/quotation.service';
 import { from, of } from 'rxjs';
+import { MatDialog } from '@angular/material/dialog';
 
 const moment = _moment;
 export const MY_FORMATS = {
@@ -51,6 +53,8 @@ export const MY_FORMATS = {
     { provide: MAT_DATE_FORMATS, useValue: MY_FORMATS },
   ],
 })
+
+
 export class QuotationComponent implements OnInit {
   constructor(
     private locationService: LocationService,
@@ -60,8 +64,11 @@ export class QuotationComponent implements OnInit {
     private termsConditionsService: TermsConditionsService,
     private itemManagementService: ItemManagementService,
     private brandManagementService: BrandManagementService,
-    private companyVisitService: CompanyVisitService
+    private companyVisitService: CompanyVisitService,
+    public dialog: MatDialog
   ) {}
+
+
 
   quotationType = [{ name: 'Local', value: 1 }];
   tempInqType = [
@@ -97,6 +104,8 @@ export class QuotationComponent implements OnInit {
   stateObject = {};
   jsonFrom;
   _router: string;
+  itemTableDetails: any
+  brandList: []
   itemForm = new FormGroup({
     items: new FormArray([]),
   });
@@ -159,6 +168,17 @@ export class QuotationComponent implements OnInit {
   });
 
   ngOnInit() {
+
+    this.itemManagementService.getItemMaster().subscribe(response => {
+      console.log(response.data.data);
+      this.itemTableDetails = response.data.data
+    })
+
+    this.brandManagementService.getBrandMasterList().subscribe(response => {
+      console.log(response.data.data);
+      this.brandList = response.data.data
+    })
+
     this.id = this.route.snapshot.params['id'];
     this.filterDropDownById();
     this.getCompanies();
@@ -172,6 +192,20 @@ export class QuotationComponent implements OnInit {
 
     this.getCountryList();
   }
+
+  openDialog(): void {
+    const dialogRef = this.dialog.open(ItemDialogComponent, {
+      width: '400px',
+      height: '500px',
+      data: {itemCode: this.itemTableDetails.item_code, itemName: this.itemTableDetails.item_name},
+    });
+    dialogRef.afterClosed().subscribe(res => {
+      console.log(res);
+      this.itemForm.get('items')["controls"][0].get('item_id').setValue(res)
+    })
+  }
+
+
 
   onPatchValue = () => {
     this.quotationService.getQuotationById(this.id).subscribe((response) => {

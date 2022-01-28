@@ -28,6 +28,13 @@ export class AuthService {
 
   private user = new BehaviorSubject<UserModel>(null);
   currentUser = this.user.asObservable();
+
+  private emitMarketingPermission = new BehaviorSubject<boolean>(false);
+  marketingPermission = this.emitMarketingPermission.asObservable();
+
+  private emitQuotationPermission = new BehaviorSubject<boolean>(false);
+  quotationPermission = this.emitQuotationPermission.asObservable();
+
   admin: boolean;
   UserType = UserType;
 
@@ -38,7 +45,7 @@ export class AuthService {
         password
       }
     ).pipe(tap(data => {
-      let user = new UserModel(data.data.name,data.data.email, data.data.token, data.data.role.role_id,data.data.user_type,data.data.user_country);
+      let user = new UserModel(data.data.name,data.data.email, data.data.token, data.data.role.role_id,data.data.user_type,data.data.user_country,data.data.permission);
       this.user.next(user);
     }),
       catchError(error => {
@@ -62,9 +69,8 @@ export class AuthService {
      }, catchError(error => {
        return throwError(error);
      }));
-
-
   }
+
   getUser = () => {
     return this.currentUser;
   }
@@ -79,10 +85,15 @@ export class AuthService {
     }
   }
 
+  emitPermission = (marketingPermission, quotationPermission) => {
+    this.emitMarketingPermission.next(marketingPermission)
+    this.emitQuotationPermission.next(quotationPermission)
+  }
+
   autoLogin = () => {
     const user = JSON.parse(localStorage.getItem('user')) || JSON.parse(sessionStorage.getItem('user'));
     if (user) {
-      let User = new UserModel(user.data.name,user.data.email, user.data.token, user.data.role.role_id,user.data.user_type,user.data.user_country);
+      let User = new UserModel(user.data.name,user.data.email, user.data.token, user.data.role.role_id,user.data.user_type,user.data.user_country,user.data.permission);
       this.user.next(User);
       this.navigateByUserType();
     } else {

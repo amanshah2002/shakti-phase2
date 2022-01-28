@@ -9,6 +9,7 @@ import { CallAPIService } from '../core/call-api-service.service';
 })
 export class UserDataService {
   userData = []
+  pemrissionsArray = [{ label: 'Marketing', value: 1 }, { label: 'Quotation', value: 2 }];
   userTypeArray = [
     { label: 'All', value: 5 }, { label: 'Domestic', value: 6 }, { label: 'International', value: 7 }
   ];
@@ -23,13 +24,14 @@ export class UserDataService {
   addUserData = (userdataArray) => {
     return this.callApiService.callPostAPI('register', {
       name: userdataArray.value.Name,
-      email: userdataArray.value.Email,
+      email: userdataArray.value.email,
       password: userdataArray.value.password,
       confirm_password: userdataArray.value.confirmPassword,
       phone: userdataArray.value.Phone_Number,
       role: userdataArray.value.Role,
       user_type: userdataArray.value.userType,
-      user_country: userdataArray.value.Country
+      user_country: userdataArray.value.Country,
+      permission: userdataArray.value.permission
     }).pipe(catchError(error=>{
       throw(error);
     }));
@@ -47,15 +49,18 @@ export class UserDataService {
   onUpdateUser = (id, userArray) => {
     return this.callApiService.callPutAPI('user/' + id, {
       name: userArray.value.Name,
-      email: userArray.value.Email,
+      email: userArray.value.email,
       phone: userArray.value.Phone_Number,
       user_type: userArray.value.userType,
       user_country: userArray.value.Country,
-      status: 1
+      status: 1,
+      permission: userArray.value.permission
     }).pipe(catchError(error=>{
        throw(error);
     }));
   }
+
+
     fetchUserData=()=>{
       return this.callApiService.callGetAPI('user',{perpage:0}).pipe(catchError(error=>{
         throw(error);

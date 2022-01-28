@@ -1,0 +1,39 @@
+<div class="header" fxLayout="row" fxLayoutAlign="space-between center">
+  <h1 mat-dialog-title>Item Details</h1>
+  <mat-icon (click)="onNoClick()">close</mat-icon>
+</div>
+
+<div mat-dialog-content>
+  <div class="unit-master-table">
+    <table mat-table [dataSource]="itemTableDetails | paginate: {
+      id: 'pagingID',
+      itemsPerPage: 1,
+      currentPage: p,
+      totalItems: itemTableDetails?.length }" class="mat-elevation-z8">
+
+      <section matColumnDef="itemCode" fxLayout="column">
+        <th mat-header-cell *matHeaderCellDef> Item Code </th>
+        <td mat-cell *matCellDef="let element" matTooltip="{{element?.item_code}}" matTooltipPosition="below" [mat-dialog-close]="element.id"
+          [matTooltipShowDelay]="showDelay.value">
+          {{element.item_code}} </td>
+      </section>
+
+      <section matColumnDef="itemName" fxLayout="column">
+        <th mat-header-cell *matHeaderCellDef> Item Name </th>
+        <td mat-cell *matCellDef="let element" matTooltip="{{element?.item_name}}" matTooltipPosition="below" [mat-dialog-close]="element.item_name"
+          [matTooltipShowDelay]="showDelay.value">
+          {{element.item_name}} </td>
+      </section>
+
+      <tr mat-header-row *matHeaderRowDef="itemTable"></tr>
+      <tr mat-row *matRowDef="let row; columns: itemTable;"></tr>
+    </table>
+  </div>
+
+  <div class="pagination" fxLayout="row" fxLayoutAlign="end none">
+    <pagination-controls id="pagingID" (pageChange)="p = $event" directionLinks="true" autoHide="true" responsive="true"
+      screenReaderPaginationLabel="Pagination" screenReaderPageLabel="page" screenReaderCurrentLabel="You're on page">
+    </pagination-controls>
+  </div>
+</div>
+

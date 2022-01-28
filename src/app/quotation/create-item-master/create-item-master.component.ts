@@ -1,4 +1,4 @@
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ItemManagementService } from './../../services/item-management.service';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
@@ -12,7 +12,7 @@ import { runInThisContext } from 'vm';
 export class CreateItemMasterComponent implements OnInit {
   id
   itemDetails
-  constructor(private itemManagementService: ItemManagementService, private route: ActivatedRoute) { }
+  constructor(private itemManagementService: ItemManagementService, private route: ActivatedRoute, private router: Router) { }
 
   itemStatus:boolean = false;
 
@@ -36,17 +36,17 @@ export class CreateItemMasterComponent implements OnInit {
 
   ngOnInit(): void {
     this.id = this.route.snapshot.params['id']
-    this.itemManagementService.getListItemDetails(this.id).subscribe(response => {
-      // console.log(response);
-      this.itemDetailsForm.patchValue(response.data)
-      })
+    // this.itemManagementService.getListItemDetails(this.id).subscribe(response => {
+    //   // console.log(response);
+    //   this.itemDetailsForm.patchValue(response.data)
+    //   })
 
-      this.itemManagementService.getItemDetailsById(1).subscribe(response => {
-        console.log(response);
-      })
+    //   this.itemManagementService.getItemDetailsById(1).subscribe(response => {
+    //     console.log(response);
+    //   })
 
-    this.itemManagementService.getItemMasterById(this.id).subscribe(response => {
-      // console.log(response.data);
+    this.itemManagementService.getItemMasterById(3).subscribe(response => {
+      console.log(response.data);
       this.itemDetails = response.data
       this.createItemForm.patchValue(response.data)
       this.createItemForm.controls.item_status.setValue(response.data.item_status == '1' ? true : false)
@@ -77,6 +77,10 @@ export class CreateItemMasterComponent implements OnInit {
   onClear = () => {
     this.createItemForm.reset();
     this.itemDetailsForm.reset();
+  }
+
+  onCancel = () => {
+    this.router.navigate(['phase2/item-table'])
   }
 
 }
