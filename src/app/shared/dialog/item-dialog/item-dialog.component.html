@@ -20,7 +20,7 @@
 
       <section matColumnDef="itemName" fxLayout="column">
         <th mat-header-cell *matHeaderCellDef> Item Name </th>
-        <td mat-cell *matCellDef="let element" matTooltip="{{element?.item_name}}" matTooltipPosition="below" [mat-dialog-close]="element.item_name"
+        <td mat-cell *matCellDef="let element" matTooltip="{{element?.item_name}}" matTooltipPosition="below" [mat-dialog-close]="element.id"
           [matTooltipShowDelay]="showDelay.value">
           {{element.item_name}} </td>
       </section>

@@ -1,3 +1,4 @@
+import { tap, map } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import { CallAPIService } from '../core/call-api-service.service';
 
@@ -34,6 +35,8 @@ export class ItemManagementService {
   }
 
   getItemMasterById = (id) => {
-    return this.callApiService.callGetAPI(this.itemMaster + '/' + id)
+    return this.callApiService.callGetAPI(this.itemMaster + '/' + id).pipe(map(data => {
+      return data.data.item_details
+    }))
   }
 }

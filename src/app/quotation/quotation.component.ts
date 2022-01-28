@@ -22,7 +22,7 @@ import {
 } from '@angular/material/core';
 import * as _moment from 'moment';
 import { QuotationService } from '../services/quotation.service';
-import { from, of } from 'rxjs';
+import { from, observable, Observable, of } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
 
 const moment = _moment;
@@ -66,7 +66,7 @@ export class QuotationComponent implements OnInit {
     private brandManagementService: BrandManagementService,
     private companyVisitService: CompanyVisitService,
     public dialog: MatDialog
-  ) {}
+  ) { }
 
 
 
@@ -166,6 +166,7 @@ export class QuotationComponent implements OnInit {
     extra_label_name: new FormControl(),
     gross_amount: new FormControl(),
   });
+  item$: Observable<any>;
 
   ngOnInit() {
 
@@ -193,19 +194,34 @@ export class QuotationComponent implements OnInit {
     this.getCountryList();
   }
 
-  openDialog(): void {
+  openDialog(index:number): void {
     const dialogRef = this.dialog.open(ItemDialogComponent, {
       width: '400px',
       height: '500px',
-      data: {itemCode: this.itemTableDetails.item_code, itemName: this.itemTableDetails.item_name},
+      data: { itemCode: this.itemTableDetails.item_code, itemName: this.itemTableDetails.item_name },
     });
-    dialogRef.afterClosed().subscribe(res => {
-      console.log(res);
-      this.itemForm.get('items')["controls"][0].get('item_id').setValue(res)
+    dialogRef.afterClosed().subscribe(id => {
+      console.log(id);
+      this.itemManagementService.getItemMasterById(id).subscribe(data => {
+        console.log(data);
+
+        this.itemArrayControls[index].patchValue({
+          item_id: +data[0].item_id,
+          rate: data[0].rate,
+          brand_id: +data[0].brand_id,
+          quantity: 1,
+          amount: data[0].rate
+        });
+        console.log(this.itemArrayControls[0].value);
+      });
+      // this.itemForm.get('items')["controls"][0].get('item_id').setValue(res)
     })
   }
 
-
+  onCalculateRate = (index:number) => {
+    const amount = this.itemArrayControls[index].value.quantity * this.itemArrayControls[index].value.rate;
+    amount? this.itemArrayControls[index].controls.amount.setValue(amount) : this.itemArrayControls[index].controls.amount.setValue(null);
+  }
 
   onPatchValue = () => {
     this.quotationService.getQuotationById(this.id).subscribe((response) => {
@@ -453,7 +469,7 @@ export class QuotationComponent implements OnInit {
   };
 
   onAdd = () => {
-    if(this.edit){
+    if (this.edit) {
       this.onUpdateForm();
       return
     }
@@ -482,7 +498,7 @@ export class QuotationComponent implements OnInit {
       new FormGroup({
         id: new FormControl(0),
         item_id: new FormControl(null),
-        brand_id: new FormControl(0),
+        brand_id: new FormControl(null),
         quantity: new FormControl(null),
         rate: new FormControl(null),
         amount: new FormControl(null),
@@ -528,7 +544,7 @@ export class QuotationComponent implements OnInit {
   onAddOptionChild = (superIndex: number, parentIndex: number) => {
     const control = this.itemArrayControls[superIndex]
       .get('option_item_array')
-      ['controls'][parentIndex].get('child');
+    ['controls'][parentIndex].get('child');
     control.push(
       new FormGroup({
         id: new FormControl(0),
@@ -550,8 +566,8 @@ export class QuotationComponent implements OnInit {
   ) => {
     const control = this.itemArrayControls[superIndex]
       .get('option_item_array')
-      ['controls'][parentIndex].get('child')
-      ['controls'][index].get('option_child_array');
+    ['controls'][parentIndex].get('child')
+    ['controls'][index].get('option_child_array');
     control.push(
       new FormGroup({
         id: new FormControl(0),
@@ -568,7 +584,7 @@ export class QuotationComponent implements OnInit {
   onAddOptionToChild = (parentIndex: number, index: number) => {
     const control = this.itemArrayControls[parentIndex]
       .get('child')
-      ['controls'][index].get('option_child_array');
+    ['controls'][index].get('option_child_array');
     control.push(
       new FormGroup({
         id: new FormControl(0),
@@ -606,7 +622,7 @@ export class QuotationComponent implements OnInit {
   ) => {
     const control = this.itemArrayControls[superIndex]
       .get('option_item_array')
-      ['controls'][parentIndex].get('child');
+    ['controls'][parentIndex].get('child');
     control.removeAt(index);
   };
 
