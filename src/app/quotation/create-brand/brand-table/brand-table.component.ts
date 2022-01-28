@@ -19,9 +19,9 @@ export class BrandTableComponent implements OnInit {
   brandData: [];
   displayedColumns = ['srNo', 'brandName', 'status', 'actions'];
   brandSortKey = ['label', 'status']
+  brandSortObject = {}
   searchKeys = ['id','label','status'];
   filterData = [];
-  brandSortObject = {}
   isDataReceived:boolean = false;
   constructor(
     private brandManagementService: BrandManagementService,

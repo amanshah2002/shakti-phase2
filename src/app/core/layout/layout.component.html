@@ -53,19 +53,21 @@
       <mat-icon>menu</mat-icon>
     </button>
 
-    <div *ngIf="!this.router.url.includes('phase2')" [mat-menu-trigger-for]="companyMenu" [class.router-active]="isActive()" class="manage-company-label-width">
+    <div *ngIf="!this.router.url.includes('phase2')" [mat-menu-trigger-for]="companyMenu"
+      [class.router-active]="isActive()" class="manage-company-label-width">
       <mat-icon class="Business-icon action-icon">business</mat-icon>
       <a class="action-icon poppins text-color">Manage
         Company</a>
     </div>
 
-    <div *ngIf="!this.router.url.includes('phase2') && isAdmin" routerLinkActive="router-active" [routerLink]="['users']">
+    <div *ngIf="!this.router.url.includes('phase2') && isAdmin" routerLinkActive="router-active"
+      [routerLink]="['users']">
       <mat-icon class="Groups-icon action-icon">groups</mat-icon>
       <a class="action-icon   poppins text-color"> Manage Users</a>
     </div>
 
-    <div *ngIf="!this.router.url.includes('phase2')" class=" text-color action-icon" [class.router-active]="isNewCompanyActive()"
-      [mat-menu-trigger-for]="addCompany">
+    <div *ngIf="!this.router.url.includes('phase2')" class=" text-color action-icon"
+      [class.router-active]="isNewCompanyActive()" [mat-menu-trigger-for]="addCompany">
       <mat-icon class="add-icon">add_box</mat-icon>
       <a class="action-icon poppins text-color">Add
         Company</a>
@@ -155,8 +157,7 @@
   </mat-sidenav-container>
 
 
-  <mat-drawer #adminPanel [opened]="this.router.url.includes('phase2')" class="example-container poppins"
-    fxLayout="column">
+  <mat-drawer #adminPanel class="example-container poppins" fxLayout="column">
     <section fxLayoutAlign="end" class="close-icon-container">
       <mat-icon (click)="adminPanel.close()" class="material-icons-outlined action-icon">close</mat-icon>
     </section>

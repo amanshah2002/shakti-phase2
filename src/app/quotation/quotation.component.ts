@@ -24,6 +24,7 @@ import * as _moment from 'moment';
 import { QuotationService } from '../services/quotation.service';
 import { from, observable, Observable, of } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
+import { AsyncPipe } from '@angular/common';
 
 const moment = _moment;
 export const MY_FORMATS = {

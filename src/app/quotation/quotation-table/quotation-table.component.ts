@@ -1,9 +1,10 @@
 import { MatDialog } from '@angular/material/dialog';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, Params } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import { QuotationService } from 'src/app/services/quotation.service';
 import { FormControl } from '@angular/forms';
 import { DialogComponent } from 'src/app/shared/dialog/dialog.component';
+import { filter } from 'rxjs/operators';
 
 @Component({
   selector: 'shakti-quotation-table',
@@ -26,6 +27,9 @@ export class QuotationTableComponent implements OnInit {
     'totalAmount',
     'actions',
   ];
+  quotationSortKeys = ['id','city','email','company_name','gross_amount','total_amount'];
+  quotationSortObject = {}
+  searchKeys = ['id','city','email','company_name','gross_amount','total_amount'];
 
   constructor(
     private quotationService: QuotationService,
@@ -35,8 +39,11 @@ export class QuotationTableComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.id = this.route.snapshot.params['id'];
-    this.listQuotations()
+    this.route.params.subscribe((params:Params) => {
+      this.id = params['id'];
+      this.listQuotations()
+      this.initializeSortKeys();
+    })
   }
 
   onAddQuotation = () => {
@@ -56,6 +63,8 @@ export class QuotationTableComponent implements OnInit {
     if (this.id == 'domestic') {
       console.log(this.filterQuotation);
       this.filterQuotation = this.quotationData.filter(element => element.country == 101)
+    }else{
+      this.filterQuotation = this.quotationData;
     }
   }
 
@@ -80,5 +89,41 @@ export class QuotationTableComponent implements OnInit {
         return
       }
     })
+  }
+
+  onSearch = (searchString) => {
+    let filterData = [];
+    if(searchString == ''){
+      console.log(searchString);
+      this.filterQuotationById();
+      return
+    }
+
+    this.searchKeys.map(keys => {
+      this.filterQuotation.map((data:any) => {
+        if(data[keys].toString().toLowerCase().includes(searchString.toLowerCase())){
+          if(filterData.indexOf(data) === -1){
+            filterData.push(data);
+          }
+        }
+      })
+    })
+    this.filterQuotation = filterData;
+    console.log(this.filterQuotation);
+  }
+
+  initializeSortKeys = () => {
+    this.quotationSortKeys.map(keys => {
+      this.quotationSortObject[keys] = {
+        sortState: false
+      }
+    })
+    console.log(this.quotationSortObject);
+  }
+
+  onSort = (sortString: string) => {
+    this.quotationSortObject[sortString].sortState = !this.quotationSortObject[sortString].sortState;
+    this.quotationSortObject[sortString].sortState ? this.filterQuotation.sort((a, b) => a[sortString] > b[sortString] ? 1 : -1) :
+      this.filterQuotation.sort((a, b) => a[sortString] < b[sortString] ? 1 : -1);
   }
 }
