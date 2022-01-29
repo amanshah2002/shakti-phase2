@@ -166,7 +166,7 @@
         <div fxLAyout="row" fxFlex=100 fxLayoutAlign="space-between">
           <mat-form-field fxFlex="45">
             <mat-label>Inquiry Type</mat-label>
-            <mat-select formControlName="inquiry_type" disabled>
+            <mat-select formControlName="inquiry_type">
               <mat-option *ngFor="let inqType of tempInqType" [value]="inqType.value">{{inqType.name}}</mat-option>
             </mat-select>
           </mat-form-field>

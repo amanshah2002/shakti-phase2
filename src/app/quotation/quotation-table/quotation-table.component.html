@@ -71,10 +71,10 @@
  <div *ngIf="this.filterQuotation?.length" fxLayout="column" class="table-container" fxLayoutGap="1rem">
   <mat-card fxLayout="row" class="header primary-bg">
     <section fxFlex="11" fxLayout="row" fxLayoutAlign="center center" matTooltip="Sort by brand name"
-    (click)="this.onSort('id')">
+    (click)="this.onSort('sr_no')">
     <p class="action-icon">Sr.no</p>
       <mat-icon>
-        {{this.quotationSortObject['id']?.sortState? 'keyboard_arrow_up' : 'keyboard_arrow_down'}}
+        {{this.quotationSortObject['sr_no']?.sortState? 'keyboard_arrow_up' : 'keyboard_arrow_down'}}
       </mat-icon>
     </section>
 
@@ -126,7 +126,7 @@
     itemsPerPage: 1,
     currentPage: p,
     totalItems: totalLength }" class="header align-padding">
-    <p fxFlex="11">{{quote.id}}</p>
+    <p fxFlex="11">{{quote.sr_version? quote.sr_version : quote.sr_no}}</p>
     <p fxFlex="15">{{quote.city}}</p>
     <p fxFlex="20">{{quote.email}}</p>
     <p fxFlex="24">{{quote.company_name}}</p>
@@ -135,12 +135,12 @@
 
     <div class="actions" fxFlex="15" fxLayout="row" fxLayoutAlign="center center">
       <button mat-icon-button>
-        <mat-icon (click)="onEditBrand(brand.id)" class="edit-btn" matTooltip="Edit" matTooltipPosition="below">edit
+        <mat-icon (click)="onEditQuotation(quote.id)" class="edit-btn" matTooltip="Edit" matTooltipPosition="below">edit
         </mat-icon>
       </button>
 
       <button mat-icon-button>
-        <mat-icon class="delete-btn" (click)="onDeleteBrand(brand.id)" matTooltip="Delete" matTooltipPosition="below">
+        <mat-icon class="delete-btn" (click)="onDeleteQuotation(quote.id)" matTooltip="Delete" matTooltipPosition="below">
           delete</mat-icon>
       </button>
     </div>

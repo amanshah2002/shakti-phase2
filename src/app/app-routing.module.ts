@@ -107,7 +107,8 @@ const routes: Routes = [
 ];
 
 // TODO: doubt in company search.
-
+// TODO: implement error handling.
+// TODO: re-quotation working but response is error 500.
 @NgModule({
   imports: [RouterModule.forRoot(routes, { onSameUrlNavigation: 'reload' })],
   exports: [RouterModule],

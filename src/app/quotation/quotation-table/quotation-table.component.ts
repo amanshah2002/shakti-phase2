@@ -27,9 +27,9 @@ export class QuotationTableComponent implements OnInit {
     'totalAmount',
     'actions',
   ];
-  quotationSortKeys = ['id','city','email','company_name','gross_amount','total_amount'];
+  quotationSortKeys = ['sr_no','city','email','company_name','gross_amount','total_amount'];
   quotationSortObject = {}
-  searchKeys = ['id','city','email','company_name','gross_amount','total_amount'];
+  searchKeys = ['sr_no','city','email','company_name','gross_amount','total_amount'];
 
   constructor(
     private quotationService: QuotationService,
