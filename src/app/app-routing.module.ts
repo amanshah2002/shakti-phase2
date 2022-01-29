@@ -1,4 +1,3 @@
-import { AdminPanelComponent } from './admin-panel/admin-panel.component';
 import { TermsConditionTableComponent } from './quotation/terms-condition-table/terms-condition-table.component';
 import { UnitMasterTableComponent } from './quotation/unit-master-table/unit-master-table.component';
 import { CreateUnitMasterComponent } from './quotation/unit-master-table/create-unit-master/create-unit-master.component';
@@ -65,7 +64,7 @@ const routes: Routes = [
     path: 'company-visit-details/:id',
     component: CompanyVisitDetailsComponent,
     runGuardsAndResolvers: 'always',
-    canActivate: [AuthGuard],
+    canActivate: [AuthGuard,MarketingGuard],
     canDeactivate: [CompanyCanDeactivateGuard],
   },
 

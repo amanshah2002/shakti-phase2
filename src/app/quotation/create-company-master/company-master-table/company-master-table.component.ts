@@ -1,3 +1,4 @@
+import { AuthService } from './../../../services/auth.service';
 import { MatDialog } from '@angular/material/dialog';
 import { CompanyVisitService } from './../../../services/company-visit.service';
 import { Router } from '@angular/router';
@@ -24,16 +25,20 @@ export class CompanyMasterTableComponent implements OnInit {
   filterData = []
   searchKeys = ['company_name', 'state.name', 'city', 'country.name', 'company.remarks'];
   isDataReceived:boolean = false;
+  isMarketing:boolean = false;
 
   constructor(
     private router: Router,
     private companyVisitService: CompanyVisitService,
-    private dialog: MatDialog) { }
+    private dialog: MatDialog,
+    private authService: AuthService) { }
 
   ngOnInit(): void {
     let param = {
       perpage: 0
     }
+
+    this.getCompanyPermission();
 
     this.companyVisitService.getCompanyList(param).subscribe(response => {
       if (response) {
@@ -45,6 +50,12 @@ export class CompanyMasterTableComponent implements OnInit {
       }
     });
     this.initializeSortKeys();
+  }
+
+  getCompanyPermission = () => {
+    this.authService.marketingPermission.subscribe(permission => {
+      this.isMarketing = permission
+    })
   }
 
   onAddCompany = () => {

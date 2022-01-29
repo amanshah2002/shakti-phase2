@@ -58,14 +58,16 @@
       <p fxFlex="12" class="action-icon">{{company?.address[0].country.name}}</p>
       <p fxFlex="34" class="action-icon remarks-text-align">{{company?.remarks}}</p>
       <div class="actions" fxFlex="10" fxLayout="row" fxLayoutAlign="center center">
-        <button mat-icon-button>
-          <mat-icon (click)="onEditBrand(company.id)" class="edit-btn material-icons-outlined" matTooltip="Edit"
+        <button [disabled]="!this.isMarketing" (click)="onEditItem(company.id)" mat-icon-button>
+          <mat-icon class="edit-btn material-icons-outlined"
+            matTooltip="{{this.isMarketing? 'Edit' : 'You do not have adequate permission to perform this action.Please contact your administrator.'}}"
             matTooltipPosition="below">edit
           </mat-icon>
         </button>
 
-        <button mat-icon-button>
-          <mat-icon class="delete-btn material-icons-outlined" (click)="onDeleteBrand(company.id)" matTooltip="Delete"
+        <button [disabled]="!this.isMarketing" (click)="onDeleteItem(company.id)" mat-icon-button>
+          <mat-icon class="delete-btn material-icons-outlined"
+            matTooltip="{{this.isMarketing? 'Delete' : 'You do not have adequate permission to perform this action.Please contact your administrator.'}}"
             matTooltipPosition="below">delete</mat-icon>
         </button>
       </div>

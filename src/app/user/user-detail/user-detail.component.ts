@@ -132,8 +132,10 @@ export class UserDetailComponent implements OnInit, CanComponentDeactivate {
     const titleCase = new TitleCasePipe();
     form.value["Name"] = titleCase.transform(form.value.Name);
     const permissionObject = this.createPermissionObject();
-    console.log(permissionObject);
     form.value['permission'] = permissionObject;
+    // console.log(form.value);
+    console.log(JSON.stringify(form.value));
+
     if (this.editMode) {
       this.userData.onUpdateUser(this.id, form).subscribe(
         (data) => {
