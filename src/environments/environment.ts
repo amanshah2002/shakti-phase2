@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  baseUrl:'http://shaktipharma.co.in/pharmaApi/public/api/'
+  baseUrl:'https://shaktipharma.co.in/pharmaApi/public/api/'
 };
 
 /*

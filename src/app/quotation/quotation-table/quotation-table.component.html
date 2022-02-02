@@ -152,3 +152,13 @@
       screenReaderPaginationLabel="Pagination" screenReaderPageLabel="page" screenReaderCurrentLabel="You're on page">
     </pagination-controls>
   </div>
+
+  <div *ngIf="this.isDataReceived && !this.filterQuotation.length && !search.value" fxLayoutAlign="center center">
+    <h1 class="poppins">There are no quotations available, try <a class="add-brand-text action-icon"
+        (click)="this.onAddQuotation(this.id)">adding a quotation</a> </h1>
+  </div>
+
+  <div *ngIf="!this.filterQuotation.length && search.value" fxLayoutAlign="center center">
+    <h1>Sorry, we couldn't find any results for "{{search.value}}"</h1>
+  </div>
+

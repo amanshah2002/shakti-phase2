@@ -4,7 +4,7 @@ import { Component, OnInit } from '@angular/core';
 import { QuotationService } from 'src/app/services/quotation.service';
 import { FormControl } from '@angular/forms';
 import { DialogComponent } from 'src/app/shared/dialog/dialog.component';
-import { filter } from 'rxjs/operators';
+import { filter, catchError } from 'rxjs/operators';
 
 @Component({
   selector: 'shakti-quotation-table',
@@ -30,6 +30,7 @@ export class QuotationTableComponent implements OnInit {
   quotationSortKeys = ['sr_no','city','email','company_name','gross_amount','total_amount'];
   quotationSortObject = {}
   searchKeys = ['sr_no','city','email','company_name','gross_amount','total_amount'];
+  isDataReceived:boolean = false;
 
   constructor(
     private quotationService: QuotationService,
@@ -52,11 +53,14 @@ export class QuotationTableComponent implements OnInit {
 
   listQuotations = () => {
     this.quotationService.getQuotation().subscribe((res) => {
+      this.isDataReceived = true;
       this.quotationData = res.data.data;
       this.filterQuotation = this.quotationData;
       this.filterQuotationById();
       this.totalLength = this.filterQuotation.length
-    });
+    }, (error => {
+      this.quotationService.displaySnackBar(error);
+    }));
   }
 
   filterQuotationById = () => {
@@ -84,7 +88,9 @@ export class QuotationTableComponent implements OnInit {
           if (response) {
             this.listQuotations();
           }
-        })
+        },(error => {
+          this.quotationService.displaySnackBar(error);
+        }))
       } else {
         return
       }

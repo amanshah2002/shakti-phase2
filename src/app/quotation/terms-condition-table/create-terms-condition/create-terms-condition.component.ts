@@ -38,22 +38,30 @@ export class CreateTermsConditionComponent implements OnInit {
         title: response.data.title,
         status: +response.data.status
       })
-    })
+    },(error => {
+      this.termsConditionsService.displaySnackBar(error);
+    }))
 
     this.termsConditionsService.listTermsParameter(this.id).subscribe(response => {
       // console.log(response);
 
-    })
+    },(error => {
+      this.termsConditionsService.displaySnackBar(error);
+    }))
   }
 
   onAdd = () => {
     this.termsConditionsService.createTermsCondition(this.termsConditionForm.value).subscribe(response => {
       console.log(response);
-    })
+    },(error => {
+      this.termsConditionsService.displaySnackBar(error);
+    }))
     let form = JSON.stringify(this.termsParameterForm.value);
     this.termsConditionsService.createTermsParameter(form).subscribe(response => {
       console.log(response);
-    })
+    },(error => {
+      this.termsConditionsService.displaySnackBar(error);
+    }))
   };
 
   onUpdateForm = () => {};

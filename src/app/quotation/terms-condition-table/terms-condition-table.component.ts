@@ -31,7 +31,9 @@ export class TermsConditionTableComponent implements OnInit {
       this.termsConditionDetails = response.data.data
       this.filterData = this.termsConditionDetails;
       this.totalLength = this.filterData?.length
-    })
+    },(error => {
+      this.termsConditionService.displaySnackBar(error);
+    }))
     this.initializeSortKeys();
   }
 

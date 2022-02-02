@@ -31,7 +31,7 @@ export class UserDataService {
       role: userdataArray.value.Role,
       user_type: userdataArray.value.userType,
       user_country: userdataArray.value.Country,
-      permission: userdataArray.value.permission
+      permission: [{id:1}]
     }).pipe(catchError(error=>{
       throw(error);
     }));
@@ -54,7 +54,7 @@ export class UserDataService {
       user_type: userArray.value.userType,
       user_country: userArray.value.Country,
       status: 1,
-      permission: userArray.value.permission
+      permission: [{id:1}]
     }).pipe(catchError(error=>{
        throw(error);
     }));

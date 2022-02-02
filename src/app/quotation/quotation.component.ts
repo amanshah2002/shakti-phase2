@@ -66,7 +66,8 @@ export class QuotationComponent implements OnInit {
     private itemManagementService: ItemManagementService,
     private brandManagementService: BrandManagementService,
     private companyVisitService: CompanyVisitService,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private router: Router
   ) { }
 
 
@@ -174,12 +175,16 @@ export class QuotationComponent implements OnInit {
     this.itemManagementService.getItemMaster().subscribe(response => {
       console.log(response.data.data);
       this.itemTableDetails = response.data.data
-    })
+    },(error => {
+      this.quotationService.displaySnackBar(error);
+    }))
 
     this.brandManagementService.getBrandMasterList().subscribe(response => {
       console.log(response.data.data);
       this.brandList = response.data.data.filter((a:any) => +a.status == 1);
-    })
+    },(error => {
+      this.quotationService.displaySnackBar(error);
+    }))
 
     this.id = this.route.snapshot.params['id'];
     this.filterDropDownById();
@@ -187,6 +192,7 @@ export class QuotationComponent implements OnInit {
     this.chargesForm.controls['after_discount_amount'].disable();
 
     if (this.id != 'domestic' && this.id != 'international') {
+      this.edit = true;
       this.onPatchValue();
     }
 
@@ -213,7 +219,9 @@ export class QuotationComponent implements OnInit {
           quantity: 1,
           amount: data[0].rate
         });
-      });
+      },(error => {
+        this.quotationService.displaySnackBar(error);
+      }));
       console.log(this.itemArrayControls[0].value);
     })
   }
@@ -296,11 +304,12 @@ export class QuotationComponent implements OnInit {
         this.patchItemOnEdit(response.data.items);
 
       }
-    });
+    },(error => {
+      this.quotationService.displaySnackBar(error);
+    }));
 
     this.quotationForm.valueChanges.subscribe((response) => {
       this.valueChanged = true;
-      console.log('Thalassa Thalassa babyyyyy');
     });
     this.chargesForm.valueChanges.subscribe((response) => {
       this.valueChanged = true;
@@ -349,12 +358,14 @@ export class QuotationComponent implements OnInit {
     const param = {
       perpage: 0
     }
-    this.companyVisitService.getCompanyList(param).subscribe((data) => {
+    this.companyVisitService.getCompanyList(param).subscribe((data) => {//TODO: edit error handling in company visit service.
       if (data.data.data) {
         this.companyList = data.data.data;
         this.getContactPerson(this.companyList);
       }
-    });
+    },(error => {
+      this.quotationService.displaySnackBar(error);
+    }));
   };
 
   getContactPerson = (companyList) => {
@@ -469,6 +480,8 @@ export class QuotationComponent implements OnInit {
   };
 
   onAdd = () => {
+    console.log(this.edit);
+
     if (this.edit) {
       this.onUpdateForm();
       return
@@ -489,7 +502,9 @@ export class QuotationComponent implements OnInit {
     console.log(groupForm);
     this.quotationService.postQuotation(groupForm).subscribe((data) => {
       console.log(data);
-    });
+    },(error => {
+      this.quotationService.displaySnackBar(error);
+    }));
   };
 
   onAddItem = () => {
@@ -635,7 +650,10 @@ export class QuotationComponent implements OnInit {
     this.quotationService.updateQuotation(groupForm).subscribe((response) => {
       console.log(response);
       this.valueChanged = false
-    });
+      this.router.navigate(['phase2/quotation-table/international'])
+    },(error => {
+      this.quotationService.displaySnackBar(error);
+    }));
   };
 
   onClearForm = () => {
